@@ -116,8 +116,16 @@
 
         .arc-reactor:hover .core { transform: scale(1.1); box-shadow: 0 0 80px #00bfff, 0 0 30px #fff; }
 
-        /* --- 3. KARTLAR VE DÜZEN --- */
-        .cards-layout { display: flex; gap: 20px; margin-top: 30px; flex-wrap: wrap; }
+        /* --- 3. KARTLAR VE 3D TILT EFEKTİ (GÜNCELLENDİ) --- */
+        .cards-layout { 
+            display: flex; 
+            gap: 20px; 
+            margin-top: 30px; 
+            flex-wrap: wrap; 
+            /* Kartların 3D derinlik kazanması için perspektif */
+            perspective: 1000px; 
+        }
+
         .card {
             flex: 1;
             min-width: 300px;
@@ -126,10 +134,19 @@
             border-radius: 15px;
             border: 1px solid rgba(0, 191, 255, 0.2);
             text-align: left;
-            transition: 0.3s;
             backdrop-filter: blur(3px);
+            
+            /* 3D Dönüşüm ve Geçiş Ayarları */
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            /* Hareket ederken çok hızlı tepki versin (0.1s), çıkarken yumuşak olsun */
+            transition: transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
-        .card:hover { border-color: #00bfff; box-shadow: 0 0 20px rgba(0, 191, 255, 0.1); }
+
+        .card:hover { 
+            border-color: #00bfff; 
+            box-shadow: 0 0 30px rgba(0, 191, 255, 0.2); /* Hover'da daha güçlü parlama */
+        }
 
         h1 { color: #00bfff; letter-spacing: 4px; text-transform: uppercase; margin: 20px 0; font-size: 2em; text-shadow: 0 0 10px #00bfff; }
         h2 { color: #f0e68c; font-size: 1.2em; border-bottom: 1px solid #30363d; padding-bottom: 10px; margin-top: 0; }
@@ -315,7 +332,7 @@
         <p style="color: #8b949e; letter-spacing: 1px;">Elektrik-Elektronik Mühendisliği | Karabük Üniversitesi</p>
 
         <div class="cards-layout">
-            <section class="card">
+            <section class="card tilt-card">
                 <h2>🧬 Kimlik & Misyon</h2>
                 <p style="margin-bottom: 15px;">
                     Merhaba, ben Taha Efe. Karabük Üniversitesi <strong>Elektrik-Elektronik Mühendisliği</strong> öğrencisiyim. 
@@ -328,7 +345,7 @@
                 </p>
             </section>
 
-            <section class="card">
+            <section class="card tilt-card">
                 <h2>📂 Teknik Veri Tabanı</h2>
                 <p style="font-size: 0.8em; color: #8b949e; margin-bottom: 15px;">(Detaylı analiz için modüllere tıklayınız)</p>
                 
@@ -379,7 +396,7 @@
             </section>
         </div>
 
-        <div class="card" style="margin-top: 20px; border-left: 4px solid #00bfff;">
+        <div class="card tilt-card" style="margin-top: 20px; border-left: 4px solid #00bfff;">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div style="text-align: left;">
                     <h2>🎓 Akademik Veri</h2>
@@ -403,7 +420,7 @@
             </div>
         </div>
 
-        <div class="card" style="margin-top: 20px;">
+        <div class="card tilt-card" style="margin-top: 20px;">
             <h2>Yetenek Kalibrasyonu (Mark III)</h2>
             
             <div class="skill-box-pro">
@@ -683,6 +700,33 @@
                 }
             }
         }
+
+        // --- 3D TILT EFEKTİ MANTIĞI (YENİ EKLENDİ) ---
+        const cards = document.querySelectorAll('.tilt-card');
+
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                // Dönüş açılarını hesapla (X pozisyonu Y eksenini döndürür)
+                // -10 ve 10 eğilme miktarını belirler
+                const rotateX = ((y - centerY) / centerY) * -10; 
+                const rotateY = ((x - centerX) / centerX) * 10;
+
+                // Stili uygula
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+
+            // Fare ayrılınca kartı düzelt
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
+            });
+        });
 
         init();
         animate();
