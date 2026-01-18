@@ -16,7 +16,7 @@
             justify-content: center;
             padding: 40px 0;
             min-height: 100vh;
-            overflow-x: hidden; /* Yan kaydırmayı engelle */
+            overflow-x: hidden;
         }
 
         .container {
@@ -24,18 +24,18 @@
             max-width: 800px;
             text-align: center;
             position: relative;
-            z-index: 2; /* İçerik parçacıkların üstünde durmalı */
+            z-index: 2;
         }
 
-        /* --- PARÇACIK CANVAS (YENİ EKLENDİ) --- */
+        /* --- PARÇACIK CANVAS --- */
         #particle-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1; /* En arkada ama arka plan renginin üstünde */
-            pointer-events: none; /* Tıklamaları engellememesi için */
+            z-index: 1;
+            pointer-events: none;
         }
 
         /* --- 2. ARC REAKTÖRÜ & ENERJİ HATTI --- */
@@ -121,13 +121,13 @@
         .card {
             flex: 1;
             min-width: 300px;
-            background: rgba(22, 27, 34, 0.85); /* Arkadaki parçacıklar hafif görünsün diye opaklığı artırdık */
+            background: rgba(22, 27, 34, 0.85);
             padding: 25px;
             border-radius: 15px;
             border: 1px solid rgba(0, 191, 255, 0.2);
             text-align: left;
             transition: 0.3s;
-            backdrop-filter: blur(3px); /* Buzlu cam efekti */
+            backdrop-filter: blur(3px);
         }
         .card:hover { border-color: #00bfff; box-shadow: 0 0 20px rgba(0, 191, 255, 0.1); }
 
@@ -298,16 +298,6 @@
     </style>
 </head>
 <body>
-
-    <div id="startup-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 1s ease;">
-        <div class="arc-reactor" style="transform: scale(0.8); margin-bottom: 30px;">
-            <div class="core"></div>
-        </div>
-        <button onclick="sistemiBaslat()" style="background: transparent; border: 2px solid #00bfff; color: #00bfff; padding: 15px 40px; font-size: 1.2em; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; box-shadow: 0 0 20px rgba(0, 191, 255, 0.3); border-radius: 5px; font-family: 'Courier New', sans-serif; font-weight: bold;">
-            INITIALIZE SYSTEMS
-        </button>
-        <p style="color: #8b949e; margin-top: 15px; font-family: 'Courier New'; font-size: 0.8em;">> WAITING FOR USER INPUT...</p>
-    </div>
 
     <canvas id="particle-canvas"></canvas>
 
@@ -528,7 +518,7 @@
             }
         }
 
-        // --- SESLİ KOMUT VE EFEKT SİSTEMİ ---
+        // --- SES FONKSİYONLARI (OTOMATİK ÇALIŞMAZ - SADECE ETKİLEŞİMLE) ---
         
         function jarvisKonus(metin) {
             if (!window.speechSynthesis) return; 
@@ -546,16 +536,6 @@
             if (jarvisSesi) konusma.voice = jarvisSesi;
 
             sentesizer.speak(konusma);
-        }
-
-        function sistemiBaslat() {
-            const ekran = document.getElementById('startup-screen');
-            ekran.style.opacity = '0';
-            setTimeout(() => { ekran.style.display = 'none'; }, 1000);
-
-            jarvisKonus("Welcome home, sir. All systems are online. Connecting to Karabuk University servers.");
-            
-            if (audioCtx.state === 'suspended') audioCtx.resume();
         }
 
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -600,6 +580,7 @@
             ">> ALL SYSTEMS ONLINE. WELCOME SIR.";
             
             openModal("⚠️ SYSTEM ALERT", rapor);
+            // Sadece butona basınca konuşur
             jarvisKonus("Running diagnostic scan. Security level Alpha One confirmed.");
         }
 
@@ -639,7 +620,6 @@
 
         let particlesArray;
 
-        // Fare Konumu
         let mouse = {
             x: null,
             y: null,
@@ -653,7 +633,6 @@
             }
         );
 
-        // Pencere yeniden boyutlandırılırsa
         window.addEventListener('resize', 
             function() {
                 canvas.width = innerWidth;
@@ -663,7 +642,6 @@
             }
         );
 
-        // Parçacık Oluşturma
         class Particle {
             constructor(x, y, directionX, directionY, size, color) {
                 this.x = x;
@@ -673,16 +651,13 @@
                 this.size = size;
                 this.color = color;
             }
-            // Çizim
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx.fillStyle = '#00bfff'; /* Stark Mavisi */
+                ctx.fillStyle = '#00bfff';
                 ctx.fill();
             }
-            // Hareket ve Fare Etkileşimi
             update() {
-                // Sınır Kontrolü
                 if (this.x > canvas.width || this.x < 0) {
                     this.directionX = -this.directionX;
                 }
@@ -690,7 +665,6 @@
                     this.directionY = -this.directionY;
                 }
 
-                // Çarpışma Tespiti (Fare ile)
                 let dx = mouse.x - this.x;
                 let dy = mouse.y - this.y;
                 let distance = Math.sqrt(dx*dx + dy*dy);
@@ -709,14 +683,12 @@
                         this.y -= 10;
                     }
                 }
-                // Normal hareket
                 this.x += this.directionX;
                 this.y += this.directionY;
                 this.draw();
             }
         }
 
-        // Başlatma
         function init() {
             particlesArray = [];
             let numberOfParticles = (canvas.height * canvas.width) / 9000;
@@ -724,7 +696,7 @@
                 let size = (Math.random() * 2) + 1;
                 let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
                 let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-                let directionX = (Math.random() * 2) - 1; // Hız ayarı
+                let directionX = (Math.random() * 2) - 1; 
                 let directionY = (Math.random() * 2) - 1;
                 let color = '#00bfff';
 
@@ -732,7 +704,6 @@
             }
         }
 
-        // Animasyon Döngüsü
         function animate() {
             requestAnimationFrame(animate);
             ctx.clearRect(0, 0, innerWidth, innerHeight);
@@ -743,7 +714,6 @@
             connect();
         }
 
-        // Parçacıkları Çizgilerle Bağlama (Ağ Efekti)
         function connect() {
             let opacityValue = 1;
             for (let a = 0; a < particlesArray.length; a++) {
@@ -764,7 +734,6 @@
             }
         }
 
-        // Başlat
         init();
         animate();
 
