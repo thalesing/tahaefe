@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taha Efe | Dijital Üs</title>
     <link rel="stylesheet" href="style.css">
+    
+    <style>
+        .spec-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .spec-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+            border-color: #00bfff;
+        }
+        .spec-item:active {
+            transform: scale(0.98);
+        }
+    </style>
 </head>
 <body>
 
@@ -23,51 +38,65 @@
 
         <div class="cards-layout" style="margin-top: 30px;">
             <section class="card">
-                <h2>📂 Teknik Spesifikasyonlar</h2>
+                <h2>🧬 Kimlik & Misyon</h2>
+                <p style="margin-bottom: 15px;">
+                    Merhaba, ben Taha Efe. Karabük Üniversitesi <strong>Elektrik-Elektronik Mühendisliği</strong> öğrencisiyim. 
+                </p>
+                <p>
+                    Mühendislik disiplinini sanatsal vizyonla birleştiriyorum. Satranç tahtasındaki stratejik derinliği, elektronik devrelerin karmaşık dünyasına taşıyorum. 
+                </p>
+                <p style="margin-top: 15px; color: #8b949e; font-style: italic;">
+                    "Hedefim: Geleceğin teknolojilerini sadece kullanmak değil, bizzat inşa etmek."
+                </p>
+            </section>
+
+            <section class="card">
+                <h2>📂 Teknik Veri Tabanı</h2>
+                <p style="font-size: 0.8em; color: #8b949e; margin-bottom: 15px;">(Detaylı analiz için modüllere tıklayınız)</p>
                 
                 <div class="specs-grid">
                     
-                    <div class="spec-item">
+                    <div class="spec-item" onclick="detayGoster('misyon')">
+                        <span class="spec-icon">🚀</span>
+                        <div class="spec-info">
+                            <span class="spec-label">Ana Direktif</span>
+                            <span class="spec-value">Vizyon & Misyon</span>
+                        </div>
+                    </div>
+
+                    <div class="spec-item" onclick="detayGoster('egitim')">
                         <span class="spec-icon">🎓</span>
                         <div class="spec-info">
                             <span class="spec-label">Mimari / Bölüm</span>
-                            <span class="spec-value">Elektrik-Elektronik Müh.</span>
+                            <span class="spec-value">Elektrik-Elektronik</span>
                         </div>
                     </div>
 
-                    <div class="spec-item">
-                        <span class="spec-icon">🧬</span>
-                        <div class="spec-info">
-                            <span class="spec-label">Sürüm (Yaş)</span>
-                            <span class="spec-value">v19.0 (Beta)</span>
-                        </div>
-                    </div>
-
-                    <div class="spec-item">
+                    <div class="spec-item" onclick="detayGoster('dil')">
                         <span class="spec-icon">🌐</span>
                         <div class="spec-info">
-                            <span class="spec-label">Dil Modülü</span>
+                            <span class="spec-label">İletişim Protokolü</span>
                             <span class="spec-value">%100 İngilizce</span>
                         </div>
                     </div>
 
-                    <div class="spec-item">
+                    <div class="spec-item" onclick="detayGoster('strateji')">
                         <span class="spec-icon">🏆</span>
                         <div class="spec-info">
-                            <span class="spec-label">Strateji Motoru</span>
-                            <span class="spec-value">14x Satranç Madalyası</span>
+                            <span class="spec-label">Algoritma</span>
+                            <span class="spec-value">14x Madalya</span>
                         </div>
                     </div>
 
-                    <div class="spec-item">
+                    <div class="spec-item" onclick="detayGoster('takim')">
                         <span class="spec-icon">🛡️</span>
                         <div class="spec-info">
-                            <span class="spec-label">Sadakat Protokolü</span>
+                            <span class="spec-label">Sadakat Modülü</span>
                             <span class="spec-value">Fenerbahçe SK</span>
                         </div>
                     </div>
 
-                    <div class="spec-item">
+                    <div class="spec-item" onclick="detayGoster('nehir')">
                         <span class="spec-icon">❤️</span>
                         <div class="spec-info">
                             <span class="spec-label">Güç Kaynağı</span>
@@ -172,7 +201,43 @@
     </div>
 
     <script>
-        // 1. EĞİTİM DETAY FONKSİYONU
+        // --- 1. VERİ TABANI (Kutucuklara basınca çıkacak yazılar) ---
+        const veriTabani = {
+            "misyon": {
+                baslik: "🚀 VİZYON & MİSYON PROTOKOLÜ",
+                icerik: "■ HEDEF: Türkiye'nin teknolojik bağımsızlığına katkı sağlamak.\n\nBir mühendis olarak görevim sadece mevcut teknolojiyi kullanmak değil; savunma sanayi, enerji sistemleri ve yapay zeka entegrasyonları üzerine yerli ve milli çözümler üretmektir.\n\nGeleceği kodlamak için bugünden tasarlıyorum."
+            },
+            "egitim": {
+                baslik: "🎓 AKADEMİK ALTYAPI ANALİZİ",
+                icerik: "■ KURUM: Karabük Üniversitesi\n■ BÖLÜM: Elektrik-Elektronik Mühendisliği\n\nBu disiplin, modern dünyanın sinir sistemini oluşturur. Devre teorisinden sinyal işlemeye, gömülü sistemlerden güç elektroniğine kadar geniş bir spektrumda uzmanlaşıyorum."
+            },
+            "dil": {
+                baslik: "🌐 KÜRESEL İLETİŞİM MODÜLÜ",
+                icerik: "■ DİL: İngilizce (Advanced Level)\n■ ENTEGRASYON: %100\n\nMühendislik evrenseldir. Teknik literatürü ana kaynağında takip edebilmek ve uluslararası projelerde yer alabilmek adına eğitimimi tamamen İngilizce sürdürüyorum."
+            },
+            "strateji": {
+                baslik: "🏆 STRATEJİK ZEKA & ALGORİTMA",
+                icerik: "■ BAŞARI: 14 Resmi Madalya\n■ DİSİPLİN: Satranç\n\nSatranç, benim için bir oyundan fazlası; bir düşünce metodudur. Mühendislik problemlerine de bir satranç ustası gibi yaklaşırım: Bir sonraki hamleyi değil, sonraki 5 hamleyi hesaplayarak."
+            },
+            "takim": {
+                baslik: "🛡️ SADAKAT & TUTKU",
+                icerik: "■ KULÜP: Fenerbahçe Spor Kulübü\n\nSadece bir takım değil, bir duruş. Sonuna kadar sürecek bir aidiyet duygusu."
+            },
+            "nehir": {
+                baslik: "❤️ ANA GÜÇ KAYNAĞI",
+                icerik: "■ BAĞLANTI: Nehir\n■ DURUM: Stabil ve Sonsuz\n\nHer Iron Man'in bir Pepper Potts'a ihtiyacı vardır. Sistemlerimin en büyük motivasyon kaynağı ve duygusal dayanağı."
+            }
+        };
+
+        // --- 2. DETAY GÖSTERME (Veri Tabanından Çekme) ---
+        function detayGoster(anahtar) {
+            const veri = veriTabani[anahtar];
+            if (veri) {
+                openModal(veri.baslik, veri.icerik);
+            }
+        }
+
+        // --- 3. EĞİTİM KARTI AÇ/KAPA ---
         function egitimDetay() {
             var detayKutusu = document.getElementById("gizli-detay");
             var buton = document.getElementById("btn-detay");
@@ -186,52 +251,59 @@
             }
         }
 
-        // 2. HOLOGRAFİK SİSTEM ANALİZİ VE YAZI EFEKTİ
-        const fullMessage = 
+        // --- 4. SİSTEM ANALİZ BUTONU ---
+        function sistemKontrol() {
+            const rapor = 
             "▌ J.A.R.V.I.S. SYSTEM DIAGNOSTIC v2.4\n" +
             "▌ ------------------------------------\n" +
             "■ USER ID: TAHA EFE KARABACAK\n" +
-            "■ SECURITY LEVEL: ALPHA-1\n" +
-            "\n" +
+            "■ SECURITY: ALPHA-1\n\n" +
             "■ SYSTEM STATUS:\n" +
             "   [OK] Ark Reactor Core\n" +
-            "   [OK] Neural Network Connection\n" +
-            "   [OK] Biometric Sensors\n" +
-            "\n" +
-            "■ LOCATION: Karabük Base, TR\n" +
-            "■ MISSION: Engineering The Future\n" +
-            "\n" +
+            "   [OK] Neural Network\n" +
+            "   [OK] Biometric Sensors\n\n" +
+            "■ MISSION: Engineering The Future\n\n" +
             ">> ALL SYSTEMS ONLINE. WELCOME SIR.";
-
-        function sistemKontrol() {
-            const modal = document.getElementById('jarvis-modal');
-            const textArea = document.getElementById('typewriter-text');
             
-            modal.style.display = 'flex'; // Pencereyi aç
-            textArea.innerHTML = ""; // Önce temizle
-            
-            // Harf harf yazma efekti (Typewriter)
-            let i = 0;
-            const speed = 20; // Yazma hızı (ms)
-            
-            function typeWriter() {
-                if (i < fullMessage.length) {
-                    if (fullMessage.charAt(i) === '\n') {
-                        textArea.innerHTML += '<br>';
-                    } else {
-                        textArea.innerHTML += fullMessage.charAt(i);
-                    }
-                    i++;
-                    setTimeout(typeWriter, speed);
-                }
-            }
-            
-            typeWriter(); // Yazmaya başla
+            openModal("⚠️ SYSTEM ALERT", rapor);
         }
 
-        // 3. PENCEREYİ KAPATMA FONKSİYONU
+        // --- 5. ORTAK HOLOGRAM EKRANI (MODAL) ---
+        let typewriterTimeout; // Yazıyı yarıda kesebilmek için
+
+        function openModal(baslik, metin) {
+            const modal = document.getElementById('jarvis-modal');
+            const header = document.querySelector('.modal-header');
+            const textArea = document.getElementById('typewriter-text');
+            
+            // Eğer önceki yazı hala yazılıyorsa durdur
+            clearTimeout(typewriterTimeout);
+            
+            modal.style.display = 'flex';
+            header.innerHTML = baslik; 
+            textArea.innerHTML = "";   
+            
+            // Daktilo Efekti
+            let i = 0;
+            const speed = 15; 
+            
+            function typeWriter() {
+                if (i < metin.length) {
+                    if (metin.charAt(i) === '\n') {
+                        textArea.innerHTML += '<br>';
+                    } else {
+                        textArea.innerHTML += metin.charAt(i);
+                    }
+                    i++;
+                    typewriterTimeout = setTimeout(typeWriter, speed);
+                }
+            }
+            typeWriter();
+        }
+
         function closeModal() {
             document.getElementById('jarvis-modal').style.display = 'none';
+            clearTimeout(typewriterTimeout); // Kapatınca yazmayı durdur
         }
     </script>
 </body>
