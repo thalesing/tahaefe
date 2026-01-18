@@ -312,4 +312,52 @@ h2 { color: #f0e68c; font-size: 1.2em; border-bottom: 1px solid #30363d; padding
 @keyframes scaleIn {
     from { transform: scale(0.8); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
+}/* --- TEKNİK SPESİFİKASYONLAR GRID TASARIMI --- */
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); /* Otomatik sığdır */
+    gap: 15px; /* Kutular arası boşluk */
+    margin-top: 15px;
+}
+
+.spec-item {
+    background: rgba(0, 191, 255, 0.05); /* Çok hafif mavi zemin */
+    border: 1px solid rgba(0, 191, 255, 0.2);
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    transition: 0.3s;
+}
+
+.spec-item:hover {
+    background: rgba(0, 191, 255, 0.15);
+    border-color: #00bfff;
+    transform: translateY(-2px); /* Hafif yukarı kalkar */
+}
+
+.spec-icon {
+    font-size: 1.5em;
+    margin-right: 10px;
+}
+
+.spec-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.spec-label {
+    font-size: 0.75em;
+    color: #8b949e;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.spec-value {
+    font-size: 0.9em;
+    color: #c9d1d9;
+    font-weight: bold;
+    margin-top: 2px;
 }
