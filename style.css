@@ -53,6 +53,7 @@ body {
 
 /* 1. KATMAN: Parçalı Manyetik Halkalar (Dilim Dilim Görünüm) */
 /* Bu kod reaktörün halkasını lazerle kesilmiş gibi parçalı yapar */
+/* Dönen Parçalı Halka */
 .arc-reactor::before {
     content: "";
     position: absolute;
@@ -60,19 +61,35 @@ body {
     height: 100%;
     border-radius: 50%;
     
-    /* Parçalı Görünümün Sırrı Burası: */
+    /* Halka Görünümü */
     background: repeating-conic-gradient(
         from 0deg,
-        #00bfff 0deg 10deg,       /* Dolu Mavi Parça */
-        transparent 10deg 40deg   /* Boşluk (Kesik Kısım) */
+        #00bfff 0deg 10deg,
+        transparent 10deg 40deg
     );
     
-    /* Ortasını deliyoruz ki sadece halka kalsın */
+    /* Ortasını Delme İşlemi */
     -webkit-mask: radial-gradient(farthest-side, transparent 75%, #fff 76%);
     mask: radial-gradient(farthest-side, transparent 75%, #fff 76%);
     
-    animation: spin 20s linear infinite; /* Ağır ağır döner */
     box-shadow: 0 0 30px #00bfff;
+    
+    /* VARSAYILAN HIZ: Çok Yavaş (Rölanti) */
+    animation: spin 20s linear infinite; 
+    transition: animation-duration 0.5s ease; /* Hız geçişini yumuşatır */
+}
+
+/* KADEME 1: Yaklaşınca Hızlan (Orta Hız) */
+.reactor-section:hover .arc-reactor::before {
+    animation-duration: 2s; 
+    box-shadow: 0 0 50px #00bfff;
+}
+
+/* KADEME 2: Üzerine Gelince Maksimum Güç (Işık Hızı) */
+.arc-reactor:hover::before {
+    animation-duration: 0.5s; 
+    box-shadow: 0 0 80px #00bfff, 0 0 20px #fff;
+    border: 2px solid #fff;
 }
 
 /* 2. KATMAN: İçindeki Parlayan Çekirdek */
