@@ -63,4 +63,37 @@ li {
     background: #00bfff;
     color: #0d1117;
     box-shadow: 0 0 20px rgba(0, 191, 255, 0.6);
+}/* Ark Reaktörü Konumu */
+.reactor-container {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0; /* Üstten ve alttan boşluk */
+}
+
+/* Reaktörün Tasarımı ve Efektleri */
+.arc-reactor {
+    width: 150px; /* Büyüklüğünü buradan ayarlayabilirsiniz */
+    height: auto;
+    filter: drop-shadow(0 0 15px #00bfff); /* O meşhur mavi ışık */
+    animation: spin 10s linear infinite, pulse 3s infinite alternate; /* Hem döner hem parlar */
+    transition: 0.5s;
+}
+
+/* Üzerine gelince güç seviyesini artır (Mouse ile üzerine gelince) */
+.arc-reactor:hover {
+    filter: drop-shadow(0 0 30px #00bfff) drop-shadow(0 0 50px #00bfff);
+    transform: scale(1.1); /* Hafifçe büyür */
+    cursor: pointer;
+}
+
+/* Dönme Animasyonu */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Nefes Alma / Yanıp Sönme Animasyonu */
+@keyframes pulse {
+    0% { filter: drop-shadow(0 0 10px #00bfff); opacity: 0.9; }
+    100% { filter: drop-shadow(0 0 25px #00bfff); opacity: 1; }
 }
