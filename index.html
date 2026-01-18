@@ -148,80 +148,23 @@
         .spec-label { font-size: 0.75em; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; }
         .spec-value { font-size: 0.9em; color: #c9d1d9; font-weight: bold; margin-top: 2px; }
 
-        /* --- 5. MARK III YETENEK STİLLERİ (YENİ) --- */
-        .skill-box-pro {
-            margin-bottom: 25px;
-            position: relative;
-        }
-        .sb-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-family: 'Segoe UI', sans-serif;
-        }
-        .sb-name {
-            color: #e6edf3;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            font-size: 0.95em;
-        }
-        .sb-val {
-            color: #00bfff;
-            font-weight: bold;
-            font-family: 'Courier New', monospace;
-            text-shadow: 0 0 10px rgba(0, 191, 255, 0.6);
-        }
-        /* Çubuk Arka Planı (Ray) */
-        .sb-track {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
+        /* --- 5. YETENEK BARLARI --- */
+        .skill-box { margin-bottom: 15px; text-align: left; }
+        .skill-name { display: block; margin-bottom: 5px; color: #c9d1d9; font-size: 0.9em; letter-spacing: 1px; }
+        .skill-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
             overflow: hidden;
-            position: relative;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
-            border: 1px solid rgba(0, 191, 255, 0.1);
+            border: 1px solid rgba(0, 191, 255, 0.2);
         }
-        /* Doluluk Oranı (Lazer) */
-        .sb-fill {
+        .skill-level {
             height: 100%;
-            background: linear-gradient(90deg, #0077b6, #00bfff);
-            border-radius: 4px;
-            box-shadow: 0 0 15px #00bfff; /* NEON PARLAMA */
-            position: relative;
-            width: 0; /* Başlangıç */
-            animation: loadLaser 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-        /* Lazerin ucundaki ekstra parlaklık */
-        .sb-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 5px;
-            height: 100%;
-            background: #fff;
-            box-shadow: 0 0 10px #fff;
-            opacity: 0.7;
-        }
-        /* Alt Teknik Etiketler */
-        .sb-tags {
-            font-size: 0.75em;
-            color: #8b949e;
-            margin-top: 6px;
-            font-family: 'Courier New', monospace;
-            opacity: 0.8;
-        }
-        /* Küçük Reaktör Animasyonu */
-        @keyframes reactorPulse {
-            0% { box-shadow: 0 0 5px #00bfff; opacity: 0.5; }
-            50% { box-shadow: 0 0 20px #00bfff; opacity: 1; }
-            100% { box-shadow: 0 0 5px #00bfff; opacity: 0.5; }
-        }
-        .reactor-pulse {
-            animation: reactorPulse 2s infinite;
-        }
-        @keyframes loadLaser {
-            from { width: 0; }
+            background: #00bfff;
+            box-shadow: 0 0 10px #00bfff;
+            border-radius: 5px;
+            width: 0;
+            animation: loadSkill 2s ease-out forwards;
         }
 
         /* --- 6. BUTONLAR & GİZLİ MESAJ --- */
@@ -313,6 +256,7 @@
         /* --- ANİMASYONLAR --- */
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes pulse { 0% { transform: scale(0.9); opacity: 0.8; } 100% { transform: scale(1.1); opacity: 1; } }
+        @keyframes loadSkill { from { width: 0; } }
         @keyframes scaleIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         @keyframes heartbeat {
             0% { transform: scale(1); }
@@ -437,60 +381,27 @@
             </div>
         </div>
 
-        <div class="card" style="margin-top: 20px; border-left: 4px solid #00bfff; position: relative; overflow: hidden;">
+        <div class="card" style="margin-top: 20px;">
+            <h2>Yetenek Kalibrasyonu</h2>
             
-            <div style="position: absolute; top: 0; right: 0; width: 150px; height: 100%; background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0, 191, 255, 0.03) 10px, rgba(0, 191, 255, 0.03) 20px); pointer-events: none;"></div>
-
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 25px; position: relative; z-index: 2;">
-                <div>
-                    <h2 style="margin: 0; border: none; text-shadow: 0 0 15px rgba(0, 191, 255, 0.5);">Yetenek Kalibrasyonu</h2>
-                    <span style="font-size: 0.75em; color: #00bfff; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8;">> System Diagnostics v3.0</span>
-                </div>
-                <div class="reactor-pulse" style="width: 10px; height: 10px; background: #00bfff; border-radius: 50%; box-shadow: 0 0 10px #00bfff;"></div>
-            </div>
-            
-            <div class="skill-box-pro">
-                <div class="sb-header">
-                    <span class="sb-name">Embedded Systems & Firmware</span>
-                    <span class="sb-val">%85</span>
-                </div>
-                <div class="sb-track">
-                    <div class="sb-fill" style="width: 85%;"></div>
-                </div>
-                <div class="sb-tags">[ C / C++ ] • [ STM32 / Arduino ] • [ RTOS Logic ]</div>
+            <div class="skill-box">
+                <span class="skill-name">C / C++ Yazılım (Gömülü Sistemler)</span>
+                <div class="skill-bar"><div class="skill-level" style="width: 85%;"></div></div>
             </div>
 
-            <div class="skill-box-pro">
-                <div class="sb-header">
-                    <span class="sb-name">Circuit Design & Simulation</span>
-                    <span class="sb-val">%75</span>
-                </div>
-                <div class="sb-track">
-                    <div class="sb-fill" style="width: 75%; animation-delay: 0.2s;"></div>
-                </div>
-                <div class="sb-tags">[ Proteus ] • [ PCB Layout ] • [ Analog Electronics ]</div>
+            <div class="skill-box">
+                <span class="skill-name">Devre Analizi & Proteus</span>
+                <div class="skill-bar"><div class="skill-level" style="width: 75%;"></div></div>
             </div>
 
-            <div class="skill-box-pro">
-                <div class="sb-header">
-                    <span class="sb-name">Engineering Mathematics</span>
-                    <span class="sb-val">%95</span>
-                </div>
-                <div class="sb-track">
-                    <div class="sb-fill" style="width: 95%; animation-delay: 0.4s;"></div>
-                </div>
-                <div class="sb-tags">[ MATLAB ] • [ Differential Eq. ] • [ Linear Algebra ]</div>
+            <div class="skill-box">
+                <span class="skill-name">Matematik & Analitik Düşünme</span>
+                <div class="skill-bar"><div class="skill-level" style="width: 95%;"></div></div>
             </div>
 
-            <div class="skill-box-pro">
-                <div class="sb-header">
-                    <span class="sb-name">Algorithmic Intelligence</span>
-                    <span class="sb-val">%90</span>
-                </div>
-                <div class="sb-track">
-                    <div class="sb-fill" style="width: 90%; animation-delay: 0.6s;"></div>
-                </div>
-                <div class="sb-tags">[ Game Theory (Chess) ] • [ Problem Solving ] • [ Optimization ]</div>
+            <div class="skill-box">
+                <span class="skill-name">Strateji (Satranç & Algoritma)</span>
+                <div class="skill-bar"><div class="skill-level" style="width: 90%;"></div></div>
             </div>
         </div>
 
