@@ -518,26 +518,8 @@
             }
         }
 
-        // --- SES FONKSİYONLARI (OTOMATİK ÇALIŞMAZ - SADECE ETKİLEŞİMLE) ---
+        // --- MEKANİK TIKLAMA SESİ (KONUŞMA YOK) ---
         
-        function jarvisKonus(metin) {
-            if (!window.speechSynthesis) return; 
-            
-            const sentesizer = window.speechSynthesis;
-            const konusma = new SpeechSynthesisUtterance(metin);
-            
-            konusma.lang = 'en-US'; 
-            konusma.volume = 1; 
-            konusma.rate = 1;   
-            konusma.pitch = 0.8; 
-
-            const sesler = sentesizer.getVoices();
-            const jarvisSesi = sesler.find(ses => ses.name.includes('Google US English') || ses.name.includes('Male'));
-            if (jarvisSesi) konusma.voice = jarvisSesi;
-
-            sentesizer.speak(konusma);
-        }
-
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function mekanikSes() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -580,8 +562,7 @@
             ">> ALL SYSTEMS ONLINE. WELCOME SIR.";
             
             openModal("⚠️ SYSTEM ALERT", rapor);
-            // Sadece butona basınca konuşur
-            jarvisKonus("Running diagnostic scan. Security level Alpha One confirmed.");
+            // Sadece görsel pencere açılır, konuşma kodu kaldırıldı.
         }
 
         let typewriterTimeout;
