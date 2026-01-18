@@ -1,3 +1,4 @@
+/* Ana Sayfa Yapısı */
 body {
     background-color: #0d1117; /* Karanlık mod */
     color: #c9d1d9;
@@ -12,6 +13,7 @@ body {
     max-width: 600px;
 }
 
+/* Başlık Alanı */
 header {
     text-align: center;
     border-bottom: 2px solid #00bfff; /* Ark reaktörü mavisi */
@@ -24,6 +26,7 @@ h1 {
     letter-spacing: 2px;
 }
 
+/* Bilgi Kartları */
 .card {
     background-color: #161b22;
     padding: 20px;
@@ -45,7 +48,10 @@ ul {
 li {
     margin: 8px 0;
     font-size: 1.1em;
-}.stark-button {
+}
+
+/* Stark Butonu Tasarımı */
+.stark-button {
     background: transparent;
     color: #00bfff;
     border: 2px solid #00bfff;
@@ -60,40 +66,53 @@ li {
 }
 
 .stark-button:hover {
-    background: #00bfff;
+    background-color: #00bfff;
     color: #0d1117;
     box-shadow: 0 0 20px rgba(0, 191, 255, 0.6);
-}/* Ark Reaktörü Konumu */
+}
+
+/* Ark Reaktörü Bölümü */
 .reactor-container {
     display: flex;
     justify-content: center;
-    margin: 30px 0; /* Üstten ve alttan boşluk */
+    align-items: center;
+    margin: 40px 0;
+    height: 160px;
 }
 
-/* Reaktörün Tasarımı ve Efektleri */
 .arc-reactor {
-    width: 150px; /* Büyüklüğünü buradan ayarlayabilirsiniz */
-    height: auto;
-    filter: drop-shadow(0 0 15px #00bfff); /* O meşhur mavi ışık */
-    animation: spin 10s linear infinite, pulse 3s infinite alternate; /* Hem döner hem parlar */
-    transition: 0.5s;
-}
-
-/* Üzerine gelince güç seviyesini artır (Mouse ile üzerine gelince) */
-.arc-reactor:hover {
-    filter: drop-shadow(0 0 30px #00bfff) drop-shadow(0 0 50px #00bfff);
-    transform: scale(1.1); /* Hafifçe büyür */
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid #00bfff;
+    background: radial-gradient(circle, #ffffff 20%, #00bfff 90%);
+    box-shadow: 0 0 20px #00bfff, inset 0 0 20px #00bfff;
+    animation: pulse 2s infinite alternate;
     cursor: pointer;
+    transition: 0.3s;
 }
 
-/* Dönme Animasyonu */
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+/* Üzerine gelince güç patlaması */
+.arc-reactor:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px #00bfff, inset 0 0 40px #00bfff;
 }
 
-/* Nefes Alma / Yanıp Sönme Animasyonu */
+/* Nefes Alma Animasyonu */
 @keyframes pulse {
-    0% { filter: drop-shadow(0 0 10px #00bfff); opacity: 0.9; }
-    100% { filter: drop-shadow(0 0 25px #00bfff); opacity: 1; }
+    0% { 
+        opacity: 0.8; 
+        box-shadow: 0 0 15px #00bfff, inset 0 0 10px #00bfff; 
+    }
+    100% { 
+        opacity: 1; 
+        box-shadow: 0 0 30px #00bfff, 0 0 10px #ffffff, inset 0 0 20px #00bfff; 
+    }
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.8em;
+    color: #8b949e;
 }
