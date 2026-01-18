@@ -171,3 +171,59 @@ h2 { color: #f0e68c; font-size: 1.2em; border-bottom: 1px solid #30363d; padding
 }
 
 .stark-button:hover { background: #00bfff; color: #080a0c; box-shadow: 0 0 30px #00bfff; }
+/* --- GİZLİ MESAJ PROTOKOLÜ (NEHİR İÇİN) --- */
+
+.secret-protocol {
+    margin-top: 15px;
+    display: inline-flex; /* Yan yana dizilim */
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 105, 180, 0.1); /* Çok hafif pembe zemin */
+    padding: 8px 15px;
+    border-radius: 30px;
+    transition: 0.5s;
+    cursor: default;
+    border: 1px solid transparent;
+}
+
+/* Kalp İkonu: Sürekli atar */
+.heart-icon {
+    font-size: 1.2em;
+    animation: heartbeat 1.5s infinite;
+    cursor: pointer;
+}
+
+/* Gizli Mesaj Metni: Başlangıçta görünmez */
+.hidden-message {
+    max-width: 0;      /* Genişlik sıfır (görünmez) */
+    opacity: 0;        /* Şeffaf */
+    overflow: hidden;  /* Taşan kısmı gizle */
+    white-space: nowrap; /* Alt satıra inmesin */
+    color: #ff69b4;    /* Neon Pembe */
+    font-weight: bold;
+    font-size: 0.95em;
+    transition: all 0.8s ease-in-out; /* Yavaşça açılma efekti */
+    margin-left: 0;
+}
+
+/* --- ETKİLEŞİM: ÜZERİNE GELİNCE AÇIL --- */
+.secret-protocol:hover {
+    background: rgba(255, 105, 180, 0.2);
+    border: 1px solid #ff69b4;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+}
+
+.secret-protocol:hover .hidden-message {
+    max-width: 300px; /* Mesaj için yer aç */
+    opacity: 1;       /* Görünür yap */
+    margin-left: 10px; /* Kalpten uzaklaş */
+}
+
+/* Kalp Atışı Animasyonu */
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.3); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
+    60% { transform: scale(1); }
+}
