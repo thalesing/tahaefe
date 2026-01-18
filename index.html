@@ -2,42 +2,37 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taha Efe | Dijital Üs</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="container">
-        <header>
-            <h1>SİSTEM: TAHA EFE</h1>
-            <p>Elektrik-Elektronik Mühendisi Adayı</p>
-        </header>
-    
-        <section class="card">
-            <h2>Hakkımda</h2>
-            <p>Karabük Üniversitesi'nde mühendislik yolculuğuna devam eden bir teknoloji tutkunuyum. Satranç madalyalarımı ve mühendislik projelerimi burada sergileyeceğim.</p>
-        </section>
-<div class="reactor-container">
-    <div class="arc-reactor"></div>
-</div>
-        <section class="card">
-            <h2>Analiz ve Veriler</h2>
-            <ul>
-                <li><strong>Konum:</strong> Karabük, Türkiye</li>
-                <li><strong>Şanslı Rakam:</strong> 6</li>
-                <li><strong>Favori Evren:</strong> Marvel / Iron Man</li>
-            </ul>
-        </section>
-<button onclick="sistemKontrol()" class="stark-button">SİSTEM ANALİZİ</button>
-        <footer>
-            <p>J.A.R.V.I.S. Arayüzü v1.0 | © 2026</p>
-        </footer>
+        
+        <div class="reactor-section">
+            <div class="energy-line"></div>
+            <div class="arc-reactor">
+                <div class="core"></div>
+            </div>
+        </div>
+
+        <h1>SİSTEM: TAHA EFE</h1>
+        <p style="color: #8b949e; letter-spacing: 1px;">Elektrik-Elektronik Mühendisi Adayı</p>
+
+        <div class="cards-layout">
+            <section class="card">
+                <h2>Hakkımda</h2>
+                <p>Karabük Üniversitesi'nde mühendislik yolculuğuna devam eden bir teknoloji tutkunuyum. Geleceği kodluyorum.</p>
+            </section>
+
+            <section class="card">
+                <h2>Analiz ve Veriler</h2>
+                <p><strong>Konum:</strong> Karabük, TR</p>
+                <p><strong>Şanslı Rakam:</strong> 6</p>
+                <p><strong>Favori Evren:</strong> Marvel</p>
+            </section>
+        </div>
+
+        <button onclick="alert('Sistemler Aktif')" class="stark-button">SİSTEM ANALİZİ</button>
     </div>
-<script>
-    function sistemKontrol() {
-        alert("Sistemler optimize edildi. Hoş geldiniz Taha Bey. J.A.R.V.I.S. hizmetinizde.");
-    }
-</script>
 </body>
 </html>
