@@ -71,48 +71,83 @@ li {
     box-shadow: 0 0 20px rgba(0, 191, 255, 0.6);
 }
 
-/* Ark Reaktörü Bölümü */
+/* --- Gelişmiş Ark Reaktörü Tasarımı --- */
 .reactor-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 40px 0;
-    height: 160px;
+    margin: 50px 0;
+    height: 180px;
 }
 
 .arc-reactor {
-    width: 120px;
-    height: 120px;
+    position: relative;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
-    border: 5px solid #00bfff;
-    background: radial-gradient(circle, #ffffff 20%, #00bfff 90%);
-    box-shadow: 0 0 20px #00bfff, inset 0 0 20px #00bfff;
+    background: #0d1117;
+    border: 4px solid #161b22;
+    box-shadow: 0 0 30px rgba(0, 191, 255, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s;
+}
+
+/* Dış Enerji Halkası */
+.arc-reactor::before {
+    content: "";
+    position: absolute;
+    width: 110%;
+    height: 110%;
+    border-radius: 50%;
+    border: 2px dashed #00bfff;
+    opacity: 0.4;
+    animation: spin 10s linear infinite;
+}
+
+/* İç Mekanik Parçalar */
+.arc-reactor::after {
+    content: "";
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffffff 10%, #00bfff 60%, #001f3f 100%);
+    box-shadow: 
+        0 0 25px #00bfff,
+        inset 0 0 15px rgba(255, 255, 255, 0.8);
     animation: pulse 2s infinite alternate;
-    cursor: pointer;
-    transition: 0.3s;
 }
 
-/* Üzerine gelince güç patlaması */
+/* Üzerine gelince maksimum güç seviyesi */
 .arc-reactor:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 40px #00bfff, inset 0 0 40px #00bfff;
+    transform: scale(1.05);
+    box-shadow: 0 0 50px rgba(0, 191, 255, 0.5);
+    cursor: pointer;
 }
 
-/* Nefes Alma Animasyonu */
+.arc-reactor:hover::before {
+    opacity: 1;
+    animation-duration: 3s; /* Daha hızlı döner */
+}
+
+/* Hareket Animasyonları */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 @keyframes pulse {
-    0% { 
-        opacity: 0.8; 
-        box-shadow: 0 0 15px #00bfff, inset 0 0 10px #00bfff; 
-    }
-    100% { 
-        opacity: 1; 
-        box-shadow: 0 0 30px #00bfff, 0 0 10px #ffffff, inset 0 0 20px #00bfff; 
-    }
+    0% { transform: scale(0.95); opacity: 0.8; }
+    100% { transform: scale(1.05); opacity: 1; }
 }
 
+/* --- Sayfa Sonu Boşluğu --- */
 footer {
     text-align: center;
     margin-top: 40px;
     font-size: 0.8em;
     color: #8b949e;
+    padding-bottom: 20px;
 }
