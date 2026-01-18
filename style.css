@@ -51,9 +51,8 @@ body {
     z-index: 10;
 }
 
-/* 1. KATMAN: Parçalı Manyetik Halkalar (Dilim Dilim Görünüm) */
-/* Bu kod reaktörün halkasını lazerle kesilmiş gibi parçalı yapar */
-/* Dönen Parçalı Halka */
+/* --- YÜKSEK PERFORMANS REAKTÖR MOTORU --- */
+
 .arc-reactor::before {
     content: "";
     position: absolute;
@@ -61,35 +60,35 @@ body {
     height: 100%;
     border-radius: 50%;
     
-    /* Halka Görünümü */
+    /* Parçalı Halka Görünümü */
     background: repeating-conic-gradient(
         from 0deg,
         #00bfff 0deg 10deg,
         transparent 10deg 40deg
     );
     
-    /* Ortasını Delme İşlemi */
+    /* Ortasını Delme */
     -webkit-mask: radial-gradient(farthest-side, transparent 75%, #fff 76%);
     mask: radial-gradient(farthest-side, transparent 75%, #fff 76%);
     
     box-shadow: 0 0 30px #00bfff;
     
-    /* VARSAYILAN HIZ: Çok Yavaş (Rölanti) */
-    animation: spin 20s linear infinite; 
-    transition: animation-duration 0.5s ease; /* Hız geçişini yumuşatır */
+    /* GÜNCELLEME: Varsayılan Hızı Artırdık (Eskiden 20s idi, şimdi 5s) */
+    animation: spin 5s linear infinite; 
+    transition: animation-duration 0.8s ease; /* Hız geçişi daha yumuşak */
 }
 
-/* KADEME 1: Yaklaşınca Hızlan (Orta Hız) */
+/* KADEME 1: Yaklaşınca (Hazırlık Modu) */
 .reactor-section:hover .arc-reactor::before {
-    animation-duration: 2s; 
+    animation-duration: 1.5s; /* Biraz daha hızlandı */
     box-shadow: 0 0 50px #00bfff;
 }
 
-/* KADEME 2: Üzerine Gelince Maksimum Güç (Işık Hızı) */
+/* KADEME 2: Temas Halinde (Overdrive Modu) */
 .arc-reactor:hover::before {
-    animation-duration: 0.5s; 
-    box-shadow: 0 0 80px #00bfff, 0 0 20px #fff;
-    border: 2px solid #fff;
+    animation-duration: 0.3s; /* Çok daha hızlı */
+    box-shadow: 0 0 80px #00bfff, 0 0 30px #fff;
+    border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 /* 2. KATMAN: İçindeki Parlayan Çekirdek */
