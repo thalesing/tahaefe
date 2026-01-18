@@ -52,6 +52,7 @@ body {
 }
 
 /* 1. KATMAN: Parçalı Manyetik Halkalar (Dilim Dilim Görünüm) */
+/* Bu kod reaktörün halkasını lazerle kesilmiş gibi parçalı yapar */
 .arc-reactor::before {
     content: "";
     position: absolute;
@@ -59,19 +60,18 @@ body {
     height: 100%;
     border-radius: 50%;
     
-    /* İŞTE SİHRİN OLDUĞU YER: Repeating Conic Gradient */
-    /* Bu kod halkayı 10 eşit parçaya böler ve aralarına boşluk koyar */
+    /* Parçalı Görünümün Sırrı Burası: */
     background: repeating-conic-gradient(
         from 0deg,
-        #00bfff 0deg 10deg,      /* Mavi Parça (10 derece genişlik) */
-        transparent 10deg 36deg  /* Boşluk (26 derece genişlik) */
+        #00bfff 0deg 10deg,       /* Dolu Mavi Parça */
+        transparent 10deg 40deg   /* Boşluk (Kesik Kısım) */
     );
     
-    /* Maskeleme: Ortasını delik yapıyoruz ki sadece halka kalsın */
+    /* Ortasını deliyoruz ki sadece halka kalsın */
     -webkit-mask: radial-gradient(farthest-side, transparent 75%, #fff 76%);
     mask: radial-gradient(farthest-side, transparent 75%, #fff 76%);
     
-    animation: spin 20s linear infinite; /* Çok yavaş, ağır bir dönüş */
+    animation: spin 20s linear infinite; /* Ağır ağır döner */
     box-shadow: 0 0 30px #00bfff;
 }
 
