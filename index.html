@@ -8,7 +8,7 @@
     <style>
         /* --- 1. TEMEL YAPILAR --- */
         body {
-            background-color: #080a0c; /* Derin Siyah */
+            background-color: #080a0c;
             color: #c9d1d9;
             font-family: 'Segoe UI', 'Courier New', sans-serif;
             margin: 0;
@@ -54,6 +54,7 @@
             background: radial-gradient(circle, rgba(13,17,23,0.8) 60%, transparent 70%);
             box-shadow: 0 0 50px rgba(0, 191, 255, 0.1);
             z-index: 10;
+            transition: all 0.5s ease;
         }
 
         .arc-reactor::before {
@@ -74,7 +75,6 @@
             transition: animation-duration 0.8s ease;
         }
 
-        /* Reaktör Etkileşimi */
         .reactor-section:hover .arc-reactor::before { animation-duration: 1.5s; box-shadow: 0 0 50px #00bfff; }
         .arc-reactor:hover::before { animation-duration: 0.3s; box-shadow: 0 0 80px #00bfff, 0 0 30px #fff; border: 2px solid rgba(255, 255, 255, 0.5); }
 
@@ -148,24 +148,40 @@
         .spec-label { font-size: 0.75em; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; }
         .spec-value { font-size: 0.9em; color: #c9d1d9; font-weight: bold; margin-top: 2px; }
 
-        /* --- 5. YETENEK BARLARI --- */
-        .skill-box { margin-bottom: 15px; text-align: left; }
-        .skill-name { display: block; margin-bottom: 5px; color: #c9d1d9; font-size: 0.9em; letter-spacing: 1px; }
-        .skill-bar {
-            height: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
+        /* --- 5. MARK III PRO YETENEK BARLARI (GÜNCELLENDİ) --- */
+        .skill-box-pro { margin-bottom: 25px; position: relative; }
+        .sb-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-family: 'Segoe UI', sans-serif; }
+        .sb-name { color: #e6edf3; font-weight: 600; letter-spacing: 0.5px; font-size: 0.95em; }
+        .sb-val { color: #00bfff; font-weight: bold; font-family: 'Courier New', monospace; text-shadow: 0 0 10px rgba(0, 191, 255, 0.6); }
+        
+        .sb-track {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
             overflow: hidden;
-            border: 1px solid rgba(0, 191, 255, 0.2);
+            position: relative;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+            border: 1px solid rgba(0, 191, 255, 0.1);
         }
-        .skill-level {
+        
+        .sb-fill {
             height: 100%;
-            background: #00bfff;
-            box-shadow: 0 0 10px #00bfff;
-            border-radius: 5px;
+            background: linear-gradient(90deg, #0077b6, #00bfff);
+            border-radius: 4px;
+            box-shadow: 0 0 15px #00bfff;
+            position: relative;
             width: 0;
-            animation: loadSkill 2s ease-out forwards;
+            animation: loadLaser 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
+
+        .sb-fill::after {
+            content: ''; position: absolute; top: 0; right: 0; width: 5px; height: 100%;
+            background: #fff; box-shadow: 0 0 10px #fff; opacity: 0.7;
+        }
+
+        .sb-tags { font-size: 0.75em; color: #8b949e; margin-top: 6px; font-family: 'Courier New', monospace; opacity: 0.8; }
+        
+        @keyframes loadLaser { from { width: 0; } }
 
         /* --- 6. BUTONLAR & GİZLİ MESAJ --- */
         .stark-button {
@@ -256,7 +272,6 @@
         /* --- ANİMASYONLAR --- */
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes pulse { 0% { transform: scale(0.9); opacity: 0.8; } 100% { transform: scale(1.1); opacity: 1; } }
-        @keyframes loadSkill { from { width: 0; } }
         @keyframes scaleIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         @keyframes heartbeat {
             0% { transform: scale(1); }
@@ -301,7 +316,6 @@
                 <p style="font-size: 0.8em; color: #8b949e; margin-bottom: 15px;">(Detaylı analiz için modüllere tıklayınız)</p>
                 
                 <div class="specs-grid">
-                    
                     <div class="spec-item" onclick="detayGoster('misyon')">
                         <span class="spec-icon">🚀</span>
                         <div class="spec-info">
@@ -309,7 +323,6 @@
                             <span class="spec-value">Vizyon & Misyon</span>
                         </div>
                     </div>
-
                     <div class="spec-item" onclick="detayGoster('egitim')">
                         <span class="spec-icon">🎓</span>
                         <div class="spec-info">
@@ -317,7 +330,6 @@
                             <span class="spec-value">Elektrik-Elektronik</span>
                         </div>
                     </div>
-
                     <div class="spec-item" onclick="detayGoster('dil')">
                         <span class="spec-icon">🌐</span>
                         <div class="spec-info">
@@ -325,7 +337,6 @@
                             <span class="spec-value">%100 İngilizce</span>
                         </div>
                     </div>
-
                     <div class="spec-item" onclick="detayGoster('strateji')">
                         <span class="spec-icon">🏆</span>
                         <div class="spec-info">
@@ -333,7 +344,6 @@
                             <span class="spec-value">14x Madalya</span>
                         </div>
                     </div>
-
                     <div class="spec-item" onclick="detayGoster('takim')">
                         <span class="spec-icon">🛡️</span>
                         <div class="spec-info">
@@ -341,7 +351,6 @@
                             <span class="spec-value">Fenerbahçe SK</span>
                         </div>
                     </div>
-
                     <div class="spec-item" onclick="detayGoster('nehir')">
                         <span class="spec-icon">❤️</span>
                         <div class="spec-info">
@@ -349,7 +358,6 @@
                             <span class="spec-value">Bağlantı: Nehir</span>
                         </div>
                     </div>
-
                 </div>
             </section>
         </div>
@@ -361,12 +369,10 @@
                     <h3 style="color: #c9d1d9; font-weight: 400; margin: 0;">Karabük Üniversitesi</h3>
                     <p style="color: #00bfff; margin-top: 5px; margin-bottom: 0;">Elektrik-Elektronik Müh. (%100 İngilizce)</p>
                 </div>
-                
                 <button onclick="egitimDetay()" id="btn-detay" style="background: transparent; border: 1px solid #00bfff; color: #00bfff; padding: 8px 15px; cursor: pointer; border-radius: 5px; font-weight: bold;">
                     ▼ DETAY
                 </button>
             </div>
-
             <div id="gizli-detay" style="display: none; margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(0, 191, 255, 0.3); text-align: left;">
                 <p style="line-height: 1.6; color: #c9d1d9; font-family: 'Courier New', monospace; font-size: 0.95em;">
                     <strong style="color: #00bfff;">> J.A.R.V.I.S. ACADEMIC PROTOCOL v2.5</strong><br>
@@ -375,41 +381,64 @@
                     <strong>[ANA DİREKTİF]:</strong> Elektrik-Elektronik Mühendisliği.<br>
                     <strong>[DİL PARAMETRESİ]:</strong> %100 İngilizce Entegrasyonu.<br><br>
                     <strong style="color: #00bfff;">> SİSTEM ANALİZİ:</strong><br>
-                    Efendim, şu anda temel veri toplama aşamasındayım. Eğitim modülü, küresel mühendislik standartlarına erişim için %100 İngilizce olarak kodlanmıştır.<br><br>
-                    <em style="color: #00bfff; letter-spacing: 2px;">> END OF REPORT_</em>
+                    Efendim, şu anda temel veri toplama aşamasındayım. Eğitim modülü, küresel mühendislik standartlarına erişim için %100 İngilizce olarak kodlanmıştır.
                 </p>
             </div>
         </div>
 
         <div class="card" style="margin-top: 20px;">
-            <h2>Yetenek Kalibrasyonu</h2>
+            <h2>Yetenek Kalibrasyonu (Mark III)</h2>
             
-            <div class="skill-box">
-                <span class="skill-name">C / C++ Yazılım (Gömülü Sistemler)</span>
-                <div class="skill-bar"><div class="skill-level" style="width: 85%;"></div></div>
+            <div class="skill-box-pro">
+                <div class="sb-header">
+                    <span class="sb-name">C / C++ (Gömülü Sistemler)</span>
+                    <span class="sb-val">85%</span>
+                </div>
+                <div class="sb-track">
+                    <div class="sb-fill" style="width: 85%;"></div>
+                </div>
+                <div class="sb-tags">> Algorithms / Pointers / Memory Management</div>
             </div>
 
-            <div class="skill-box">
-                <span class="skill-name">Devre Analizi & Proteus</span>
-                <div class="skill-bar"><div class="skill-level" style="width: 75%;"></div></div>
+            <div class="skill-box-pro">
+                <div class="sb-header">
+                    <span class="sb-name">Devre Analizi & Proteus</span>
+                    <span class="sb-val">75%</span>
+                </div>
+                <div class="sb-track">
+                    <div class="sb-fill" style="width: 75%;"></div>
+                </div>
+                <div class="sb-tags">> Circuit Design / PCB Layout / Simulation</div>
             </div>
 
-            <div class="skill-box">
-                <span class="skill-name">Matematik & Analitik Düşünme</span>
-                <div class="skill-bar"><div class="skill-level" style="width: 95%;"></div></div>
+            <div class="skill-box-pro">
+                <div class="sb-header">
+                    <span class="sb-name">Matematik & Analitik Düşünme</span>
+                    <span class="sb-val">95%</span>
+                </div>
+                <div class="sb-track">
+                    <div class="sb-fill" style="width: 95%;"></div>
+                </div>
+                <div class="sb-tags">> Calculus / Linear Algebra / Logic</div>
             </div>
 
-            <div class="skill-box">
-                <span class="skill-name">Strateji (Satranç & Algoritma)</span>
-                <div class="skill-bar"><div class="skill-level" style="width: 90%;"></div></div>
+            <div class="skill-box-pro">
+                <div class="sb-header">
+                    <span class="sb-name">Strateji (Satranç & Algoritma)</span>
+                    <span class="sb-val">90%</span>
+                </div>
+                <div class="sb-track">
+                    <div class="sb-fill" style="width: 90%;"></div>
+                </div>
+                <div class="sb-tags">> Grandmaster Vision / Tactical Analysis</div>
             </div>
+
         </div>
 
         <button onclick="sistemKontrol()" class="stark-button">SİSTEM ANALİZİ</button>
 
         <footer>
             <p>J.A.R.V.I.S. Arayüzü v2.3 | © 2026</p>
-            
             <div class="secret-protocol">
                 <span class="heart-icon">❤️</span>
                 <span class="hidden-message">Nehir, sen benim gerçek güç kaynağımsın.</span>
@@ -443,7 +472,7 @@
             },
             "strateji": {
                 baslik: "🏆 STRATEJİK ZEKA",
-                icerik: "■ TOPLAM ENVANTER: 14 Madalya\n   ├─ 11x Satranç (Stratejik Derinlik)\n   └─ 3x Futbol (Takım Çalışması)\n\nZihin ve beden senkronizasyonu tam."
+                icerik: "■ TOPLAM ENVANTER: 14 Madalya\n   ├─ 11x Satranç (Stratejik Derinlik)\n   └─ 3x Futbol (Takım Çalışması)\n\nZihin ve beden senkronizasyonu tam."
             },
             "takim": {
                 baslik: "🛡️ SADAKAT",
@@ -479,9 +508,9 @@
             "■ USER ID: TAHA EFE KARABACAK\n" +
             "■ SECURITY: ALPHA-1\n\n" +
             "■ SYSTEM STATUS:\n" +
-            "   [OK] Ark Reactor Core\n" +
-            "   [OK] Neural Network\n" +
-            "   [OK] Biometric Sensors\n\n" +
+            "   [OK] Arc Reactor Core\n" +
+            "   [OK] Neural Network\n" +
+            "   [OK] Biometric Sensors\n\n" +
             "■ MISSION: Engineering The Future\n\n" +
             ">> ALL SYSTEMS ONLINE. WELCOME SIR.";
             openModal("⚠️ SYSTEM ALERT", rapor);
