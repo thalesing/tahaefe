@@ -148,7 +148,7 @@
         .spec-label { font-size: 0.75em; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; }
         .spec-value { font-size: 0.9em; color: #c9d1d9; font-weight: bold; margin-top: 2px; }
 
-        /* --- 5. MARK III PRO YETENEK BARLARI --- */
+        /* --- 5. MARK III PRO YETENEK BARLARI (GÜNCELLENDİ) --- */
         .skill-box-pro { margin-bottom: 25px; position: relative; }
         .sb-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-family: 'Segoe UI', sans-serif; }
         .sb-name { color: #e6edf3; font-weight: 600; letter-spacing: 0.5px; font-size: 0.95em; }
@@ -283,16 +283,6 @@
     </style>
 </head>
 <body>
-
-    <div id="startup-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column; transition: opacity 1s ease;">
-        <div class="arc-reactor" style="transform: scale(0.8); margin-bottom: 30px;">
-            <div class="core"></div>
-        </div>
-        <button onclick="sistemiBaslat()" style="background: transparent; border: 2px solid #00bfff; color: #00bfff; padding: 15px 40px; font-size: 1.2em; letter-spacing: 3px; cursor: pointer; text-transform: uppercase; box-shadow: 0 0 20px rgba(0, 191, 255, 0.3); border-radius: 5px; font-family: 'Courier New', sans-serif; font-weight: bold;">
-            INITIALIZE SYSTEMS
-        </button>
-        <p style="color: #8b949e; margin-top: 15px; font-family: 'Courier New'; font-size: 0.8em;">> WAITING FOR USER INPUT...</p>
-    </div>
 
     <div class="container">
         
@@ -482,7 +472,7 @@
             },
             "strateji": {
                 baslik: "🏆 STRATEJİK ZEKA",
-                icerik: "■ TOPLAM ENVANTER: 14 Madalya\n   ├─ 11x Satranç (Stratejik Derinlik)\n   └─ 3x Futbol (Takım Çalışması)\n\nZihin ve beden senkronizasyonu tam."
+                icerik: "■ TOPLAM ENVANTER: 14 Madalya\n   ├─ 11x Satranç (Stratejik Derinlik)\n   └─ 3x Futbol (Takım Çalışması)\n\nZihin ve beden senkronizasyonu tam."
             },
             "takim": {
                 baslik: "🛡️ SADAKAT",
@@ -511,73 +501,6 @@
             }
         }
 
-        // --- SESLİ KOMUT VE EFEKT SİSTEMİ ---
-        
-        // J.A.R.V.I.S. Konuşma Motoru
-        function jarvisKonus(metin) {
-            if (!window.speechSynthesis) return; // Tarayıcı desteği yoksa iptal
-            
-            const sentesizer = window.speechSynthesis;
-            const konusma = new SpeechSynthesisUtterance(metin);
-            
-            konusma.lang = 'en-US'; 
-            konusma.volume = 1; 
-            konusma.rate = 1;   
-            konusma.pitch = 0.8; 
-
-            // Ses listesi bazen geç yüklenir, onvoiceschanged ile bekleyebiliriz ama
-            // basitlik için direkt almayı deniyoruz.
-            const sesler = sentesizer.getVoices();
-            const jarvisSesi = sesler.find(ses => ses.name.includes('Google US English') || ses.name.includes('Male'));
-            if (jarvisSesi) konusma.voice = jarvisSesi;
-
-            sentesizer.speak(konusma);
-        }
-
-        // Sistemi Başlatma Fonksiyonu
-        function sistemiBaslat() {
-            const ekran = document.getElementById('startup-screen');
-            ekran.style.opacity = '0';
-            setTimeout(() => { ekran.style.display = 'none'; }, 1000);
-
-            // Karşılama Mesajı
-            jarvisKonus("Welcome home, sir. All systems are online. Connecting to Karabuk University servers.");
-            
-            // AudioContext'i başlat (Mekanik sesler için)
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-        }
-
-        // Mekanik Ses Efekti (Bip)
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function mekanikSes() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            
-            const osilator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-
-            osilator.type = 'square'; 
-            osilator.frequency.setValueAtTime(800, audioCtx.currentTime); 
-            osilator.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1); 
-
-            gainNode.gain.setValueAtTime(0.02, audioCtx.currentTime); // Ses seviyesi (0.02 = çok kısık/hoş)
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-
-            osilator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-
-            osilator.start();
-            osilator.stop(audioCtx.currentTime + 0.1);
-        }
-
-        // Hover olaylarını dinle
-        document.addEventListener('DOMContentLoaded', () => {
-            const elements = document.querySelectorAll('button, .spec-item, .card, .secret-protocol');
-            elements.forEach(el => {
-                el.addEventListener('mouseenter', mekanikSes);
-            });
-        });
-
-        // Güncellenmiş Sistem Kontrol
         function sistemKontrol() {
             const rapor = 
             "▌ J.A.R.V.I.S. SYSTEM DIAGNOSTIC v2.4\n" +
@@ -585,14 +508,12 @@
             "■ USER ID: TAHA EFE KARABACAK\n" +
             "■ SECURITY: ALPHA-1\n\n" +
             "■ SYSTEM STATUS:\n" +
-            "   [OK] Arc Reactor Core\n" +
-            "   [OK] Neural Network\n" +
-            "   [OK] Biometric Sensors\n\n" +
+            "   [OK] Arc Reactor Core\n" +
+            "   [OK] Neural Network\n" +
+            "   [OK] Biometric Sensors\n\n" +
             "■ MISSION: Engineering The Future\n\n" +
             ">> ALL SYSTEMS ONLINE. WELCOME SIR.";
-            
             openModal("⚠️ SYSTEM ALERT", rapor);
-            jarvisKonus("Running diagnostic scan. Security level Alpha One confirmed.");
         }
 
         let typewriterTimeout;
