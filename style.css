@@ -35,43 +35,83 @@ body {
     z-index: 1;
 }
 
-/* Çok Katmanlı Ark Reaktörü */
+/* --- PARÇALI ARK REAKTÖRÜ (Segmented Arc Reactor) --- */
+
+/* Reaktörün Dış Çerçevesi */
 .arc-reactor {
     position: relative;
     width: 160px;
     height: 160px;
-    background: #080a0c;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2; /* Hattın üstünde durması için */
-    border: 2px solid rgba(0, 191, 255, 0.3);
-    box-shadow: 0 0 40px rgba(0, 191, 255, 0.2);
+    background: radial-gradient(circle, rgba(13,17,23,0.8) 60%, transparent 70%);
+    box-shadow: 0 0 50px rgba(0, 191, 255, 0.1);
+    z-index: 10;
 }
 
-/* Dış Dönen Mekanik Halka */
+/* 1. KATMAN: Parçalı Manyetik Halkalar (Dilim Dilim Görünüm) */
 .arc-reactor::before {
     content: "";
     position: absolute;
-    width: 130px;
-    height: 130px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    border: 3px dashed #00bfff;
-    animation: spin 8s linear infinite;
-    opacity: 0.6;
+    
+    /* İŞTE SİHRİN OLDUĞU YER: Repeating Conic Gradient */
+    /* Bu kod halkayı 10 eşit parçaya böler ve aralarına boşluk koyar */
+    background: repeating-conic-gradient(
+        from 0deg,
+        #00bfff 0deg 10deg,      /* Mavi Parça (10 derece genişlik) */
+        transparent 10deg 36deg  /* Boşluk (26 derece genişlik) */
+    );
+    
+    /* Maskeleme: Ortasını delik yapıyoruz ki sadece halka kalsın */
+    -webkit-mask: radial-gradient(farthest-side, transparent 75%, #fff 76%);
+    mask: radial-gradient(farthest-side, transparent 75%, #fff 76%);
+    
+    animation: spin 20s linear infinite; /* Çok yavaş, ağır bir dönüş */
+    box-shadow: 0 0 30px #00bfff;
 }
 
-/* Parlayan Çekirdek */
+/* 2. KATMAN: İçindeki Parlayan Çekirdek */
 .core {
-    width: 60px;
-    height: 60px;
-    background: radial-gradient(circle, #fff, #00bfff, #004466);
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, #ffffff 10%, #00bfff 90%);
     border-radius: 50%;
-    box-shadow: 0 0 30px #00bfff, 0 0 60px rgba(0, 191, 255, 0.5);
-    animation: pulse 2s infinite alternate;
+    box-shadow: 
+        0 0 20px #fff,          /* Beyaz çekirdek parlaması */
+        0 0 60px #00bfff,       /* Mavi hale */
+        inset 0 0 20px #00bfff; /* İç derinlik */
+    border: 2px solid rgba(255,255,255,0.8);
+    animation: pulse 3s infinite alternate;
+    z-index: 20;
 }
 
+/* 3. KATMAN: İnce Detay Halkası (Parçaların etrafındaki ince çizgi) */
+.arc-reactor::after {
+    content: "";
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 191, 255, 0.3);
+    box-shadow: inset 0 0 20px rgba(0, 191, 255, 0.2);
+    pointer-events: none;
+}
+
+/* Etkileşim: Üzerine gelince enerji patlaması */
+.arc-reactor:hover::before {
+    filter: drop-shadow(0 0 15px #00bfff);
+    animation-duration: 2s; /* Hızlanır */
+}
+
+.arc-reactor:hover .core {
+    transform: scale(1.1);
+    box-shadow: 0 0 80px #00bfff, 0 0 30px #fff;
+}
 /* Bilgi Kartları Aranjmanı (Görseldeki gibi yan yana) */
 .cards-layout {
     display: flex;
