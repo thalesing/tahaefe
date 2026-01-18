@@ -22,7 +22,6 @@
         <p style="color: #8b949e; letter-spacing: 1px;">Elektrik-Elektronik Mühendisliği | Karabük Üniversitesi</p>
 
         <div class="cards-layout" style="margin-top: 30px;">
-            
             <section class="card">
                 <h2>🧬 Kimlik & Misyon</h2>
                 <p style="margin-bottom: 15px;">
@@ -42,13 +41,52 @@
                     <li>🎓 <strong>Eğitim:</strong> %100 İngilizce Hazırlık</li>
                     <li>🎂 <strong>Yaş / Burç:</strong> 19 / Balık (08.03.2006)</li>
                     <li>♟️ <strong>Başarı:</strong> 14 Madalya</li>
-                    <li>🎸 <strong>Hobi:</strong> Gitar & Oyun,Yazılım</li>
+                    <li>🎸 <strong>Hobi:</strong> Gitar & Oyun, Yazılım</li>
                     <li>⚽ <strong>Tutku:</strong> Fenerbahçe & Futbol</li>
                     <li>🤖 <strong>Favori:</strong> Iron Man (Tony Stark)</li>
                 </ul>
             </section>
         </div>
 
+        <div class="card" style="margin-top: 20px; border-left: 4px solid #00bfff; transition: 0.3s;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="text-align: left;">
+                    <h2>🎓 Akademik Veri</h2>
+                    <h3 style="color: #c9d1d9; font-weight: 400; margin: 0;">Karabük Üniversitesi</h3>
+                    <p style="color: #00bfff; margin-top: 5px; margin-bottom: 0;">Elektrik-Elektronik Müh. (%100 İngilizce)</p>
+                </div>
+                
+                <button onclick="egitimDetay()" id="btn-detay" style="
+                    background: transparent; 
+                    border: 1px solid #00bfff; 
+                    color: #00bfff; 
+                    padding: 8px 15px; 
+                    cursor: pointer; 
+                    border-radius: 5px;
+                    font-weight: bold;">
+                    ▼ DETAY
+                </button>
+            </div>
+
+            <div id="gizli-detay" style="display: none; margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(0, 191, 255, 0.3); text-align: left;">
+                <p style="line-height: 1.6; color: #c9d1d9; font-family: 'Courier New', monospace; font-size: 0.95em;">
+                    <strong style="color: #00bfff;">> J.A.R.V.I.S. ACADEMIC PROTOCOL v2.5</strong><br>
+                    <strong style="color: #00bfff;">> STATUS:</strong> ACTIVE DATA ACQUISITION...<br><br>
+                    
+                    <strong>[KONUM DÜĞÜMÜ]:</strong> Karabük Üniversitesi Üssü.<br>
+                    <strong>[ANA DİREKTİF]:</strong> Elektrik-Elektronik Mühendisliği.<br>
+                    <strong>[DİL PARAMETRESİ]:</strong> %100 İngilizce Entegrasyonu.<br><br>
+                    
+                    <strong style="color: #00bfff;">> SİSTEM ANALİZİ:</strong><br>
+                    Efendim, şu anda temel veri toplama aşamasındayım. Eğitim modülü, küresel mühendislik standartlarına ve uluslararası veri tabanlarına sıfır gecikmeyle (zero-latency) erişim sağlamak için %100 İngilizce olarak kodlanmıştır.<br><br>
+                    
+                    İleri düzey teknik veri yüklemelerine başlamadan önce, dilsel işlemci çekirdeklerini optimize ederek sağlam bir altyapı kuruyoruz. Nihai hedef: Geleceğin teknolojilerini mimari olarak tasarlamak.<br><br>
+                    
+                    <em style="color: #00bfff; letter-spacing: 2px;">> END OF REPORT_</em>
+                </p>
+            </div>
+        </div>
         <div class="card" style="margin-top: 20px;">
             <h2>Yetenek Kalibrasyonu</h2>
             
@@ -95,8 +133,22 @@
     </div>
 
     <script>
+        // 1. Fonksiyon: Eğitim Detaylarını Açıp Kapatma
+        function egitimDetay() {
+            var detayKutusu = document.getElementById("gizli-detay");
+            var buton = document.getElementById("btn-detay");
+
+            if (detayKutusu.style.display === "none") {
+                detayKutusu.style.display = "block"; // Aç
+                buton.innerHTML = "▲ GİZLE"; // Buton yazısını değiştir
+            } else {
+                detayKutusu.style.display = "none"; // Kapat
+                buton.innerHTML = "▼ DETAY"; // Buton yazısını eski haline getir
+            }
+        }
+
+        // 2. Fonksiyon: Sistem Analiz Raporu
         function sistemKontrol() {
-            // J.A.R.V.I.S. Gelişmiş Teşhis Raporu
             const tarih = new Date().toLocaleTimeString();
             
             const mesaj = 
