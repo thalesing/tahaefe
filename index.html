@@ -518,36 +518,6 @@
             }
         }
 
-        // --- MEKANİK TIKLAMA SESİ (KONUŞMA YOK) ---
-        
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function mekanikSes() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            
-            const osilator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-
-            osilator.type = 'square'; 
-            osilator.frequency.setValueAtTime(800, audioCtx.currentTime); 
-            osilator.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.1); 
-
-            gainNode.gain.setValueAtTime(0.02, audioCtx.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-
-            osilator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-
-            osilator.start();
-            osilator.stop(audioCtx.currentTime + 0.1);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const elements = document.querySelectorAll('button, .spec-item, .card, .secret-protocol');
-            elements.forEach(el => {
-                el.addEventListener('mouseenter', mekanikSes);
-            });
-        });
-
         function sistemKontrol() {
             const rapor = 
             "▌ J.A.R.V.I.S. SYSTEM DIAGNOSTIC v2.4\n" +
@@ -562,7 +532,6 @@
             ">> ALL SYSTEMS ONLINE. WELCOME SIR.";
             
             openModal("⚠️ SYSTEM ALERT", rapor);
-            // Sadece görsel pencere açılır, konuşma kodu kaldırıldı.
         }
 
         let typewriterTimeout;
