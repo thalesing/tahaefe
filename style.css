@@ -360,4 +360,89 @@ h2 { color: #f0e68c; font-size: 1.2em; border-bottom: 1px solid #30363d; padding
     color: #c9d1d9;
     font-weight: bold;
     margin-top: 2px;
+}/* --- MARK III PRO YETENEK STİLLERİ --- */
+
+.skill-box-pro {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.sb-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.sb-name {
+    color: #e6edf3;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-size: 0.95em;
+}
+
+.sb-val {
+    color: #00bfff;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    text-shadow: 0 0 10px rgba(0, 191, 255, 0.6);
+}
+
+/* Çubuk Arka Planı (Ray) */
+.sb-track {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+    border: 1px solid rgba(0, 191, 255, 0.1);
+}
+
+/* Doluluk Oranı (Lazer) */
+.sb-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0077b6, #00bfff);
+    border-radius: 4px;
+    box-shadow: 0 0 15px #00bfff; /* NEON PARLAMA */
+    position: relative;
+    width: 0; /* Başlangıç */
+    animation: loadLaser 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Lazerin ucundaki ekstra parlaklık */
+.sb-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    height: 100%;
+    background: #fff;
+    box-shadow: 0 0 10px #fff;
+    opacity: 0.7;
+}
+
+/* Alt Teknik Etiketler */
+.sb-tags {
+    font-size: 0.75em;
+    color: #8b949e;
+    margin-top: 6px;
+    font-family: 'Courier New', monospace;
+    opacity: 0.8;
+}
+
+/* Küçük Reaktör Animasyonu (Başlık Yanında) */
+@keyframes reactorPulse {
+    0% { box-shadow: 0 0 5px #00bfff; opacity: 0.5; }
+    50% { box-shadow: 0 0 20px #00bfff; opacity: 1; }
+    100% { box-shadow: 0 0 5px #00bfff; opacity: 0.5; }
+}
+
+.reactor-pulse {
+    animation: reactorPulse 2s infinite;
+}
+
+@keyframes loadLaser {
+    from { width: 0; }
 }
