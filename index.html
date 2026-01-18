@@ -49,7 +49,6 @@
         </div>
 
         <div class="card" style="margin-top: 20px; border-left: 4px solid #00bfff; transition: 0.3s;">
-            
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div style="text-align: left;">
                     <h2>🎓 Akademik Veri</h2>
@@ -87,6 +86,7 @@
                 </p>
             </div>
         </div>
+
         <div class="card" style="margin-top: 20px;">
             <h2>Yetenek Kalibrasyonu</h2>
             
@@ -122,7 +122,7 @@
         <button onclick="sistemKontrol()" class="stark-button">SİSTEM ANALİZİ</button>
 
         <footer>
-            <p>J.A.R.V.I.S. Arayüzü v2.2 | © 2026</p>
+            <p>J.A.R.V.I.S. Arayüzü v2.3 | © 2026</p>
             
             <div class="secret-protocol">
                 <span class="heart-icon">❤️</span>
@@ -132,43 +132,75 @@
 
     </div>
 
+    <div id="jarvis-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="modal-header">⚠️ SYSTEM ALERT</h2>
+            <div id="typewriter-text" class="modal-text"></div>
+            <button onclick="closeModal()" class="stark-button" style="margin-top: 20px; width: auto;">ACKNOWLEDGE</button>
+        </div>
+    </div>
+
     <script>
-        // 1. Fonksiyon: Eğitim Detaylarını Açıp Kapatma
+        // 1. EĞİTİM DETAY FONKSİYONU
         function egitimDetay() {
             var detayKutusu = document.getElementById("gizli-detay");
             var buton = document.getElementById("btn-detay");
 
             if (detayKutusu.style.display === "none") {
-                detayKutusu.style.display = "block"; // Aç
-                buton.innerHTML = "▲ GİZLE"; // Buton yazısını değiştir
+                detayKutusu.style.display = "block";
+                buton.innerHTML = "▲ GİZLE";
             } else {
-                detayKutusu.style.display = "none"; // Kapat
-                buton.innerHTML = "▼ DETAY"; // Buton yazısını eski haline getir
+                detayKutusu.style.display = "none";
+                buton.innerHTML = "▼ DETAY";
             }
         }
 
-        // 2. Fonksiyon: Sistem Analiz Raporu
-        function sistemKontrol() {
-            const tarih = new Date().toLocaleTimeString();
-            
-            const mesaj = 
+        // 2. HOLOGRAFİK SİSTEM ANALİZİ VE YAZI EFEKTİ
+        const fullMessage = 
             "▌ J.A.R.V.I.S. SYSTEM DIAGNOSTIC v2.4\n" +
             "▌ ------------------------------------\n" +
-            "■ Kullanıcı Kimliği Doğrulanıyor... [OK]\n" +
-            "■ Tanımlanan: Taha Efe Karabacak\n" +
-            "■ Biyometrik Veriler: Eşleşti\n" +
+            "■ USER ID: TAHA EFE KARABACAK\n" +
+            "■ SECURITY LEVEL: ALPHA-1\n" +
             "\n" +
-            "■ GÜÇ SİSTEMLERİ:\n" +
-            "   └─ Ark Reaktörü: Stabil (%100)\n" +
-            "   └─ Çekirdek Isısı: Normal\n" +
+            "■ SYSTEM STATUS:\n" +
+            "   [OK] Ark Reactor Core\n" +
+            "   [OK] Neural Network Connection\n" +
+            "   [OK] Biometric Sensors\n" +
             "\n" +
-            "■ AĞ DURUMU:\n" +
-            "   └─ Bağlantı: Güvenli (Şifreli)\n" +
-            "   └─ Konum: Karabük, TR\n" +
+            "■ LOCATION: Karabük Base, TR\n" +
+            "■ MISSION: Engineering The Future\n" +
             "\n" +
-            "Sistemler emrinize amade efendim. Saat: " + tarih;
+            ">> ALL SYSTEMS ONLINE. WELCOME SIR.";
 
-            alert(mesaj);
+        function sistemKontrol() {
+            const modal = document.getElementById('jarvis-modal');
+            const textArea = document.getElementById('typewriter-text');
+            
+            modal.style.display = 'flex'; // Pencereyi aç
+            textArea.innerHTML = ""; // Önce temizle
+            
+            // Harf harf yazma efekti (Typewriter)
+            let i = 0;
+            const speed = 20; // Yazma hızı (ms)
+            
+            function typeWriter() {
+                if (i < fullMessage.length) {
+                    if (fullMessage.charAt(i) === '\n') {
+                        textArea.innerHTML += '<br>';
+                    } else {
+                        textArea.innerHTML += fullMessage.charAt(i);
+                    }
+                    i++;
+                    setTimeout(typeWriter, speed);
+                }
+            }
+            
+            typeWriter(); // Yazmaya başla
+        }
+
+        // 3. PENCEREYİ KAPATMA FONKSİYONU
+        function closeModal() {
+            document.getElementById('jarvis-modal').style.display = 'none';
         }
     </script>
 </body>
