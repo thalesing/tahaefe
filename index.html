@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taha Efe | J.A.R.V.I.S. Interface</title>
+    <title>Taha Efe | J.A.R.V.I.S. Interface v3.0</title>
     
     <style>
         /* --- 1. TEMEL YAPILAR --- */
@@ -70,7 +70,7 @@
         .blink { animation: blinker 1s linear infinite; }
         @keyframes blinker { 50% { opacity: 0; } }
 
-        /* --- 2. ARC REAKTÖRÜ & ENERJİ HATTI --- */
+        /* --- 2. ARC REAKTÖRÜ --- */
         .reactor-section {
             position: relative;
             height: 250px;
@@ -543,7 +543,7 @@
         <button onclick="sistemKontrol()" class="stark-button">SİSTEM ANALİZİ</button>
 
         <footer>
-            <p>J.A.R.V.I.S. Arayüzü v2.3 | © 2026</p>
+            <p>J.A.R.V.I.S. Arayüzü v3.0 | © 2026</p>
             <div class="secret-protocol">
                 <span class="heart-icon">❤️</span>
                 <span class="hidden-message">Nehir, sen benim gerçek güç kaynağımsın.</span>
@@ -602,7 +602,7 @@
                 baslik: "🛡️ SADAKAT",
                 icerik: "■ KULÜP: Fenerbahçe Spor Kulübü\n\nSadece bir takım değil, bir duruş."
             }
-            // "Nehir" verisi buradan da kaldırıldı
+            // "Nehir" verisi tamamen silindi.
         };
 
         function detayGoster(anahtar) {
@@ -665,7 +665,7 @@
             clearTimeout(typewriterTimeout);
         }
 
-        // --- PARTİKÜL EFEKTİ (HASSAS AYARLI) ---
+        // --- PARTİKÜL EFEKTİ ---
         const canvas = document.getElementById("particle-canvas");
         const ctx = canvas.getContext("2d");
 
