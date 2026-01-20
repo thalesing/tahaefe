@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taha Efe | J.A.R.V.I.S. Interface Mark XIII</title>
+    <title>Taha Efe | J.A.R.V.I.S. Interface Mark XIV (Revize)</title>
     
     <style>
         /* --- 1. TEMEL YAPILAR --- */
@@ -17,7 +17,21 @@
             padding: 40px 0;
             min-height: 100vh;
             overflow-x: hidden;
+            cursor: none;
         }
+
+        /* ÖZEL İMLEÇ */
+        #custom-cursor {
+            position: fixed; top: 0; left: 0; width: 40px; height: 40px;
+            border: 1px solid #00bfff; border-radius: 50%; pointer-events: none; z-index: 10000;
+            transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+            transition: width 0.1s, height 0.1s;
+        }
+        #custom-cursor::after {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+            background: #00bfff; border-radius: 50%; transform: translate(-50%, -50%);
+        }
+        body.clicking #custom-cursor { width: 30px; height: 30px; background: rgba(0, 191, 255, 0.2); }
 
         .container {
             width: 90%;
@@ -116,7 +130,7 @@
 
         /* --- DETAYLAR --- */
         .specs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 15px; }
-        .spec-item { background: rgba(0, 191, 255, 0.05); border: 1px solid rgba(0, 191, 255, 0.2); border-radius: 8px; padding: 10px; display: flex; align-items: center; transition: 0.3s; cursor: pointer; }
+        .spec-item { background: rgba(0, 191, 255, 0.05); border: 1px solid rgba(0, 191, 255, 0.2); border-radius: 8px; padding: 10px; display: flex; align-items: center; transition: 0.3s; cursor: none; }
         .spec-item:hover { background: rgba(0, 191, 255, 0.15); border-color: #00bfff; transform: translateY(-3px); box-shadow: 0 0 15px rgba(0, 191, 255, 0.3); }
         .spec-icon { font-size: 1.5em; margin-right: 10px; }
         .spec-info { display: flex; flex-direction: column; text-align: left; }
@@ -133,20 +147,48 @@
         .sb-fill::after { content: ''; position: absolute; top: 0; right: 0; width: 5px; height: 100%; background: #fff; box-shadow: 0 0 10px #fff; opacity: 0.7; }
         .sb-tags { font-size: 0.75em; color: #8b949e; margin-top: 6px; font-family: 'Courier New', monospace; opacity: 0.8; }
 
-        .stark-button { background: transparent; color: #00bfff; border: 1px solid #00bfff; padding: 12px 30px; font-size: 14px; letter-spacing: 2px; cursor: pointer; margin-top: 40px; transition: 0.3s; text-transform: uppercase; }
+        .stark-button { background: transparent; color: #00bfff; border: 1px solid #00bfff; padding: 12px 30px; font-size: 14px; letter-spacing: 2px; cursor: none; margin-top: 40px; transition: 0.3s; text-transform: uppercase; }
         .stark-button:hover { background: #00bfff; color: #080a0c; box-shadow: 0 0 30px #00bfff; }
 
-        /* --- HEX MAIL BUTONU (GÜNCELLENDİ) --- */
-        .hex-grid { display: flex; justify-content: center; gap: 20px; margin-top: 40px; }
-        .hex-btn { position: relative; width: 60px; height: 34px; background-color: rgba(0, 191, 255, 0.1); margin: 17px 0; border-left: 2px solid #00bfff; border-right: 2px solid #00bfff; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s; color: #00bfff; text-decoration: none; font-size: 1.5em; }
-        .hex-btn:before, .hex-btn:after { content: ""; position: absolute; width: 42.42px; height: 42.42px; transform: scaleY(0.5774) rotate(-45deg); background-color: inherit; left: 6.78px; border-top: 2px solid #00bfff; border-bottom: 2px solid #00bfff; z-index: -1; }
-        .hex-btn:before { top: -21.21px; } .hex-btn:after { bottom: -21.21px; }
-        .hex-btn:hover { background-color: #00bfff; color: #080a0c; box-shadow: 0 0 30px #00bfff; transform: scale(1.1); }
-        .hex-btn:hover:before, .hex-btn:hover:after { background-color: #00bfff; }
+        /* --- MAIL BUTONU (GENİŞLETİLMİŞ) --- */
+        .hex-grid {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        .hex-btn {
+            position: relative;
+            width: auto; /* İçeriğe göre genişlik */
+            min-width: 300px; /* Minimum genişlik */
+            height: auto;
+            padding: 12px 30px; /* İç boşluk */
+            background-color: rgba(0, 191, 255, 0.1);
+            border: 2px solid #00bfff; /* Çerçeve */
+            border-radius: 8px; /* Yuvarlatılmış köşeler */
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            cursor: none;
+            transition: 0.3s;
+            color: #00bfff;
+            text-decoration: none;
+            font-size: 1.1em; /* Yazı boyutu */
+            letter-spacing: 1px;
+            z-index: 5;
+        }
+        /* Altıgen için olan eski before/after elementleri kaldırıldı */
+        .hex-btn:before, .hex-btn:after {
+            content: none;
+        }
+        .hex-btn:hover {
+            background-color: #00bfff;
+            color: #080a0c;
+            box-shadow: 0 0 30px #00bfff;
+        }
 
-        .secret-protocol { margin-top: 15px; display: inline-flex; align-items: center; justify-content: center; background: rgba(255, 105, 180, 0.1); padding: 8px 15px; border-radius: 30px; transition: 0.5s; cursor: default; border: 1px solid transparent; }
+        .secret-protocol { margin-top: 15px; display: inline-flex; align-items: center; justify-content: center; background: rgba(255, 105, 180, 0.1); padding: 8px 15px; border-radius: 30px; transition: 0.5s; cursor: none; border: 1px solid transparent; }
         .secret-protocol:hover { background: rgba(255, 105, 180, 0.2); border: 1px solid #ff69b4; box-shadow: 0 0 15px rgba(255, 105, 180, 0.4); }
-        .heart-icon { font-size: 1.2em; animation: heartbeat 1.5s infinite; cursor: pointer; }
+        .heart-icon { font-size: 1.2em; animation: heartbeat 1.5s infinite; }
         .hidden-message { max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; color: #ff69b4; font-weight: bold; font-size: 0.95em; transition: all 0.8s ease-in-out; margin-left: 0; }
         .secret-protocol:hover .hidden-message { max-width: 300px; opacity: 1; margin-left: 10px; }
 
@@ -167,6 +209,8 @@
     </style>
 </head>
 <body>
+
+    <div id="custom-cursor"></div>
 
     <canvas id="particle-canvas"></canvas>
     
@@ -238,7 +282,7 @@
                     <h3 style="color: #c9d1d9; font-weight: 400; margin: 0;">Karabük Üniversitesi</h3>
                     <p style="color: #00bfff; margin-top: 5px; margin-bottom: 0;">Elektrik-Elektronik Müh. (%100 İngilizce)</p>
                 </div>
-                <button onclick="egitimDetay()" id="btn-detay" style="background: transparent; border: 1px solid #00bfff; color: #00bfff; padding: 8px 15px; cursor: pointer; border-radius: 5px; font-weight: bold;">▼ DETAY</button>
+                <button onclick="egitimDetay()" id="btn-detay" style="background: transparent; border: 1px solid #00bfff; color: #00bfff; padding: 8px 15px; cursor: none; border-radius: 5px; font-weight: bold;">▼ DETAY</button>
             </div>
             <div id="gizli-detay" style="display: none; margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(0, 191, 255, 0.3); text-align: left;">
                 <p style="line-height: 1.6; color: #c9d1d9; font-family: 'Courier New', monospace; font-size: 0.95em;">
@@ -280,11 +324,11 @@
         <button onclick="sistemKontrol()" class="stark-button">SİSTEM ANALİZİ</button>
 
         <div class="hex-grid">
-            <a class="hex-btn" href="mailto:tahakarabacak7842@gmail.com" title="İletişim Kur">tahakarabacak7842@gmail.com</a>
+            <a class="hex-btn" id="email-btn" title="E-posta Adresini Kopyala">tahakarabacak7842@gmail.com</a>
         </div>
 
         <footer>
-            <p>J.A.R.V.I.S. Arayüzü Mark XIII | © 2026</p>
+            <p>J.A.R.V.I.S. Arayüzü Mark XIV (Revize) | © 2026</p>
             <div class="secret-protocol">
                 <span class="heart-icon">❤️</span>
                 <span class="hidden-message">Nehir, sen benim gerçek güç kaynağımsın.</span>
@@ -302,6 +346,27 @@
     </div>
 
     <script>
+        // --- ÖZEL İMLEÇ VE TIKLAMA EFEKTİ ---
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
+        document.addEventListener('mouseup', () => document.body.classList.remove('clicking'));
+
+        // --- E-POSTA KOPYALAMA İŞLEVİ ---
+        document.getElementById('email-btn').addEventListener('click', function() {
+            const email = this.innerText;
+            navigator.clipboard.writeText(email).then(() => {
+                openModal("SYSTEM NOTIFICATION", "E-posta adresi panoya kopyalandı:\n\n" + email);
+            }).catch(err => {
+                console.error('Kopyalama hatası:', err);
+                openModal("SYSTEM ERROR", "Kopyalama işlemi başarısız oldu. Lütfen manuel olarak kopyalayın.");
+            });
+        });
+
+        // --- HUD ---
         function updateHUD() {
             const now = new Date();
             document.getElementById('hud-time').innerText = now.toLocaleTimeString('en-US', { hour12: false });
@@ -313,6 +378,7 @@
         }
         setInterval(updateHUD, 1000); updateHUD();
 
+        // --- VERİ TABANI ---
         const veriTabani = {
             "misyon": { baslik: "🚀 VİZYON & MİSYON", icerik: "■ HEDEF: Türkiye'nin teknolojik bağımsızlığına katkı sağlamak.\n\nBir mühendis olarak görevim; savunma sanayi, enerji sistemleri ve yapay zeka entegrasyonları üzerine yerli ve milli çözümler üretmektir." },
             "egitim": { baslik: "🎓 AKADEMİK ALTYAPI", icerik: "■ KURUM: Karabük Üniversitesi\n■ BÖLÜM: Elektrik-Elektronik Mühendisliği\n\nBu disiplin, modern dünyanın sinir sistemini oluşturur. Devre teorisinden sinyal işlemeye kadar geniş bir spektrumda uzmanlaşıyorum." },
@@ -343,6 +409,7 @@
         }
         function closeModal() { document.getElementById('jarvis-modal').style.display = 'none'; clearTimeout(typewriterTimeout); }
 
+        // --- PARÇACIKLAR ---
         const canvas = document.getElementById("particle-canvas");
         const ctx = canvas.getContext("2d");
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
