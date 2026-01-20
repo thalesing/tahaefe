@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taha Efe | J.A.R.V.I.S. Interface v3.0</title>
+    <title>Taha Efe | J.A.R.V.I.S. Interface Mark XI</title>
     
     <style>
         /* --- 1. TEMEL YAPILAR --- */
@@ -25,374 +25,158 @@
             text-align: center;
             position: relative;
             z-index: 2;
+            padding-bottom: 60px;
         }
 
         /* --- PARÇACIK CANVAS --- */
         #particle-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        /* --- HUD (HEADS-UP DISPLAY) KATMANI --- */
-        .hud-overlay {
-            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 100;
-            padding: 20px;
-            box-sizing: border-box;
-            font-family: 'Courier New', monospace;
-            color: #00bfff;
-            font-size: 0.8em;
-            text-shadow: 0 0 5px #00bfff;
+            z-index: 1; pointer-events: none;
         }
 
-        .hud-top-left { position: absolute; top: 20px; left: 20px; text-align: left; }
-        .hud-top-right { position: absolute; top: 20px; right: 20px; text-align: right; }
-        .hud-bottom-left { position: absolute; bottom: 20px; left: 20px; text-align: left; }
-        .hud-bottom-right { position: absolute; bottom: 20px; right: 20px; text-align: right; }
-
-        .hud-box {
-            border: 1px solid rgba(0, 191, 255, 0.3);
-            background: rgba(0, 0, 0, 0.2);
-            padding: 10px;
-            margin-bottom: 5px;
-            border-radius: 5px;
+        /* --- ATMOSFERİK EFEKTLER --- */
+        .scanline {
+            position: fixed; top: 0; left: 0; width: 100%; height: 5px;
+            background: linear-gradient(to bottom, rgba(0,191,255,0), rgba(0,191,255,0.5), rgba(0,191,255,0));
+            opacity: 0.1; z-index: 999; pointer-events: none; animation: scan 6s linear infinite;
         }
-        
-        .hud-label { color: #8b949e; font-size: 0.7em; display: block; margin-bottom: 3px; }
+        @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
+
+        .corner-bracket {
+            position: fixed; width: 30px; height: 30px; border: 2px solid rgba(0, 191, 255, 0.6);
+            z-index: 100; pointer-events: none;
+        }
+        .top-left { top: 20px; left: 20px; border-right: none; border-bottom: none; }
+        .top-right { top: 20px; right: 20px; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 20px; left: 20px; border-right: none; border-top: none; }
+        .bottom-right { bottom: 20px; right: 20px; border-left: none; border-top: none; }
+
+        /* --- HUD --- */
+        .hud-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
+            z-index: 100; padding: 20px; box-sizing: border-box; font-family: 'Courier New', monospace;
+            color: #00bfff; font-size: 0.8em; text-shadow: 0 0 5px #00bfff;
+        }
+        .hud-top-left { position: absolute; top: 40px; left: 40px; text-align: left; }
+        .hud-top-right { position: absolute; top: 40px; right: 40px; text-align: right; }
+        .hud-bottom-left { position: absolute; bottom: 40px; left: 40px; text-align: left; }
+        .hud-bottom-right { position: absolute; bottom: 40px; right: 40px; text-align: right; }
+        .hud-box { border-left: 2px solid rgba(0, 191, 255, 0.5); background: linear-gradient(90deg, rgba(0, 191, 255, 0.1), transparent); padding: 5px 10px; margin-bottom: 8px; }
+        .hud-label { color: #8b949e; font-size: 0.7em; display: block; margin-bottom: 2px; }
         .hud-value { font-weight: bold; letter-spacing: 1px; }
         .blink { animation: blinker 1s linear infinite; }
         @keyframes blinker { 50% { opacity: 0; } }
 
-        /* --- 2. ARC REAKTÖRÜ --- */
-        .reactor-section {
-            position: relative;
-            height: 250px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .energy-line {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #00bfff, transparent);
-            box-shadow: 0 0 15px #00bfff;
-            z-index: 1;
-        }
-
-        .arc-reactor {
-            position: relative;
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: radial-gradient(circle, rgba(13,17,23,0.8) 60%, transparent 70%);
-            box-shadow: 0 0 50px rgba(0, 191, 255, 0.1);
-            z-index: 10;
-            transition: all 0.5s ease;
-        }
-
-        .arc-reactor::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: repeating-conic-gradient(
-                from 0deg,
-                #00bfff 0deg 10deg,
-                transparent 10deg 40deg
-            );
-            -webkit-mask: radial-gradient(farthest-side, transparent 75%, #fff 76%);
-            mask: radial-gradient(farthest-side, transparent 75%, #fff 76%);
-            box-shadow: 0 0 30px #00bfff;
-            animation: spin 5s linear infinite; 
-            transition: animation-duration 0.8s ease;
-        }
-
+        /* --- REAKTÖR --- */
+        .reactor-section { position: relative; height: 250px; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
+        .energy-line { position: absolute; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, #00bfff, transparent); box-shadow: 0 0 15px #00bfff; z-index: 1; }
+        .arc-reactor { position: relative; width: 160px; height: 160px; border-radius: 50%; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle, rgba(13,17,23,0.8) 60%, transparent 70%); box-shadow: 0 0 50px rgba(0, 191, 255, 0.1); z-index: 10; transition: all 0.5s ease; }
+        .arc-reactor::before { content: ""; position: absolute; width: 100%; height: 100%; border-radius: 50%; background: repeating-conic-gradient(from 0deg, #00bfff 0deg 10deg, transparent 10deg 40deg); -webkit-mask: radial-gradient(farthest-side, transparent 75%, #fff 76%); mask: radial-gradient(farthest-side, transparent 75%, #fff 76%); box-shadow: 0 0 30px #00bfff; animation: spin 5s linear infinite; transition: animation-duration 0.8s ease; }
         .reactor-section:hover .arc-reactor::before { animation-duration: 1.5s; box-shadow: 0 0 50px #00bfff; }
         .arc-reactor:hover::before { animation-duration: 0.3s; box-shadow: 0 0 80px #00bfff, 0 0 30px #fff; border: 2px solid rgba(255, 255, 255, 0.5); }
-
-        .core {
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle, #ffffff 10%, #00bfff 90%);
-            border-radius: 50%;
-            box-shadow: 0 0 20px #fff, 0 0 60px #00bfff, inset 0 0 20px #00bfff;
-            border: 2px solid rgba(255,255,255,0.8);
-            animation: pulse 3s infinite alternate;
-            z-index: 20;
-        }
-
-        .arc-reactor::after {
-            content: "";
-            position: absolute;
-            width: 90%;
-            height: 90%;
-            border-radius: 50%;
-            border: 1px solid rgba(0, 191, 255, 0.3);
-            box-shadow: inset 0 0 20px rgba(0, 191, 255, 0.2);
-            pointer-events: none;
-        }
-
+        .core { width: 50px; height: 50px; background: radial-gradient(circle, #ffffff 10%, #00bfff 90%); border-radius: 50%; box-shadow: 0 0 20px #fff, 0 0 60px #00bfff, inset 0 0 20px #00bfff; border: 2px solid rgba(255,255,255,0.8); animation: pulse 3s infinite alternate; z-index: 20; }
+        .arc-reactor::after { content: ""; position: absolute; width: 90%; height: 90%; border-radius: 50%; border: 1px solid rgba(0, 191, 255, 0.3); box-shadow: inset 0 0 20px rgba(0, 191, 255, 0.2); pointer-events: none; }
         .arc-reactor:hover .core { transform: scale(1.1); box-shadow: 0 0 80px #00bfff, 0 0 30px #fff; }
 
-        /* --- 3. KARTLAR VE 3D TILT EFEKTİ --- */
-        .cards-layout { 
-            display: flex; 
-            gap: 20px; 
-            margin-top: 30px; 
-            flex-wrap: wrap; 
-            perspective: 1000px; 
-        }
-
-        .card {
-            flex: 1;
-            min-width: 300px;
-            background: rgba(22, 27, 34, 0.85);
-            padding: 25px;
-            border-radius: 15px;
-            border: 1px solid rgba(0, 191, 255, 0.2);
-            text-align: left;
-            backdrop-filter: blur(3px);
-            transform-style: preserve-3d;
-            transform: perspective(1000px);
-            transition: transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-
-        .card:hover { 
-            border-color: #00bfff; 
-            box-shadow: 0 0 30px rgba(0, 191, 255, 0.2); 
-        }
+        /* --- KARTLAR --- */
+        .cards-layout { display: flex; gap: 20px; margin-top: 30px; flex-wrap: wrap; perspective: 1000px; }
+        .card { flex: 1; min-width: 300px; background: rgba(22, 27, 34, 0.85); padding: 25px; border-radius: 15px; border: 1px solid rgba(0, 191, 255, 0.2); text-align: left; backdrop-filter: blur(3px); transform-style: preserve-3d; transform: perspective(1000px); transition: transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease; }
+        .card:hover { border-color: #00bfff; box-shadow: 0 0 30px rgba(0, 191, 255, 0.2); }
 
         h1 { color: #00bfff; letter-spacing: 4px; text-transform: uppercase; margin: 20px 0; font-size: 2em; text-shadow: 0 0 10px #00bfff; }
         h2 { color: #f0e68c; font-size: 1.2em; border-bottom: 1px solid #30363d; padding-bottom: 10px; margin-top: 0; }
 
-        /* --- 4. TEKNİK GRID (SPESİFİKASYONLAR) --- */
-        .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        .spec-item {
-            background: rgba(0, 191, 255, 0.05);
-            border: 1px solid rgba(0, 191, 255, 0.2);
-            border-radius: 8px;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-        .spec-item:hover {
-            background: rgba(0, 191, 255, 0.15);
-            border-color: #00bfff;
-            transform: translateY(-3px);
-            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
-        }
+        /* --- DETAYLAR --- */
+        .specs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 15px; }
+        .spec-item { background: rgba(0, 191, 255, 0.05); border: 1px solid rgba(0, 191, 255, 0.2); border-radius: 8px; padding: 10px; display: flex; align-items: center; transition: 0.3s; cursor: pointer; }
+        .spec-item:hover { background: rgba(0, 191, 255, 0.15); border-color: #00bfff; transform: translateY(-3px); box-shadow: 0 0 15px rgba(0, 191, 255, 0.3); }
         .spec-item:active { transform: scale(0.98); }
         .spec-icon { font-size: 1.5em; margin-right: 10px; }
         .spec-info { display: flex; flex-direction: column; text-align: left; }
         .spec-label { font-size: 0.75em; color: #8b949e; text-transform: uppercase; letter-spacing: 1px; }
         .spec-value { font-size: 0.9em; color: #c9d1d9; font-weight: bold; margin-top: 2px; }
 
-        /* --- 5. MARK III PRO YETENEK BARLARI --- */
+        /* --- YETENEKLER --- */
         .skill-box-pro { margin-bottom: 25px; position: relative; }
         .sb-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-family: 'Segoe UI', sans-serif; }
         .sb-name { color: #e6edf3; font-weight: 600; letter-spacing: 0.5px; font-size: 0.95em; }
         .sb-val { color: #00bfff; font-weight: bold; font-family: 'Courier New', monospace; text-shadow: 0 0 10px rgba(0, 191, 255, 0.6); }
-        
-        .sb-track {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
-            border: 1px solid rgba(0, 191, 255, 0.1);
-        }
-        
-        .sb-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #0077b6, #00bfff);
-            border-radius: 4px;
-            box-shadow: 0 0 15px #00bfff;
-            position: relative;
-            width: 0;
-            animation: loadLaser 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
-
-        .sb-fill::after {
-            content: ''; position: absolute; top: 0; right: 0; width: 5px; height: 100%;
-            background: #fff; box-shadow: 0 0 10px #fff; opacity: 0.7;
-        }
-
+        .sb-track { height: 8px; background: rgba(255, 255, 255, 0.05); border-radius: 4px; overflow: hidden; position: relative; box-shadow: inset 0 0 5px rgba(0,0,0,0.5); border: 1px solid rgba(0, 191, 255, 0.1); }
+        .sb-fill { height: 100%; background: linear-gradient(90deg, #0077b6, #00bfff); border-radius: 4px; box-shadow: 0 0 15px #00bfff; position: relative; width: 0; animation: loadLaser 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        .sb-fill::after { content: ''; position: absolute; top: 0; right: 0; width: 5px; height: 100%; background: #fff; box-shadow: 0 0 10px #fff; opacity: 0.7; }
         .sb-tags { font-size: 0.75em; color: #8b949e; margin-top: 6px; font-family: 'Courier New', monospace; opacity: 0.8; }
-        
         @keyframes loadLaser { from { width: 0; } }
 
-        /* --- 6. BUTONLAR & GİZLİ MESAJ --- */
-        .stark-button {
-            background: transparent;
-            color: #00bfff;
-            border: 1px solid #00bfff;
-            padding: 12px 30px;
-            font-size: 14px;
-            letter-spacing: 2px;
-            cursor: pointer;
-            margin-top: 40px;
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
+        /* --- BUTONLAR --- */
+        .stark-button { background: transparent; color: #00bfff; border: 1px solid #00bfff; padding: 12px 30px; font-size: 14px; letter-spacing: 2px; cursor: pointer; margin-top: 40px; transition: 0.3s; text-transform: uppercase; }
         .stark-button:hover { background: #00bfff; color: #080a0c; box-shadow: 0 0 30px #00bfff; }
 
-        .secret-protocol {
-            margin-top: 15px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 105, 180, 0.1);
-            padding: 8px 15px;
-            border-radius: 30px;
-            transition: 0.5s;
-            cursor: default;
-            border: 1px solid transparent;
-        }
-        .secret-protocol:hover {
-            background: rgba(255, 105, 180, 0.2);
-            border: 1px solid #ff69b4;
-            box-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
-        }
+        .secret-protocol { margin-top: 15px; display: inline-flex; align-items: center; justify-content: center; background: rgba(255, 105, 180, 0.1); padding: 8px 15px; border-radius: 30px; transition: 0.5s; cursor: default; border: 1px solid transparent; }
+        .secret-protocol:hover { background: rgba(255, 105, 180, 0.2); border: 1px solid #ff69b4; box-shadow: 0 0 15px rgba(255, 105, 180, 0.4); }
         .heart-icon { font-size: 1.2em; animation: heartbeat 1.5s infinite; cursor: pointer; }
-        .hidden-message {
-            max-width: 0;
-            opacity: 0;
-            overflow: hidden;
-            white-space: nowrap;
-            color: #ff69b4;
-            font-weight: bold;
-            font-size: 0.95em;
-            transition: all 0.8s ease-in-out;
-            margin-left: 0;
-        }
+        .hidden-message { max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; color: #ff69b4; font-weight: bold; font-size: 0.95em; transition: all 0.8s ease-in-out; margin-left: 0; }
         .secret-protocol:hover .hidden-message { max-width: 300px; opacity: 1; margin-left: 10px; }
 
-        /* --- 7. MODAL (HOLOGRAFİK EKRAN) --- */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
+        /* --- HEX MAIL BUTONU --- */
+        .hex-grid { display: flex; justify-content: center; gap: 20px; margin-top: 40px; }
+        .hex-btn {
+            position: relative; width: 60px; height: 34px; background-color: rgba(0, 191, 255, 0.1);
+            margin: 17px 0; border-left: 2px solid #00bfff; border-right: 2px solid #00bfff;
+            display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.3s;
+            color: #00bfff; text-decoration: none; font-size: 1.5em;
         }
-        .modal-content {
-            background: rgba(13, 17, 23, 0.95);
-            border: 2px solid #00bfff;
-            box-shadow: 0 0 50px rgba(0, 191, 255, 0.5), inset 0 0 20px rgba(0, 191, 255, 0.2);
-            padding: 30px;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 10px;
-            text-align: left;
-            animation: scaleIn 0.3s ease-out;
+        .hex-btn:before, .hex-btn:after {
+            content: ""; position: absolute; width: 42.42px; height: 42.42px;
+            transform: scaleY(0.5774) rotate(-45deg); background-color: inherit; left: 6.78px;
+            border-top: 2px solid #00bfff; border-bottom: 2px solid #00bfff; z-index: -1;
         }
-        .modal-header {
-            color: #00bfff;
-            border-bottom: 1px dashed #00bfff;
-            padding-bottom: 10px;
-            margin-top: 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px #00bfff;
-        }
-        .modal-text {
-            font-family: 'Courier New', monospace;
-            color: #c9d1d9;
-            line-height: 1.6;
-            margin-top: 15px;
-            font-size: 0.95em;
-            min-height: 150px;
-        }
+        .hex-btn:before { top: -21.21px; }
+        .hex-btn:after { bottom: -21.21px; }
+        .hex-btn:hover { background-color: #00bfff; color: #080a0c; box-shadow: 0 0 30px #00bfff; transform: scale(1.1); }
+        .hex-btn:hover:before, .hex-btn:hover:after { background-color: #00bfff; }
+
+        /* --- MODAL --- */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .modal-content { background: rgba(13, 17, 23, 0.95); border: 2px solid #00bfff; box-shadow: 0 0 50px rgba(0, 191, 255, 0.5), inset 0 0 20px rgba(0, 191, 255, 0.2); padding: 30px; width: 80%; max-width: 500px; border-radius: 10px; text-align: left; animation: scaleIn 0.3s ease-out; }
+        .modal-header { color: #00bfff; border-bottom: 1px dashed #00bfff; padding-bottom: 10px; margin-top: 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px #00bfff; }
+        .modal-text { font-family: 'Courier New', monospace; color: #c9d1d9; line-height: 1.6; margin-top: 15px; font-size: 0.95em; min-height: 150px; }
 
         /* --- ANİMASYONLAR --- */
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes pulse { 0% { transform: scale(0.9); opacity: 0.8; } 100% { transform: scale(1.1); opacity: 1; } }
         @keyframes scaleIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            15% { transform: scale(1.3); }
-            30% { transform: scale(1); }
-            45% { transform: scale(1.15); }
-            60% { transform: scale(1); }
-        }
+        @keyframes heartbeat { 0% { transform: scale(1); } 15% { transform: scale(1.3); } 30% { transform: scale(1); } 45% { transform: scale(1.15); } 60% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <canvas id="particle-canvas"></canvas>
+    
+    <div class="scanline"></div>
+
+    <div class="corner-bracket top-left"></div>
+    <div class="corner-bracket top-right"></div>
+    <div class="corner-bracket bottom-left"></div>
+    <div class="corner-bracket bottom-right"></div>
 
     <div class="hud-overlay">
         <div class="hud-top-left">
-            <div class="hud-box">
-                <span class="hud-label">SYSTEM TIME</span>
-                <span class="hud-value" id="hud-time">00:00:00</span>
-            </div>
-            <div class="hud-box">
-                <span class="hud-label">DATE</span>
-                <span class="hud-value" id="hud-date">YYYY-MM-DD</span>
-            </div>
+            <div class="hud-box"><span class="hud-label">SYSTEM TIME</span><span class="hud-value" id="hud-time">00:00:00</span></div>
+            <div class="hud-box"><span class="hud-label">DATE</span><span class="hud-value" id="hud-date">YYYY-MM-DD</span></div>
         </div>
-
         <div class="hud-top-right">
-            <div class="hud-box">
-                <span class="hud-label">LOCATION TARGET</span>
-                <span class="hud-value">KARABUK, TR</span>
-            </div>
-            <div class="hud-box">
-                <span class="hud-label">COORDINATES</span>
-                <span class="hud-value">41.2061° N, 32.6204° E</span>
-            </div>
-            <div class="hud-box">
-                <span class="hud-label">WEATHER SIMULATION</span>
-                <span class="hud-value">CLEAR / 14°C</span>
-            </div>
+            <div class="hud-box"><span class="hud-label">LOCATION TARGET</span><span class="hud-value">KARABUK, TR</span></div>
+            <div class="hud-box"><span class="hud-label">COORDINATES</span><span class="hud-value">41.2061° N, 32.6204° E</span></div>
+            <div class="hud-box"><span class="hud-label">WEATHER SIMULATION</span><span class="hud-value">CLEAR / 14°C</span></div>
         </div>
-
         <div class="hud-bottom-left">
-            <div class="hud-box">
-                <span class="hud-label">CPU LOAD</span>
-                <span class="hud-value" id="hud-cpu">12%</span>
-            </div>
-            <div class="hud-box">
-                <span class="hud-label">MEMORY ALLOCATION</span>
-                <span class="hud-value" id="hud-ram">4.2 GB / 32 GB</span>
-            </div>
+            <div class="hud-box"><span class="hud-label">CPU LOAD</span><span class="hud-value" id="hud-cpu">12%</span></div>
+            <div class="hud-box"><span class="hud-label">MEMORY</span><span class="hud-value" id="hud-ram">4.2 GB / 32 GB</span></div>
         </div>
-
         <div class="hud-bottom-right">
-            <div class="hud-box">
-                <span class="hud-label">NETWORK STATUS</span>
-                <span class="hud-value" style="color: #00ff00;">CONNECTED <span class="blink">●</span></span>
-            </div>
-            <div class="hud-box">
-                <span class="hud-label">SECURITY PROTOCOL</span>
-                <span class="hud-value">LEVEL 5 / ACTIVE</span>
-            </div>
+            <div class="hud-box"><span class="hud-label">NETWORK</span><span class="hud-value" style="color: #00ff00;">ONLINE <span class="blink">●</span></span></div>
+            <div class="hud-box"><span class="hud-label">SECURITY</span><span class="hud-value">ALPHA-1</span></div>
         </div>
     </div>
 
@@ -412,58 +196,21 @@
         <div class="cards-layout">
             <section class="card tilt-card">
                 <h2>🧬 Kimlik & Misyon</h2>
-                <p style="margin-bottom: 15px;">
-                    Merhaba, ben Taha Efe. Karabük Üniversitesi <strong>Elektrik-Elektronik Mühendisliği</strong> öğrencisiyim. 
-                </p>
-                <p>
-                    Mühendislik disiplinini sanatsal vizyonla birleştiriyorum. Satranç tahtasındaki stratejik derinliği, elektronik devrelerin karmaşık dünyasına taşıyorum. 
-                </p>
-                <p style="margin-top: 15px; color: #8b949e; font-style: italic;">
-                    "Hedefim: Geleceğin teknolojilerini sadece kullanmak değil, bizzat inşa etmek."
-                </p>
+                <p style="margin-bottom: 15px;">Merhaba, ben Taha Efe. Karabük Üniversitesi <strong>Elektrik-Elektronik Mühendisliği</strong> öğrencisiyim.</p>
+                <p>Mühendislik disiplinini sanatsal vizyonla birleştiriyorum. Satranç tahtasındaki stratejik derinliği, elektronik devrelerin karmaşık dünyasına taşıyorum.</p>
+                <p style="margin-top: 15px; color: #8b949e; font-style: italic;">"Hedefim: Geleceğin teknolojilerini sadece kullanmak değil, bizzat inşa etmek."</p>
             </section>
 
             <section class="card tilt-card">
                 <h2>📂 Teknik Veri Tabanı</h2>
                 <p style="font-size: 0.8em; color: #8b949e; margin-bottom: 15px;">(Detaylı analiz için modüllere tıklayınız)</p>
-                
                 <div class="specs-grid">
-                    <div class="spec-item" onclick="detayGoster('misyon')">
-                        <span class="spec-icon">🚀</span>
-                        <div class="spec-info">
-                            <span class="spec-label">Ana Direktif</span>
-                            <span class="spec-value">Vizyon & Misyon</span>
-                        </div>
-                    </div>
-                    <div class="spec-item" onclick="detayGoster('egitim')">
-                        <span class="spec-icon">🎓</span>
-                        <div class="spec-info">
-                            <span class="spec-label">Mimari / Bölüm</span>
-                            <span class="spec-value">Elektrik-Elektronik</span>
-                        </div>
-                    </div>
-                    <div class="spec-item" onclick="detayGoster('dil')">
-                        <span class="spec-icon">🌐</span>
-                        <div class="spec-info">
-                            <span class="spec-label">İletişim Protokolü</span>
-                            <span class="spec-value">%100 İngilizce</span>
-                        </div>
-                    </div>
-                    <div class="spec-item" onclick="detayGoster('strateji')">
-                        <span class="spec-icon">🏆</span>
-                        <div class="spec-info">
-                            <span class="spec-label">Algoritma</span>
-                            <span class="spec-value">14x Madalya</span>
-                        </div>
-                    </div>
-                    <div class="spec-item" onclick="detayGoster('takim')">
-                        <span class="spec-icon">🛡️</span>
-                        <div class="spec-info">
-                            <span class="spec-label">Sadakat Modülü</span>
-                            <span class="spec-value">Fenerbahçe SK</span>
-                        </div>
-                    </div>
-                    </div>
+                    <div class="spec-item" onclick="detayGoster('misyon')"><span class="spec-icon">🚀</span><div class="spec-info"><span class="spec-label">Ana Direktif</span><span class="spec-value">Vizyon & Misyon</span></div></div>
+                    <div class="spec-item" onclick="detayGoster('egitim')"><span class="spec-icon">🎓</span><div class="spec-info"><span class="spec-label">Mimari / Bölüm</span><span class="spec-value">Elektrik-Elektronik</span></div></div>
+                    <div class="spec-item" onclick="detayGoster('dil')"><span class="spec-icon">🌐</span><div class="spec-info"><span class="spec-label">İletişim</span><span class="spec-value">%100 İngilizce</span></div></div>
+                    <div class="spec-item" onclick="detayGoster('strateji')"><span class="spec-icon">🏆</span><div class="spec-info"><span class="spec-label">Algoritma</span><span class="spec-value">14x Madalya</span></div></div>
+                    <div class="spec-item" onclick="detayGoster('takim')"><span class="spec-icon">🛡️</span><div class="spec-info"><span class="spec-label">Sadakat</span><span class="spec-value">Fenerbahçe SK</span></div></div>
+                </div>
             </section>
         </div>
 
@@ -474,9 +221,7 @@
                     <h3 style="color: #c9d1d9; font-weight: 400; margin: 0;">Karabük Üniversitesi</h3>
                     <p style="color: #00bfff; margin-top: 5px; margin-bottom: 0;">Elektrik-Elektronik Müh. (%100 İngilizce)</p>
                 </div>
-                <button onclick="egitimDetay()" id="btn-detay" style="background: transparent; border: 1px solid #00bfff; color: #00bfff; padding: 8px 15px; cursor: pointer; border-radius: 5px; font-weight: bold;">
-                    ▼ DETAY
-                </button>
+                <button onclick="egitimDetay()" id="btn-detay" style="background: transparent; border: 1px solid #00bfff; color: #00bfff; padding: 8px 15px; cursor: pointer; border-radius: 5px; font-weight: bold;">▼ DETAY</button>
             </div>
             <div id="gizli-detay" style="display: none; margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(0, 191, 255, 0.3); text-align: left;">
                 <p style="line-height: 1.6; color: #c9d1d9; font-family: 'Courier New', monospace; font-size: 0.95em;">
@@ -493,57 +238,36 @@
 
         <div class="card tilt-card" style="margin-top: 20px;">
             <h2>Yetenek Kalibrasyonu (Mark III)</h2>
-            
             <div class="skill-box-pro">
-                <div class="sb-header">
-                    <span class="sb-name">C / C++ (Gömülü Sistemler)</span>
-                    <span class="sb-val">85%</span>
-                </div>
-                <div class="sb-track">
-                    <div class="sb-fill" style="width: 85%;"></div>
-                </div>
+                <div class="sb-header"><span class="sb-name">C / C++ (Gömülü Sistemler)</span><span class="sb-val">85%</span></div>
+                <div class="sb-track"><div class="sb-fill" style="width: 85%;"></div></div>
                 <div class="sb-tags">> Algorithms / Pointers / Memory Management</div>
             </div>
-
             <div class="skill-box-pro">
-                <div class="sb-header">
-                    <span class="sb-name">Devre Analizi & Proteus</span>
-                    <span class="sb-val">75%</span>
-                </div>
-                <div class="sb-track">
-                    <div class="sb-fill" style="width: 75%;"></div>
-                </div>
+                <div class="sb-header"><span class="sb-name">Devre Analizi & Proteus</span><span class="sb-val">75%</span></div>
+                <div class="sb-track"><div class="sb-fill" style="width: 75%;"></div></div>
                 <div class="sb-tags">> Circuit Design / PCB Layout / Simulation</div>
             </div>
-
             <div class="skill-box-pro">
-                <div class="sb-header">
-                    <span class="sb-name">Matematik & Analitik Düşünme</span>
-                    <span class="sb-val">95%</span>
-                </div>
-                <div class="sb-track">
-                    <div class="sb-fill" style="width: 95%;"></div>
-                </div>
+                <div class="sb-header"><span class="sb-name">Matematik & Analitik Düşünme</span><span class="sb-val">95%</span></div>
+                <div class="sb-track"><div class="sb-fill" style="width: 95%;"></div></div>
                 <div class="sb-tags">> Calculus / Linear Algebra / Logic</div>
             </div>
-
             <div class="skill-box-pro">
-                <div class="sb-header">
-                    <span class="sb-name">Strateji (Satranç & Algoritma)</span>
-                    <span class="sb-val">90%</span>
-                </div>
-                <div class="sb-track">
-                    <div class="sb-fill" style="width: 90%;"></div>
-                </div>
+                <div class="sb-header"><span class="sb-name">Strateji (Satranç & Algoritma)</span><span class="sb-val">90%</span></div>
+                <div class="sb-track"><div class="sb-fill" style="width: 90%;"></div></div>
                 <div class="sb-tags">> Grandmaster Vision / Tactical Analysis</div>
             </div>
-
         </div>
 
         <button onclick="sistemKontrol()" class="stark-button">SİSTEM ANALİZİ</button>
 
+        <div class="hex-grid">
+            <a class="hex-btn" href="mailto:email@adresiniz.com" title="Mail Gönder">@</a>
+        </div>
+
         <footer>
-            <p>J.A.R.V.I.S. Arayüzü v3.0 | © 2026</p>
+            <p>J.A.R.V.I.S. Arayüzü Mark XI | © 2026</p>
             <div class="secret-protocol">
                 <span class="heart-icon">❤️</span>
                 <span class="hidden-message">Nehir, sen benim gerçek güç kaynağımsın.</span>
@@ -561,80 +285,32 @@
     </div>
 
     <script>
-        // --- HUD SİSTEMİ ---
+        // --- HUD ---
         function updateHUD() {
             const now = new Date();
-            const timeString = now.toLocaleTimeString('en-US', { hour12: false });
-            const dateString = now.toISOString().split('T')[0];
-
-            document.getElementById('hud-time').innerText = timeString;
-            document.getElementById('hud-date').innerText = dateString;
-
+            document.getElementById('hud-time').innerText = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('hud-date').innerText = now.toISOString().split('T')[0];
             if (Math.random() > 0.5) {
-                const cpu = Math.floor(Math.random() * 15) + 5; 
-                document.getElementById('hud-cpu').innerText = cpu + "%";
-                const ram = (Math.random() * (4.5 - 3.8) + 3.8).toFixed(1);
-                document.getElementById('hud-ram').innerText = ram + " GB / 32 GB";
+                document.getElementById('hud-cpu').innerText = (Math.floor(Math.random() * 15) + 5) + "%";
+                document.getElementById('hud-ram').innerText = (Math.random() * (4.5 - 3.8) + 3.8).toFixed(1) + " GB / 32 GB";
             }
         }
-        setInterval(updateHUD, 1000); 
-        updateHUD(); 
+        setInterval(updateHUD, 1000); updateHUD();
 
-        // --- JAVASCRIPT ÇEKİRDEĞİ ---
+        // --- VERİ TABANI ---
         const veriTabani = {
-            "misyon": {
-                baslik: "🚀 VİZYON & MİSYON",
-                icerik: "■ HEDEF: Türkiye'nin teknolojik bağımsızlığına katkı sağlamak.\n\nBir mühendis olarak görevim; savunma sanayi, enerji sistemleri ve yapay zeka entegrasyonları üzerine yerli ve milli çözümler üretmektir."
-            },
-            "egitim": {
-                baslik: "🎓 AKADEMİK ALTYAPI",
-                icerik: "■ KURUM: Karabük Üniversitesi\n■ BÖLÜM: Elektrik-Elektronik Mühendisliği\n\nBu disiplin, modern dünyanın sinir sistemini oluşturur. Devre teorisinden sinyal işlemeye kadar geniş bir spektrumda uzmanlaşıyorum."
-            },
-            "dil": {
-                baslik: "🌐 KÜRESEL İLETİŞİM",
-                icerik: "■ DİL: İngilizce (Advanced Level)\n■ ENTEGRASYON: %100\n\nTeknik literatürü ana kaynağında takip edebilmek adına eğitimimi tamamen İngilizce sürdürüyorum."
-            },
-            "strateji": {
-                baslik: "🏆 STRATEJİK ZEKA",
-                icerik: "■ TOPLAM ENVANTER: 14 Madalya\n   ├─ 11x Satranç (Stratejik Derinlik)\n   └─ 3x Futbol (Takım Çalışması)\n\nZihin ve beden senkronizasyonu tam."
-            },
-            "takim": {
-                baslik: "🛡️ SADAKAT",
-                icerik: "■ KULÜP: Fenerbahçe Spor Kulübü\n\nSadece bir takım değil, bir duruş."
-            }
-            // "Nehir" verisi tamamen silindi.
+            "misyon": { baslik: "🚀 VİZYON & MİSYON", icerik: "■ HEDEF: Türkiye'nin teknolojik bağımsızlığına katkı sağlamak.\n\nBir mühendis olarak görevim; savunma sanayi, enerji sistemleri ve yapay zeka entegrasyonları üzerine yerli ve milli çözümler üretmektir." },
+            "egitim": { baslik: "🎓 AKADEMİK ALTYAPI", icerik: "■ KURUM: Karabük Üniversitesi\n■ BÖLÜM: Elektrik-Elektronik Mühendisliği\n\nBu disiplin, modern dünyanın sinir sistemini oluşturur. Devre teorisinden sinyal işlemeye kadar geniş bir spektrumda uzmanlaşıyorum." },
+            "dil": { baslik: "🌐 KÜRESEL İLETİŞİM", icerik: "■ DİL: İngilizce (Advanced Level)\n■ ENTEGRASYON: %100\n\nTeknik literatürü ana kaynağında takip edebilmek adına eğitimimi tamamen İngilizce sürdürüyorum." },
+            "strateji": { baslik: "🏆 STRATEJİK ZEKA", icerik: "■ TOPLAM ENVANTER: 14 Madalya\n   ├─ 11x Satranç (Stratejik Derinlik)\n   └─ 3x Futbol (Takım Çalışması)\n\nZihin ve beden senkronizasyonu tam." },
+            "takim": { baslik: "🛡️ SADAKAT", icerik: "■ KULÜP: Fenerbahçe Spor Kulübü\n\nSadece bir takım değil, bir duruş." }
         };
 
-        function detayGoster(anahtar) {
-            const veri = veriTabani[anahtar];
-            if (veri) openModal(veri.baslik, veri.icerik);
-        }
-
-        function egitimDetay() {
-            var detayKutusu = document.getElementById("gizli-detay");
-            var buton = document.getElementById("btn-detay");
-            if (detayKutusu.style.display === "none") {
-                detayKutusu.style.display = "block";
-                buton.innerHTML = "▲ GİZLE";
-            } else {
-                detayKutusu.style.display = "none";
-                buton.innerHTML = "▼ DETAY";
-            }
-        }
-
+        function detayGoster(anahtar) { const veri = veriTabani[anahtar]; if (veri) openModal(veri.baslik, veri.icerik); }
+        function egitimDetay() { const d = document.getElementById("gizli-detay"); const b = document.getElementById("btn-detay"); if (d.style.display === "none") { d.style.display = "block"; b.innerHTML = "▲ GİZLE"; } else { d.style.display = "none"; b.innerHTML = "▼ DETAY"; } }
+        
         function sistemKontrol() {
-            const rapor = 
-            "▌ J.A.R.V.I.S. SYSTEM DIAGNOSTIC v2.4\n" +
-            "▌ ------------------------------------\n" +
-            "■ USER ID: TAHA EFE KARABACAK\n" +
-            "■ SECURITY: ALPHA-1\n\n" +
-            "■ SYSTEM STATUS:\n" +
-            "   [OK] Arc Reactor Core\n" +
-            "   [OK] Neural Network\n" +
-            "   [OK] Biometric Sensors\n\n" +
-            "■ MISSION: Engineering The Future\n\n" +
-            ">> ALL SYSTEMS ONLINE. WELCOME SIR.";
-            
+            const rapor = "▌ J.A.R.V.I.S. SYSTEM DIAGNOSTIC v2.4\n▌ ------------------------------------\n■ USER ID: TAHA EFE KARABACAK\n■ SECURITY: ALPHA-1\n\n■ SYSTEM STATUS:\n   [OK] Arc Reactor Core\n   [OK] Neural Network\n   [OK] Biometric Sensors\n\n■ MISSION: Engineering The Future\n\n>> ALL SYSTEMS ONLINE. WELCOME SIR.";
             openModal("⚠️ SYSTEM ALERT", rapor);
         }
 
@@ -645,175 +321,42 @@
             const textArea = document.getElementById('typewriter-text');
             clearTimeout(typewriterTimeout);
             modal.style.display = 'flex';
-            header.innerHTML = baslik; 
-            textArea.innerHTML = ""; 
-            let i = 0;
-            const speed = 15; 
-            function typeWriter() {
-                if (i < metin.length) {
-                    if (metin.charAt(i) === '\n') textArea.innerHTML += '<br>';
-                    else textArea.innerHTML += metin.charAt(i);
-                    i++;
-                    typewriterTimeout = setTimeout(typeWriter, speed);
-                }
-            }
+            header.innerHTML = baslik; textArea.innerHTML = ""; 
+            let i = 0; const speed = 15; 
+            function typeWriter() { if (i < metin.length) { textArea.innerHTML += (metin.charAt(i) === '\n' ? '<br>' : metin.charAt(i)); i++; typewriterTimeout = setTimeout(typeWriter, speed); } }
             typeWriter();
         }
+        function closeModal() { document.getElementById('jarvis-modal').style.display = 'none'; clearTimeout(typewriterTimeout); }
 
-        function closeModal() {
-            document.getElementById('jarvis-modal').style.display = 'none';
-            clearTimeout(typewriterTimeout);
-        }
-
-        // --- PARTİKÜL EFEKTİ ---
+        // --- PARÇACIKLAR ---
         const canvas = document.getElementById("particle-canvas");
         const ctx = canvas.getContext("2d");
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        let particlesArray;
-
-        let mouse = {
-            x: null,
-            y: null,
-            radius: (canvas.height / 140) * (canvas.width / 140) 
-        }
-
-        window.addEventListener('mousemove', 
-            function(event) {
-                mouse.x = event.x;
-                mouse.y = event.y;
-            }
-        );
-
-        window.addEventListener('resize', 
-            function() {
-                canvas.width = innerWidth;
-                canvas.height = innerHeight;
-                mouse.radius = ((canvas.height/140) * (canvas.height/140));
-                init();
-            }
-        );
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let particlesArray; let mouse = { x: null, y: null, radius: (canvas.height/140)*(canvas.width/140) }
+        window.addEventListener('mousemove', function(event) { mouse.x = event.x; mouse.y = event.y; });
+        window.addEventListener('resize', function() { canvas.width = innerWidth; canvas.height = innerHeight; mouse.radius = ((canvas.height/140)*(canvas.height/140)); init(); });
 
         class Particle {
-            constructor(x, y, directionX, directionY, size, color) {
-                this.x = x;
-                this.y = y;
-                this.directionX = directionX;
-                this.directionY = directionY;
-                this.size = size;
-                this.color = color;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx.fillStyle = '#00bfff';
-                ctx.fill();
-            }
+            constructor(x,y,dx,dy,s,c) { this.x=x; this.y=y; this.dx=dx; this.dy=dy; this.s=s; this.c=c; }
+            draw() { ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,Math.PI*2,false); ctx.fillStyle='#00bfff'; ctx.fill(); }
             update() {
-                if (this.x > canvas.width || this.x < 0) {
-                    this.directionX = -this.directionX;
-                }
-                if (this.y > canvas.height || this.y < 0) {
-                    this.directionY = -this.directionY;
-                }
-
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx*dx + dy*dy);
-
-                if (distance < mouse.radius + this.size){
-                    if (mouse.x < this.x && this.x < canvas.width - this.size * 10) {
-                        this.x += 10;
-                    }
-                    if (mouse.x > this.x && this.x > this.size * 10) {
-                        this.x -= 10;
-                    }
-                    if (mouse.y < this.y && this.y < canvas.height - this.size * 10) {
-                        this.y += 10;
-                    }
-                    if (mouse.y > this.y && this.y > this.size * 10) {
-                        this.y -= 10;
-                    }
-                }
-                this.x += this.directionX;
-                this.y += this.directionY;
-                this.draw();
+                if(this.x>canvas.width||this.x<0) this.dx=-this.dx; if(this.y>canvas.height||this.y<0) this.dy=-this.dy;
+                let dx=mouse.x-this.x; let dy=mouse.y-this.y; let dist=Math.sqrt(dx*dx+dy*dy);
+                if(dist<mouse.radius+this.s){ if(mouse.x<this.x && this.x<canvas.width-this.s*10) this.x+=10; if(mouse.x>this.x && this.x>this.s*10) this.x-=10; if(mouse.y<this.y && this.y<canvas.height-this.s*10) this.y+=10; if(mouse.y>this.y && this.y>this.s*10) this.y-=10; }
+                this.x+=this.dx; this.y+=this.dy; this.draw();
             }
         }
-
-        function init() {
-            particlesArray = [];
-            let numberOfParticles = (canvas.height * canvas.width) / 9000;
-            for (let i = 0; i < numberOfParticles; i++) {
-                let size = (Math.random() * 2) + 1;
-                let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
-                let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
-                let directionX = (Math.random() * 2) - 1; 
-                let directionY = (Math.random() * 2) - 1;
-                let color = '#00bfff';
-
-                particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
-            }
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.clearRect(0, 0, innerWidth, innerHeight);
-
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-            }
-            connect();
-        }
-
-        function connect() {
-            let opacityValue = 1;
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
-                    + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                    
-                    if (distance < (canvas.width/7) * (canvas.height/7)) {
-                        opacityValue = 1 - (distance/20000);
-                        ctx.strokeStyle = 'rgba(0, 191, 255,' + opacityValue + ')';
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        // --- 3D TILT EFEKTİ MANTIĞI ---
-        const cards = document.querySelectorAll('.tilt-card');
-
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = ((y - centerY) / centerY) * -10; 
-                const rotateY = ((x - centerX) / centerX) * 10;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-            });
-
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-            });
+        function init() { particlesArray=[]; let n=(canvas.height*canvas.width)/9000; for(let i=0;i<n;i++){ let s=(Math.random()*2)+1; let x=(Math.random()*((innerWidth-s*2)-(s*2))+s*2); let y=(Math.random()*((innerHeight-s*2)-(s*2))+s*2); let dx=(Math.random()*2)-1; let dy=(Math.random()*2)-1; particlesArray.push(new Particle(x,y,dx,dy,s,'#00bfff')); } }
+        function animate() { requestAnimationFrame(animate); ctx.clearRect(0,0,innerWidth,innerHeight); for(let i=0;i<particlesArray.length;i++){ particlesArray[i].update(); } connect(); }
+        function connect() { let op=1; for(let a=0;a<particlesArray.length;a++){ for(let b=a;b<particlesArray.length;b++){ let dist=((particlesArray[a].x-particlesArray[b].x)*(particlesArray[a].x-particlesArray[b].x))+((particlesArray[a].y-particlesArray[b].y)*(particlesArray[a].y-particlesArray[b].y)); if(dist<(canvas.width/7)*(canvas.height/7)){ op=1-(dist/20000); ctx.strokeStyle='rgba(0,191,255,'+op+')'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(particlesArray[a].x,particlesArray[a].y); ctx.lineTo(particlesArray[b].x,particlesArray[b].y); ctx.stroke(); } } } }
+        
+        // 3D Tilt
+        document.querySelectorAll('.tilt-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => { const rect = card.getBoundingClientRect(); const x = e.clientX - rect.left; const y = e.clientY - rect.top; const centerX = rect.width / 2; const centerY = rect.height / 2; const rotateX = ((y - centerY) / centerY) * -10; const rotateY = ((x - centerX) / centerX) * 10; card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`; });
+            card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)'; });
         });
 
-        init();
-        animate();
-
+        init(); animate();
     </script>
 </body>
 </html>
