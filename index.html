@@ -25,14 +25,24 @@
             text-align: center;
             position: relative;
             z-index: 2;
-            margin-top: 40px; /* HUD için biraz boşluk */
+        }
+
+        /* --- PARÇACIK CANVAS --- */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
         }
 
         /* --- HUD (HEADS-UP DISPLAY) KATMANI --- */
         .hud-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; /* Tıklamaları engellemesin */
+            pointer-events: none;
             z-index: 100;
             padding: 20px;
             box-sizing: border-box;
@@ -57,18 +67,8 @@
         
         .hud-label { color: #8b949e; font-size: 0.7em; display: block; margin-bottom: 3px; }
         .hud-value { font-weight: bold; letter-spacing: 1px; }
-
-        /* Yanıp sönen imleç efekti */
         .blink { animation: blinker 1s linear infinite; }
         @keyframes blinker { 50% { opacity: 0; } }
-
-        /* --- PARÇACIK CANVAS --- */
-        #particle-canvas {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
 
         /* --- 2. ARC REAKTÖRÜ & ENERJİ HATTI --- */
         .reactor-section {
@@ -395,6 +395,7 @@
             </div>
         </div>
     </div>
+
     <div class="container">
         
         <div class="reactor-section">
@@ -462,14 +463,7 @@
                             <span class="spec-value">Fenerbahçe SK</span>
                         </div>
                     </div>
-                    <div class="spec-item" onclick="detayGoster('nehir')">
-                        <span class="spec-icon">❤️</span>
-                        <div class="spec-info">
-                            <span class="spec-label">Güç Kaynağı</span>
-                            <span class="spec-value">Bağlantı: Nehir</span>
-                        </div>
                     </div>
-                </div>
             </section>
         </div>
 
@@ -567,7 +561,7 @@
     </div>
 
     <script>
-        // --- HUD SİSTEMİ (SAAT VE CPU SİMÜLASYONU) ---
+        // --- HUD SİSTEMİ ---
         function updateHUD() {
             const now = new Date();
             const timeString = now.toLocaleTimeString('en-US', { hour12: false });
@@ -576,19 +570,17 @@
             document.getElementById('hud-time').innerText = timeString;
             document.getElementById('hud-date').innerText = dateString;
 
-            // Rastgele CPU/RAM Değerleri (Simülasyon)
             if (Math.random() > 0.5) {
-                const cpu = Math.floor(Math.random() * 15) + 5; // %5 - %20 arası
+                const cpu = Math.floor(Math.random() * 15) + 5; 
                 document.getElementById('hud-cpu').innerText = cpu + "%";
-                
                 const ram = (Math.random() * (4.5 - 3.8) + 3.8).toFixed(1);
                 document.getElementById('hud-ram').innerText = ram + " GB / 32 GB";
             }
         }
-        setInterval(updateHUD, 1000); // Her saniye güncelle
-        updateHUD(); // Başlangıçta çalıştır
+        setInterval(updateHUD, 1000); 
+        updateHUD(); 
 
-        // --- JAVASCRIPT ÇEKİRDEĞİ (VERİ TABANI) ---
+        // --- JAVASCRIPT ÇEKİRDEĞİ ---
         const veriTabani = {
             "misyon": {
                 baslik: "🚀 VİZYON & MİSYON",
@@ -609,11 +601,8 @@
             "takim": {
                 baslik: "🛡️ SADAKAT",
                 icerik: "■ KULÜP: Fenerbahçe Spor Kulübü\n\nSadece bir takım değil, bir duruş."
-            },
-            "nehir": {
-                baslik: "❤️ ANA GÜÇ KAYNAĞI",
-                icerik: "■ BAĞLANTI: Nehir\n■ DURUM: Stabil ve Sonsuz\n\nHer Iron Man'in bir Pepper Potts'a ihtiyacı vardır. Sistemlerimin en büyük motivasyon kaynağı."
             }
+            // "Nehir" verisi buradan da kaldırıldı
         };
 
         function detayGoster(anahtar) {
@@ -676,7 +665,7 @@
             clearTimeout(typewriterTimeout);
         }
 
-        // --- PARTİKÜL EFEKTİ (Interactive Particles) ---
+        // --- PARTİKÜL EFEKTİ (HASSAS AYARLI) ---
         const canvas = document.getElementById("particle-canvas");
         const ctx = canvas.getContext("2d");
 
@@ -688,7 +677,7 @@
         let mouse = {
             x: null,
             y: null,
-            radius: (canvas.height / 80) * (canvas.width / 80)
+            radius: (canvas.height / 140) * (canvas.width / 140) 
         }
 
         window.addEventListener('mousemove', 
@@ -702,7 +691,7 @@
             function() {
                 canvas.width = innerWidth;
                 canvas.height = innerHeight;
-                mouse.radius = ((canvas.height/80) * (canvas.height/80));
+                mouse.radius = ((canvas.height/140) * (canvas.height/140));
                 init();
             }
         );
