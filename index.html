@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taha Efe | J.A.R.V.I.S. Mark XVI</title>
+    <title>Taha Efe | J.A.R.V.I.S. Mark XVII</title>
     
     <style>
         /* --- 1. TEMEL YAPILAR --- */
@@ -17,26 +17,15 @@
             padding: 40px 0;
             min-height: 100vh;
             overflow-x: hidden;
-            cursor: none;
+            cursor: none; /* Standart imleci gizle */
         }
 
-        /* --- BOOT SCREEN --- */
-        #boot-screen {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #000000; z-index: 999999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            font-family: 'Courier New', monospace; color: #00bfff;
-            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
-        }
-        .boot-logo { font-size: 3em; font-weight: bold; letter-spacing: 5px; margin-bottom: 30px; text-shadow: 0 0 20px #00bfff; animation: pulse 1s infinite; }
-        .boot-loader-container { width: 300px; height: 4px; background: #111; border: 1px solid #00bfff; position: relative; margin-bottom: 15px; }
-        .boot-bar { height: 100%; background: #00bfff; width: 0%; box-shadow: 0 0 15px #00bfff; transition: width 0.1s linear; }
-        .boot-log { font-size: 0.8em; color: #00bfff; min-height: 20px; text-align: center; }
-
-        /* --- ÖZEL İMLEÇ --- */
+        /* --- ÖZEL İMLEÇ (DÜZELTİLDİ: EN ÜST KATMAN) --- */
         #custom-cursor {
             position: fixed; top: 0; left: 0; width: 40px; height: 40px;
-            border: 1px solid #00bfff; border-radius: 50%; pointer-events: none; z-index: 10000;
+            border: 1px solid #00bfff; border-radius: 50%; pointer-events: none;
+            /* Z-INDEX ARTIRILDI: ARTIK HER ŞEYİN ÜSTÜNDE */
+            z-index: 9999999; 
             transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
             transition: width 0.1s, height 0.1s;
         }
@@ -45,6 +34,19 @@
             background: #00bfff; border-radius: 50%; transform: translate(-50%, -50%);
         }
         body.clicking #custom-cursor { width: 30px; height: 30px; background: rgba(0, 191, 255, 0.2); }
+
+        /* --- BOOT SCREEN --- */
+        #boot-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #000000; z-index: 999999; /* İmleçten düşük olmalı */
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            font-family: 'Courier New', monospace; color: #00bfff;
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+        }
+        .boot-logo { font-size: 3em; font-weight: bold; letter-spacing: 5px; margin-bottom: 30px; text-shadow: 0 0 20px #00bfff; animation: pulse 1s infinite; }
+        .boot-loader-container { width: 300px; height: 4px; background: #111; border: 1px solid #00bfff; position: relative; margin-bottom: 15px; }
+        .boot-bar { height: 100%; background: #00bfff; width: 0%; box-shadow: 0 0 15px #00bfff; transition: width 0.1s linear; }
+        .boot-log { font-size: 0.8em; color: #00bfff; min-height: 20px; text-align: center; }
 
         .container { width: 90%; max-width: 800px; text-align: center; position: relative; z-index: 2; padding-bottom: 60px; }
         #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
@@ -109,55 +111,13 @@
         .stark-button { background: transparent; color: #00bfff; border: 1px solid #00bfff; padding: 12px 30px; font-size: 14px; letter-spacing: 2px; cursor: none; margin-top: 40px; transition: 0.3s; text-transform: uppercase; }
         .stark-button:hover { background: #00bfff; color: #080a0c; box-shadow: 0 0 30px #00bfff; }
 
-        /* --- SİBERNETİK MAIL BUTONU TASARIMI --- */
-        .comm-link-wrapper {
-            display: flex; flex-direction: column; align-items: center; margin-top: 50px;
-        }
-        .comm-label {
-            font-size: 0.8em; letter-spacing: 3px; color: #8b949e; margin-bottom: 10px;
-            text-transform: uppercase; font-family: 'Courier New', monospace;
-        }
-        .jarvis-btn {
-            position: relative;
-            display: inline-flex; justify-content: center; align-items: center;
-            background: rgba(0, 191, 255, 0.05);
-            border: 2px solid #00bfff;
-            padding: 15px 40px;
-            font-family: 'Courier New', monospace;
-            color: #00bfff;
-            font-size: 1.1em;
-            font-weight: bold;
-            letter-spacing: 1px;
-            cursor: none;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            /* Köşeleri kesik (Sci-Fi) şekil */
-            clip-path: polygon(
-                15px 0, 100% 0, 100% calc(100% - 15px), 
-                calc(100% - 15px) 100%, 0 100%, 0 15px
-            );
-        }
-        .jarvis-btn:hover {
-            background: rgba(0, 191, 255, 0.2);
-            box-shadow: 0 0 30px rgba(0, 191, 255, 0.4);
-            text-shadow: 0 0 10px #00bfff;
-            letter-spacing: 2px;
-        }
-        /* Işık Parlaması Efekti */
-        .btn-glare {
-            position: absolute; top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-25deg);
-            animation: glareAnim 3s infinite;
-        }
-        /* Kopyalandığında Yeşil Olma */
-        .jarvis-btn.copied {
-            border-color: #00ff00;
-            color: #00ff00;
-            background: rgba(0, 255, 0, 0.1);
-            box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
-        }
+        /* --- MAIL BUTONU --- */
+        .comm-link-wrapper { display: flex; flex-direction: column; align-items: center; margin-top: 50px; }
+        .comm-label { font-size: 0.8em; letter-spacing: 3px; color: #8b949e; margin-bottom: 10px; text-transform: uppercase; font-family: 'Courier New', monospace; }
+        .jarvis-btn { position: relative; display: inline-flex; justify-content: center; align-items: center; background: rgba(0, 191, 255, 0.05); border: 2px solid #00bfff; padding: 15px 40px; font-family: 'Courier New', monospace; color: #00bfff; font-size: 1.1em; font-weight: bold; letter-spacing: 1px; cursor: none; overflow: hidden; transition: all 0.3s ease; clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px); }
+        .jarvis-btn:hover { background: rgba(0, 191, 255, 0.2); box-shadow: 0 0 30px rgba(0, 191, 255, 0.4); text-shadow: 0 0 10px #00bfff; letter-spacing: 2px; }
+        .btn-glare { position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transform: skewX(-25deg); animation: glareAnim 3s infinite; }
+        .jarvis-btn.copied { border-color: #00ff00; color: #00ff00; background: rgba(0, 255, 0, 0.1); box-shadow: 0 0 30px rgba(0, 255, 0, 0.4); }
 
         .secret-protocol { margin-top: 30px; display: inline-flex; align-items: center; justify-content: center; background: rgba(255, 105, 180, 0.1); padding: 8px 15px; border-radius: 30px; transition: 0.5s; cursor: none; border: 1px solid transparent; }
         .secret-protocol:hover { background: rgba(255, 105, 180, 0.2); border: 1px solid #ff69b4; box-shadow: 0 0 15px rgba(255, 105, 180, 0.4); }
@@ -165,8 +125,14 @@
         .hidden-message { max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; color: #ff69b4; font-weight: bold; font-size: 0.95em; transition: all 0.8s ease-in-out; margin-left: 0; }
         .secret-protocol:hover .hidden-message { max-width: 300px; opacity: 1; margin-left: 10px; }
 
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 100000; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .modal-content { background: rgba(13, 17, 23, 0.95); border: 2px solid #00bfff; box-shadow: 0 0 50px rgba(0, 191, 255, 0.5), inset 0 0 20px rgba(0, 191, 255, 0.2); padding: 30px; width: 80%; max-width: 500px; border-radius: 10px; text-align: left; animation: scaleIn 0.3s ease-out; }
+        /* --- MODAL (DÜZELTME) --- */
+        .modal-overlay { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0, 0, 0, 0.85); 
+            z-index: 100000; /* İmlecin altında, diğer her şeyin üstünde */ 
+            justify-content: center; align-items: center; backdrop-filter: blur(5px); 
+        }
+        .modal-content { background: rgba(13, 17, 23, 0.95); border: 2px solid #00bfff; box-shadow: 0 0 50px rgba(0, 191, 255, 0.5), inset 0 0 20px rgba(0, 191, 255, 0.2); padding: 30px; width: 80%; max-width: 500px; border-radius: 10px; text-align: left; animation: scaleIn 0.3s ease-out; cursor: none; }
         .modal-header { color: #00bfff; border-bottom: 1px dashed #00bfff; padding-bottom: 10px; margin-top: 0; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px #00bfff; }
         .modal-text { font-family: 'Courier New', monospace; color: #c9d1d9; line-height: 1.6; margin-top: 15px; font-size: 0.95em; min-height: 150px; }
 
@@ -180,6 +146,7 @@
         @keyframes baseSpin { from { transform: rotateX(70deg) rotateZ(0deg); } to { transform: rotateX(70deg) rotateZ(360deg); } }
         @keyframes floatReactor { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         @keyframes glareAnim { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+        @keyframes radarSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -191,6 +158,7 @@
     </div>
 
     <div id="custom-cursor"></div>
+
     <canvas id="particle-canvas"></canvas>
     
     <div class="scanline"></div>
@@ -311,7 +279,7 @@
         </div>
 
         <footer>
-            <p>J.A.R.V.I.S. Arayüzü Mark XVI | © 2026</p>
+            <p>J.A.R.V.I.S. Arayüzü Mark XVII | © 2026</p>
             <div class="secret-protocol">
                 <span class="heart-icon">❤️</span>
                 <span class="hidden-message">Nehir, sen benim gerçek güç kaynağımsın.</span>
@@ -333,7 +301,7 @@
         const bootScreen = document.getElementById('boot-screen');
         const bootBarFill = document.getElementById('boot-bar-fill');
         const bootLog = document.getElementById('boot-log');
-        const logs = ["Connecting to Satellite...", "Handshake Protocol: Established", "Loading Interface: Mark XVI", "Biometrics: Confirmed", "Welcome Taha Efe"];
+        const logs = ["Connecting to Satellite...", "Handshake Protocol: Established", "Loading Interface: Mark XVII", "Biometrics: Confirmed", "Welcome Taha Efe"];
         let progress = 0; let logIndex = 0;
         window.onload = function() {
             const bootInterval = setInterval(() => {
@@ -349,22 +317,14 @@
         document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
         document.addEventListener('mouseup', () => document.body.classList.remove('clicking'));
 
-        // --- YENİ MAIL BUTONU MANTIĞI ---
+        // --- MAIL BUTONU ---
         document.getElementById('email-btn').addEventListener('click', function() {
             const email = "tahakarabacak7842@gmail.com";
             const btn = this;
             const textSpan = document.getElementById('btn-text');
-            
             navigator.clipboard.writeText(email).then(() => {
-                // Görsel Geri Bildirim
-                btn.classList.add('copied');
-                textSpan.innerText = "ADRES KOPYALANDI";
-                
-                // 2 Saniye sonra eski haline dön
-                setTimeout(() => {
-                    btn.classList.remove('copied');
-                    textSpan.innerText = email;
-                }, 2000);
+                btn.classList.add('copied'); textSpan.innerText = "ADRES KOPYALANDI";
+                setTimeout(() => { btn.classList.remove('copied'); textSpan.innerText = email; }, 2000);
             });
         });
 
@@ -391,7 +351,11 @@
 
         function detayGoster(anahtar) { const veri = veriTabani[anahtar]; if (veri) openModal(veri.baslik, veri.icerik); }
         function egitimDetay() { const d = document.getElementById("gizli-detay"); const b = document.getElementById("btn-detay"); if (d.style.display === "none") { d.style.display = "block"; b.innerHTML = "▲ GİZLE"; } else { d.style.display = "none"; b.innerHTML = "▼ DETAY"; } }
-        function sistemKontrol() { openModal("⚠️ SYSTEM ALERT", "▌ J.A.R.V.I.S. SYSTEM DIAGNOSTIC v2.4\n▌ ------------------------------------\n■ USER ID: TAHA EFE KARABACAK\n■ SECURITY: ALPHA-1\n\n■ SYSTEM STATUS:\n   [OK] Arc Reactor Core\n   [OK] Neural Network\n   [OK] Biometric Sensors\n\n■ MISSION: Engineering The Future\n\n>> ALL SYSTEMS ONLINE. WELCOME SIR."); }
+        
+        function sistemKontrol() {
+            const rapor = "▌ J.A.R.V.I.S. SYSTEM DIAGNOSTIC v2.4\n▌ ------------------------------------\n■ USER ID: TAHA EFE KARABACAK\n■ SECURITY: ALPHA-1\n\n■ SYSTEM STATUS:\n   [OK] Arc Reactor Core\n   [OK] Neural Network\n   [OK] Biometric Sensors\n\n■ MISSION: Engineering The Future\n\n>> ALL SYSTEMS ONLINE. WELCOME SIR.";
+            openModal("⚠️ SYSTEM ALERT", rapor);
+        }
 
         let typewriterTimeout;
         function openModal(baslik, metin) {
