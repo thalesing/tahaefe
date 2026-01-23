@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taha Efe | J.A.R.V.I.S. Mark XVII</title>
+    <title>Taha Efe | J.A.R.V.I.S. Mark XVIII (Real-Time)</title>
     
     <style>
         /* --- 1. TEMEL YAPILAR --- */
@@ -17,28 +17,13 @@
             padding: 40px 0;
             min-height: 100vh;
             overflow-x: hidden;
-            cursor: none; /* Standart imleci gizle */
+            cursor: none;
         }
-
-        /* --- ÖZEL İMLEÇ (DÜZELTİLDİ: EN ÜST KATMAN) --- */
-        #custom-cursor {
-            position: fixed; top: 0; left: 0; width: 40px; height: 40px;
-            border: 1px solid #00bfff; border-radius: 50%; pointer-events: none;
-            /* Z-INDEX ARTIRILDI: ARTIK HER ŞEYİN ÜSTÜNDE */
-            z-index: 9999999; 
-            transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
-            transition: width 0.1s, height 0.1s;
-        }
-        #custom-cursor::after {
-            content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
-            background: #00bfff; border-radius: 50%; transform: translate(-50%, -50%);
-        }
-        body.clicking #custom-cursor { width: 30px; height: 30px; background: rgba(0, 191, 255, 0.2); }
 
         /* --- BOOT SCREEN --- */
         #boot-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #000000; z-index: 999999; /* İmleçten düşük olmalı */
+            background-color: #000000; z-index: 999999;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             font-family: 'Courier New', monospace; color: #00bfff;
             transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
@@ -47,6 +32,19 @@
         .boot-loader-container { width: 300px; height: 4px; background: #111; border: 1px solid #00bfff; position: relative; margin-bottom: 15px; }
         .boot-bar { height: 100%; background: #00bfff; width: 0%; box-shadow: 0 0 15px #00bfff; transition: width 0.1s linear; }
         .boot-log { font-size: 0.8em; color: #00bfff; min-height: 20px; text-align: center; }
+
+        /* --- ÖZEL İMLEÇ (Z-INDEX EN ÜSTTE) --- */
+        #custom-cursor {
+            position: fixed; top: 0; left: 0; width: 40px; height: 40px;
+            border: 1px solid #00bfff; border-radius: 50%; pointer-events: none; z-index: 9999999;
+            transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+            transition: width 0.1s, height 0.1s;
+        }
+        #custom-cursor::after {
+            content: ''; position: absolute; top: 50%; left: 50%; width: 4px; height: 4px;
+            background: #00bfff; border-radius: 50%; transform: translate(-50%, -50%);
+        }
+        body.clicking #custom-cursor { width: 30px; height: 30px; background: rgba(0, 191, 255, 0.2); }
 
         .container { width: 90%; max-width: 800px; text-align: center; position: relative; z-index: 2; padding-bottom: 60px; }
         #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
@@ -125,11 +123,11 @@
         .hidden-message { max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; color: #ff69b4; font-weight: bold; font-size: 0.95em; transition: all 0.8s ease-in-out; margin-left: 0; }
         .secret-protocol:hover .hidden-message { max-width: 300px; opacity: 1; margin-left: 10px; }
 
-        /* --- MODAL (DÜZELTME) --- */
+        /* --- MODAL --- */
         .modal-overlay { 
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0, 0, 0, 0.85); 
-            z-index: 100000; /* İmlecin altında, diğer her şeyin üstünde */ 
+            z-index: 100000; 
             justify-content: center; align-items: center; backdrop-filter: blur(5px); 
         }
         .modal-content { background: rgba(13, 17, 23, 0.95); border: 2px solid #00bfff; box-shadow: 0 0 50px rgba(0, 191, 255, 0.5), inset 0 0 20px rgba(0, 191, 255, 0.2); padding: 30px; width: 80%; max-width: 500px; border-radius: 10px; text-align: left; animation: scaleIn 0.3s ease-out; cursor: none; }
@@ -175,7 +173,7 @@
         <div class="hud-top-right">
             <div class="hud-box"><span class="hud-label">LOCATION</span><span class="hud-value">KARABUK, TR</span></div>
             <div class="hud-box"><span class="hud-label">COORDS</span><span class="hud-value">41.20°N, 32.62°E</span></div>
-            <div class="hud-box"><span class="hud-label">WEATHER</span><span class="hud-value">CLEAR / 14°C</span></div>
+            <div class="hud-box"><span class="hud-label">WEATHER (LIVE)</span><span class="hud-value" id="hud-weather">CONNECTING...</span></div>
         </div>
         <div class="hud-bottom-left">
             <div class="hud-box"><span class="hud-label">CPU LOAD</span><span class="hud-value" id="hud-cpu">12%</span></div>
@@ -279,7 +277,7 @@
         </div>
 
         <footer>
-            <p>J.A.R.V.I.S. Arayüzü Mark XVII | © 2026</p>
+            <p>J.A.R.V.I.S. Arayüzü Mark XVIII (Real-Time) | © 2026</p>
             <div class="secret-protocol">
                 <span class="heart-icon">❤️</span>
                 <span class="hidden-message">Nehir, sen benim gerçek güç kaynağımsın.</span>
@@ -301,13 +299,17 @@
         const bootScreen = document.getElementById('boot-screen');
         const bootBarFill = document.getElementById('boot-bar-fill');
         const bootLog = document.getElementById('boot-log');
-        const logs = ["Connecting to Satellite...", "Handshake Protocol: Established", "Loading Interface: Mark XVII", "Biometrics: Confirmed", "Welcome Taha Efe"];
+        const logs = ["Connecting to Satellite...", "Handshake Protocol: Established", "Loading Interface: Mark XVIII", "Biometrics: Confirmed", "Welcome Taha Efe"];
         let progress = 0; let logIndex = 0;
         window.onload = function() {
             const bootInterval = setInterval(() => {
                 progress += 2; bootBarFill.style.width = progress + "%";
                 if (progress % 20 === 0 && logIndex < logs.length) { bootLog.innerText = "> " + logs[logIndex]; logIndex++; }
-                if (progress >= 100) { clearInterval(bootInterval); setTimeout(() => { bootScreen.style.transform = 'translateY(-100%)'; }, 500); }
+                if (progress >= 100) { 
+                    clearInterval(bootInterval); 
+                    setTimeout(() => { bootScreen.style.transform = 'translateY(-100%)'; }, 500); 
+                    getRealWeather(); // Hava durumunu başlat
+                }
             }, 30);
         };
 
@@ -317,7 +319,7 @@
         document.addEventListener('mousedown', () => document.body.classList.add('clicking'));
         document.addEventListener('mouseup', () => document.body.classList.remove('clicking'));
 
-        // --- MAIL BUTONU ---
+        // --- MAIL KOPYALAMA ---
         document.getElementById('email-btn').addEventListener('click', function() {
             const email = "tahakarabacak7842@gmail.com";
             const btn = this;
@@ -327,6 +329,35 @@
                 setTimeout(() => { btn.classList.remove('copied'); textSpan.innerText = email; }, 2000);
             });
         });
+
+        // --- GERÇEK HAVA DURUMU (OPEN-METEO API) ---
+        async function getRealWeather() {
+            try {
+                // Karabük Koordinatları: 41.2061, 32.6204
+                const response = await fetch('https://api.open-meteo.com/v1/forecast?latitude=41.2061&longitude=32.6204&current_weather=true');
+                const data = await response.json();
+                
+                const temp = data.current_weather.temperature;
+                const code = data.current_weather.weathercode;
+                
+                // WMO Kodlarını J.A.R.V.I.S. Diline Çevir
+                const wmoCodes = {
+                    0: "CLEAR SKY", 1: "MAINLY CLEAR", 2: "PARTLY CLOUDY", 3: "OVERCAST",
+                    45: "FOGGY", 48: "RIME FOG", 51: "LIGHT DRIZZLE", 53: "DRIZZLE",
+                    55: "HEAVY DRIZZLE", 61: "SLIGHT RAIN", 63: "MODERATE RAIN", 65: "HEAVY RAIN",
+                    71: "SLIGHT SNOW", 73: "MODERATE SNOW", 75: "HEAVY SNOW", 95: "THUNDERSTORM"
+                };
+                
+                const condition = wmoCodes[code] || "UNKNOWN";
+                document.getElementById('hud-weather').innerText = `${condition} / ${temp}°C`;
+                
+            } catch (error) {
+                console.log("Weather Error:", error);
+                document.getElementById('hud-weather').innerText = "SAT LINK ERROR";
+            }
+        }
+        // Her 15 dakikada bir güncelle
+        setInterval(getRealWeather, 900000);
 
         // --- HUD ---
         function updateHUD() {
@@ -351,11 +382,7 @@
 
         function detayGoster(anahtar) { const veri = veriTabani[anahtar]; if (veri) openModal(veri.baslik, veri.icerik); }
         function egitimDetay() { const d = document.getElementById("gizli-detay"); const b = document.getElementById("btn-detay"); if (d.style.display === "none") { d.style.display = "block"; b.innerHTML = "▲ GİZLE"; } else { d.style.display = "none"; b.innerHTML = "▼ DETAY"; } }
-        
-        function sistemKontrol() {
-            const rapor = "▌ J.A.R.V.I.S. SYSTEM DIAGNOSTIC v2.4\n▌ ------------------------------------\n■ USER ID: TAHA EFE KARABACAK\n■ SECURITY: ALPHA-1\n\n■ SYSTEM STATUS:\n   [OK] Arc Reactor Core\n   [OK] Neural Network\n   [OK] Biometric Sensors\n\n■ MISSION: Engineering The Future\n\n>> ALL SYSTEMS ONLINE. WELCOME SIR.";
-            openModal("⚠️ SYSTEM ALERT", rapor);
-        }
+        function sistemKontrol() { openModal("⚠️ SYSTEM ALERT", "▌ J.A.R.V.I.S. SYSTEM DIAGNOSTIC v2.4\n▌ ------------------------------------\n■ USER ID: TAHA EFE KARABACAK\n■ SECURITY: ALPHA-1\n\n■ SYSTEM STATUS:\n   [OK] Arc Reactor Core\n   [OK] Neural Network\n   [OK] Biometric Sensors\n\n■ MISSION: Engineering The Future\n\n>> ALL SYSTEMS ONLINE. WELCOME SIR."); }
 
         let typewriterTimeout;
         function openModal(baslik, metin) {
