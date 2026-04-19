@@ -321,12 +321,6 @@
                 <div class="sb-tags">> Grandmaster Vision / Tactical Analysis</div>
             </div>
         </div>
-        <div class="card tilt-card" style="margin-top: 20px; border-top: 2px solid var(--primary-color);">
-    <div style="text-align: left; margin-bottom: 20px;">
-     <div class="card tilt-card" style="margin-top: 20px; border-top: 2px solid var(--primary-color);">
-    <div style="text-align: left; margin-bottom: 20px;">
- 
-</div>
 
         <button onclick="sistemKontrol()" class="stark-button">SİSTEM ANALİZİ</button>
 
@@ -423,13 +417,13 @@
             "misyon": { baslik: "🚀 VİZYON & MİSYON", icerik: "■ HEDEF: Türkiye'nin teknolojik bağımsızlığına katkı sağlamak.\n\nBir mühendis olarak görevim; savunma sanayi, enerji sistemleri ve yapay zeka entegrasyonları üzerine yerli ve milli çözümler üretmektir." },
             "egitim": { baslik: "🎓 AKADEMİK ALTYAPI", icerik: "■ KURUM: Karabük Üniversitesi\n■ BÖLÜM: Elektrik-Elektronik Mühendisliği\n\nBu disiplin, modern dünyanın sinir sistemini oluşturur. Devre teorisinden sinyal işlemeye kadar geniş bir spektrumda uzmanlaşıyorum." },
             "dil": { baslik: "🌐 KÜRESEL İLETİŞİM", icerik: "■ DİL: İngilizce (Advanced Level)\n■ ENTEGRASYON: %100\n\nTeknik literatürü ana kaynağında takip edebilmek adına eğitimimi tamamen İngilizce sürdürüyorum." },
-            "strateji": { baslik: "🏆 STRATEJİK ZEKA", icerik: "■ TOPLAM ENVANTER: 14 Madalya\n   ├─ 11x Satranç (Stratejik Derinlik)\n   └─ 3x Futbol (Takım Çalışması)\n\nZihin ve beden senkronizasyonu tam." },
+            "strateji": { baslik: "🏆 STRATEJİK ZEKA", icerik: "■ TOPLAM ENVANTER: 14 Madalya\n   ├─ 11x Satranç (Stratejik Derinlik)\n   └─ 3x Futbol (Takım Çalışması)\n\nZihin ve beden senkronizasyonu tam." },
             "takim": { baslik: "🛡️ SADAKAT", icerik: "■ KULÜP: Fenerbahçe Spor Kulübü\n\nSadece bir takım değil, bir duruş." }
         };
 
         function detayGoster(anahtar) { const veri = veriTabani[anahtar]; if (veri) openModal(veri.baslik, veri.icerik); }
         function egitimDetay() { const d = document.getElementById("gizli-detay"); const b = document.getElementById("btn-detay"); if (d.style.display === "none") { d.style.display = "block"; b.innerHTML = "▲ GİZLE"; } else { d.style.display = "none"; b.innerHTML = "▼ DETAY"; } }
-        function sistemKontrol() { openModal("⚠️ SYSTEM ALERT", "▌ J.A.R.V.I.S. SYSTEM DIAGNOSTIC v2.4\n▌ ------------------------------------\n■ USER ID: TAHA EFE KARABACAK\n■ SECURITY: ALPHA-1\n\n■ SYSTEM STATUS:\n   [OK] Arc Reactor Core\n   [OK] Neural Network\n   [OK] Biometric Sensors\n\n■ MISSION: Engineering The Future\n\n>> ALL SYSTEMS ONLINE. WELCOME SIR."); }
+        function sistemKontrol() { openModal("⚠️ SYSTEM ALERT", "▌ J.A.R.V.I.S. SYSTEM DIAGNOSTIC v2.4\n▌ ------------------------------------\n■ USER ID: TAHA EFE KARABACAK\n■ SECURITY: ALPHA-1\n\n■ SYSTEM STATUS:\n   [OK] Arc Reactor Core\n   [OK] Neural Network\n   [OK] Biometric Sensors\n\n■ MISSION: Engineering The Future\n\n>> ALL SYSTEMS ONLINE. WELCOME SIR."); }
 
         let typewriterTimeout;
         function openModal(baslik, metin) {
