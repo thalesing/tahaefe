@@ -202,6 +202,44 @@
         @keyframes floatReactor { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         @keyframes glareAnim { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
         @keyframes radarSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        /* --- PROJELERİM SEKME --- */
+        .section-title {
+            display: flex; align-items: center; gap: 15px;
+            margin: 40px 0 20px 0; text-align: left;
+        }
+        .section-title::before {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-color));
+        }
+        .section-title::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(90deg, var(--primary-color), transparent);
+        }
+        .section-title span {
+            color: var(--primary-color); font-family: 'Courier New', monospace;
+            font-size: 0.85em; letter-spacing: 4px; text-transform: uppercase;
+            text-shadow: 0 0 10px var(--primary-color); white-space: nowrap;
+        }
+        .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; margin-top: 10px; }
+        .project-card { background: rgba(13,17,23,0.9); border: 1px solid rgba(0,191,255,0.2); border-radius: 12px; padding: 24px; text-align: left; position: relative; overflow: hidden; transition: all 0.3s ease; cursor: none; backdrop-filter: blur(5px); }
+        .project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, var(--primary-color), transparent); }
+        .project-card:hover { border-color: var(--primary-color); box-shadow: 0 0 30px rgba(0,191,255,0.15); transform: translateY(-4px); }
+        .project-corner { position: absolute; top: 12px; right: 12px; width: 16px; height: 16px; border-top: 2px solid var(--primary-color); border-right: 2px solid var(--primary-color); opacity: 0.3; transition: 0.3s; }
+        .project-card:hover .project-corner { opacity: 1; }
+        .project-status { display: inline-flex; align-items: center; gap: 6px; font-size: 0.7em; font-family: 'Courier New', monospace; letter-spacing: 2px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; margin-bottom: 14px; }
+        .status-active { color: #00ff88; background: rgba(0,255,136,0.08); border: 1px solid rgba(0,255,136,0.3); }
+        .status-wip    { color: #ffaa00; background: rgba(255,170,0,0.08);  border: 1px solid rgba(255,170,0,0.3); }
+        .status-done   { color: var(--primary-color); background: rgba(0,191,255,0.08); border: 1px solid rgba(0,191,255,0.3); }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; animation: blinker 1.2s linear infinite; }
+        .project-name { color: #e6edf3; font-size: 1.1em; font-weight: 700; letter-spacing: 1px; margin-bottom: 8px; }
+        .project-desc { color: #8b949e; font-size: 0.88em; line-height: 1.6; margin-bottom: 16px; font-family: 'Courier New', monospace; }
+        .project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+        .tag { font-size: 0.72em; font-family: 'Courier New', monospace; padding: 3px 9px; border-radius: 4px; letter-spacing: 1px; background: rgba(0,191,255,0.06); border: 1px solid rgba(0,191,255,0.2); color: var(--primary-color); }
+        .project-meta { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,191,255,0.1); padding-top: 12px; font-size: 0.75em; font-family: 'Courier New', monospace; color: #8b949e; }
+        .project-btn { background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); padding: 5px 14px; font-size: 0.8em; font-family: 'Courier New', monospace; letter-spacing: 1px; cursor: none; transition: 0.3s; border-radius: 4px; }
+        .project-btn:hover { background: var(--primary-color); color: #080a0c; box-shadow: 0 0 15px var(--primary-color); }
+        .project-icon { font-size: 2em; margin-bottom: 12px; display: block; filter: drop-shadow(0 0 8px var(--primary-color)); }
+
     </style>
 </head>
 <body>
@@ -320,6 +358,105 @@
                 <div class="sb-track"><div class="sb-fill" style="width: 90%;"></div></div>
                 <div class="sb-tags">> Grandmaster Vision / Tactical Analysis</div>
             </div>
+        </div>
+
+        
+        <div class="section-title"><span>◈ &nbsp; PROJE VERİ TABANI &nbsp; ◈</span></div>
+
+        <div class="project-grid">
+
+            <!-- PROJE 1: JARVIS -->
+            <div class="project-card tilt-card">
+                <div class="project-corner"></div>
+                <span class="project-icon">🤖</span>
+                <div class="project-status status-active"><span class="status-dot"></span> AKTİF GELİŞTİRME</div>
+                <div class="project-name">J.A.R.V.I.S. — Yapay Zeka Asistanı</div>
+                <div class="project-desc">
+                    > PyQt5 tabanlı, Iron Man temalı sesli yapay zeka asistanı.<br>
+                    > Groq API (Llama 3.3-70B) ile doğal dil işleme.<br>
+                    > Derin bellek sistemi, otonom ekran kontrolü ve kendini güncelleme modülü.
+                </div>
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">PyQt5</span>
+                    <span class="tag">Groq API</span>
+                    <span class="tag">Edge-TTS</span>
+                    <span class="tag">Whisper</span>
+                    <span class="tag">PyAutoGUI</span>
+                </div>
+                <div class="project-meta">
+                    <span>// BUILD 6.0.1 &nbsp;·&nbsp; 2025</span>
+<div class="project-card tilt-card">
+    <div class="project-corner"></div>
+    <span class="project-icon">🤖</span>
+    <div class="project-status status-active"><span class="status-dot"></span> AKTİF</div>
+    <div class="project-name">J.A.R.V.I.S. V6</div>
+    <div class="project-desc">
+        > Python tabanlı gelişmiş sesli asistan.<br>
+        > Sistem kontrolü ve otomasyon motoru.<br>
+        > HUD arayüzü ve derin öğrenme entegrasyonu.
+    </div>
+    <div class="project-tags">
+        <span class="tag">Python</span>
+        <span class="tag">PyQt5</span>
+        <span class="tag">Groq API</span>
+        <span class="tag">Edge-TTS</span>
+    </div>
+    <div class="project-meta">
+        <span>// Build 6.0.1 · 2026</span>
+        <button class="project-btn" onclick="openModal('🤖 J.A.R.V.I.S. — DETAY', `■ PROJE: J.A.R.V.I.S. Yapay Zeka Asistanı\n■ VERSİYON: Build 6.0.1\n■ DURUM: Aktif Geliştirme\n\n[ÖZELLİKLER]\n> Sesli komut ile tam sistem kontrolü\n> Derin hafıza: Kalıcı JSON veri tabanı\n> Kendi kendini güncelleme motoru\n> Otonom Chrome / YouTube kontrolü\n> Spotify entegrasyonu\n> Gerçek zamanlı hava durumu\n> HUD tarzı PyQt5 arayüzü\n\n[TEKNOLOJİLER]\nPython · PyQt5 · Groq API\nEdge-TTS · SpeechRecognition\nSpotipy · PyAutoGUI · Pytesseract`);">DETAY</button>
+    </div>
+</div>
+
+<div class="project-card tilt-card">
+    <div class="project-corner"></div>
+    <span class="project-icon">🌐</span>
+    <div class="project-status status-active"><span class="status-dot"></span> CANLI</div>
+    <div class="project-name">Kişisel Portföy — J.A.R.V.I.S. HUD</div>
+    <div class="project-desc">
+        > Iron Man / JARVIS temalı kişisel portföy web sitesi.<br>
+        > Canlı hava durumu, HUD overlay, radar animasyonu.<br>
+        > Parçacık sistemi, 3D hologram efekti ve özel imleç.
+    </div>
+    <div class="project-tags">
+        <span class="tag">HTML5</span>
+        <span class="tag">CSS3</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Canvas API</span>
+        <span class="tag">Open-Meteo API</span>
+    </div>
+    <div class="project-meta">
+        <span>// tahaefekarabacak.com.tr &nbsp;·&nbsp; 2026</span>
+        <button class="project-btn" onclick="window.open('https://www.tahaefekarabacak.com.tr', '_blank')">ZİYARET</button>
+    </div>
+</div>
+                </div>
+            </div>
+
+            <!-- PROJE 2: WEB SİTESİ -->
+            <div class="project-card tilt-card">
+                <div class="project-corner"></div>
+                <span class="project-icon">🌐</span>
+                <div class="project-status status-active"><span class="status-dot"></span> CANLI</div>
+                <div class="project-name">Kişisel Portföy — J.A.R.V.I.S. HUD</div>
+                <div class="project-desc">
+                    > Iron Man / JARVIS temalı kişisel portföy web sitesi.<br>
+                    > Canlı hava durumu, HUD overlay, radar animasyonu.<br>
+                    > Parçacık sistemi, 3D hologram efekti ve özel imleç.
+                </div>
+                <div class="project-tags">
+                    <span class="tag">HTML5</span>
+                    <span class="tag">CSS3</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Canvas API</span>
+                    <span class="tag">Open-Meteo API</span>
+                </div>
+                <div class="project-meta">
+                    <span>// tahaefekarabacak.com.tr &nbsp;·&nbsp; 2026</span>
+                    <button class="project-btn" onclick="window.open('https://www.tahaefekarabacak.com.tr', '_blank')">ZİYARET</button>
+                </div>
+            </div>
+
         </div>
 
         <button onclick="sistemKontrol()" class="stark-button">SİSTEM ANALİZİ</button>
