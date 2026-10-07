@@ -1,0 +1,14 @@
+[
+  {
+    "slug": "jarvis-yapay-zeka-asistani",
+    "title": "J.A.R.V.I.S.: Sesli Yapay Zeka Asistanı Projesi",
+    "date": "2026-10-06",
+    "summary": "PyQt5 tabanlı sesli asistanın bileşenleri ve teknoloji yığını.",
+    "body": "## Amaç\n\nJ.A.R.V.I.S., sesli komutlarla bilgisayarı yönetebilen ve doğal dille konuşabilen bir masaüstü asistanıdır. Proje 2025'te başlamıştır ve aktif geliştirme aşamasındadır (Build 6.0.1).\n\n## Bileşenler\n\n- **Doğal dil işleme:** Groq API üzerinden Llama 3.3-70B modeli kullanılır.\n- **Ses:** Konuşma tanıma için Whisper, sesli yanıt için Edge-TTS kullanılır.\n- **Kalıcı hafıza:** Bilgiler JSON tabanlı bir veri deposunda saklanır ve oturumlar arasında korunur.\n- **Otonom kontrol:** PyAutoGUI ile ekran kontrolü; Chrome ve YouTube yönetimi.\n- **Entegrasyonlar:** Spotify kontrolü ve gerçek zamanlı hava durumu.\n- **Kendini güncelleme:** Asistan, kendi kod tabanını güncelleyen bir modüle sahiptir.\n- **Arayüz:** PyQt5 ile geliştirilmiş masaüstü arayüzü.\n\n## Teknoloji yığını\n\nPython · PyQt5 · Groq API · Edge-TTS · Whisper · PyAutoGUI\n\n## Durum\n\nProje aktif olarak geliştirilmektedir. Yeni sürüm notları ve teknik ayrıntılar bu blogda yayımlanacaktır.",
+    "tags": [
+      "Python",
+      "Yapay Zeka",
+      "Proje"
+    ]
+  }
+]
