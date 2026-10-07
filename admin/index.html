@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Yönetim | Taha Efe Karabacak</title>
+    <link rel="stylesheet" href="../blog/blog.css">
+    <script src="../blog/blog.js"></script>
+</head>
+<body>
+    <div class="wrap" style="max-width:820px">
+        <header class="site">
+            <span class="name">Blog Yönetimi</span>
+            <nav><a href="../blog/">Blogu gör</a><button class="tbtn" id="theme-btn" type="button"></button></nav>
+        </header>
+
+        <div class="panel">
+            <h2>1. GitHub bağlantısı</h2>
+            <div class="grid2">
+                <div><label>GitHub kullanıcı adı</label><input id="f-o" autocomplete="off"></div>
+                <div><label>Depo (repo) adı</label><input id="f-r" autocomplete="off"></div>
+                <div><label>Dal (branch)</label><input id="f-b" value="main"></div>
+                <div><label>Yazı dosyası</label><input id="f-p" value="blog/posts.json"></div>
+            </div>
+            <label>Erişim anahtarı (token)</label>
+            <input id="f-t" type="password" autocomplete="off" placeholder="github_pat_...">
+            <button class="btn" type="button" onclick="connect()">Bağlan ve yazıları yükle</button>
+            <p class="hint">Anahtar: GitHub &rarr; Settings &rarr; Developer settings &rarr; Fine-grained tokens. Yalnızca bu depoyu seç, "Contents: Read and write" izni ver. Anahtar sadece bu tarayıcıda saklanır, kimseyle paylaşma. Bu sayfayı herkes açabilir ama anahtar olmadan hiçbir şeyi değiştiremez.</p>
+        </div>
+
+        <div id="status"></div>
+
+        <div id="app" style="display:none">
+            <div class="panel">
+                <h2>2. Yazılar</h2>
+                <ul class="posts" id="plist"></ul>
+            </div>
+            <div class="panel">
+                <h2 id="form-title">3. Yeni yazı</h2>
+                <label>Başlık</label><input id="t-title">
+                <div class="grid2">
+                    <div><label>Adres (boşsa başlıktan üretilir)</label><input id="t-slug"></div>
+                    <div><label>Tarih</label><input id="t-date" type="date"></div>
+                </div>
+                <label>Kısa özet (listede görünür)</label><input id="t-sum">
+                <label>Etiketler (virgülle ayır)</label><input id="t-tags">
+                <label>Metin</label>
+                <textarea id="t-body"></textarea>
+                <p class="hint">Biçim: paragraflar arasında boş satır bırak. Alt başlık için satırı <code>## </code> ile başlat. Liste için her satırı <code>- </code> ile başlat. Kalın yazı için <code>**metin**</code>.</p>
+                <button class="btn" type="button" onclick="saveForm()">Kaydet ve yayımla</button>
+                <button class="btn ghost" type="button" onclick="clearForm()">Formu temizle</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        BLOG.initTheme();
+        var S = { o: 'thalesing', r: 'tahaefe', b: 'main', p: 'blog/posts.json', t: '' }, KEYS = ['o', 'r', 'b', 'p', 't'];
+        var posts = [], sha = '', editing = -1;
+        function $(id) { return document.getElementById(id); }
+        function status(msg, cls) { var s = $('status'); s.textContent = msg; s.className = cls || ''; }
+        function today() { return new Date().toISOString().slice(0, 10); }
+        function slugify(t) {
+            var m = { 'ç': 'c', 'ğ': 'g', 'ı': 'i', 'ö': 'o', 'ş': 's', 'ü': 'u', 'İ': 'i' };
+            return t.toLowerCase().replace(/[çğıöşüİ]/g, function (c) { return m[c]; }).replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+        }
+        try { var c = JSON.parse(localStorage.getItem('admin-cfg') || '{}'); KEYS.forEach(function (k) { if (c[k]) S[k] = c[k]; }); } catch (e) {}
+        KEYS.forEach(function (k) { $('f-' + k).value = S[k]; });
+        $('t-date').value = today();
+
+        function api(method, body) {
+            var u = 'https://api.github.com/repos/' + S.o + '/' + S.r + '/contents/' + S.p;
+            if (method === 'GET') u += '?ref=' + encodeURIComponent(S.b) + '&_=' + Date.now();
+            var h = { 'Authorization': 'Bearer ' + S.t, 'Accept': 'application/vnd.github+json' };
+            if (body) h['Content-Type'] = 'application/json';
+            return fetch(u, { method: method, headers: h, body: body ? JSON.stringify(body) : undefined })
+                .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.message || r.status); return j; }); });
+        }
+        function connect() {
+            KEYS.forEach(function (k) { S[k] = $('f-' + k).value.trim(); });
+            try { localStorage.setItem('admin-cfg', JSON.stringify(S)); } catch (e) {}
+            if (!S.o || !S.r || !S.t) { status('Kullanıcı adı, depo adı ve anahtar gerekli.', 'err'); return; }
+            status('Bağlanılıyor...');
+            api('GET').then(function (j) {
+                sha = j.sha;
+                posts = JSON.parse(decodeURIComponent(escape(atob(j.content.replace(/\n/g, '')))));
+                $('app').style.display = 'block';
+                status('Bağlandı. ' + posts.length + ' yazı yüklendi.', 'ok');
+                show();
+            }).catch(function (e) { status('Bağlanılamadı: ' + e.message, 'err'); });
+        }
+        function commit(next, msg) {
+            status('Yayımlanıyor...');
+            var content = btoa(unescape(encodeURIComponent(JSON.stringify(next, null, 2))));
+            return api('PUT', { message: msg, content: content, sha: sha, branch: S.b }).then(function (j) {
+                sha = j.content.sha; posts = next; show();
+                status('Kaydedildi. Canlı sitede yaklaşık 1 dakika içinde görünür.', 'ok');
+                return true;
+            }).catch(function (e) { status('Kaydedilemedi: ' + e.message, 'err'); return false; });
+        }
+        function show() {
+            var html = posts.length ? '' : '<li>Henüz yazı yok.</li>';
+            posts.slice().map(function (p, i) { return { p: p, i: i }; }).sort(function (a, b) { return b.p.date.localeCompare(a.p.date); }).forEach(function (x) {
+                html += '<li class="arow"><time>' + BLOG.esc(x.p.date) + '</time><div><span style="color:var(--heading);font-weight:600">' + BLOG.esc(x.p.title) + '</span><br>' +
+                    '<button class="btn ghost sm" type="button" onclick="edit(' + x.i + ')">Düzenle</button>' +
+                    '<button class="btn danger sm" type="button" onclick="del(' + x.i + ')">Sil</button></div></li>';
+            });
+            $('plist').innerHTML = html;
+        }
+        function edit(i) {
+            var p = posts[i]; editing = i;
+            $('t-title').value = p.title; $('t-slug').value = p.slug; $('t-date').value = p.date; $('t-sum').value = p.summary || ''; $('t-tags').value = (p.tags || []).join(', '); $('t-body').value = p.body;
+            $('form-title').textContent = '3. Yazıyı düzenle';
+            $('form-title').scrollIntoView({ behavior: 'smooth' });
+        }
+        function clearForm() {
+            editing = -1; ['t-title', 't-slug', 't-sum', 't-tags', 't-body'].forEach(function (id) { $(id).value = ''; });
+            $('t-date').value = today(); $('form-title').textContent = '3. Yeni yazı';
+        }
+        function saveForm() {
+            var title = $('t-title').value.trim(), body = $('t-body').value.replace(/\r/g, '').trim();
+            if (!title || !body) { status('Başlık ve metin gerekli.', 'err'); return; }
+            var slug = slugify($('t-slug').value.trim() || title);
+            if (!slug) { status('Geçerli bir adres üretilemedi.', 'err'); return; }
+            if (posts.some(function (p, i) { return p.slug === slug && i !== editing; })) { status('Bu adresle başka bir yazı var.', 'err'); return; }
+            var item = { slug: slug, title: title, date: $('t-date').value || today(), summary: $('t-sum').value.trim(), tags: $('t-tags').value.split(',').map(function (x) { return x.trim(); }).filter(Boolean), body: body };
+            var next = posts.slice(); if (editing > -1) next[editing] = item; else next.push(item);
+            commit(next, (editing > -1 ? 'Blog: güncelle ' : 'Blog: ekle ') + slug).then(function (ok) { if (ok) clearForm(); });
+        }
+        function del(i) {
+            if (!confirm('"' + posts[i].title + '" silinsin mi?')) return;
+            var slug = posts[i].slug;
+            commit(posts.filter(function (_, k) { return k !== i; }), 'Blog: sil ' + slug).then(function (ok) { if (ok) clearForm(); });
+        }
+    </script>
+</body>
+</html>
