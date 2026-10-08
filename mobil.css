@@ -1,0 +1,63 @@
+/* --- MOBİL UYUMLULUK (ana site) ---
+   index.html içinde </style> satırının hemen altına şu satır eklenir:
+   <link rel="stylesheet" href="mobil.css">
+   Bilgisayar görünümünü etkilemez, yalnızca dar ekranlarda ve dokunmatik cihazlarda çalışır. */
+
+/* Dokunmatik cihaz: özel imleci kapat, normal dokunma davranışı */
+@media (hover: none), (pointer: coarse) {
+    body, .spec-item, .stark-button, .project-card, .project-btn, .secret-protocol, button { cursor: auto; }
+    #custom-cursor { display: none; }
+    html { -webkit-tap-highlight-color: transparent; }
+    a, button { touch-action: manipulation; }
+}
+
+@media (max-width: 768px) {
+    body { padding: 24px 0 0; }
+    .container { width: 92%; padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px)); }
+
+    /* Açılış ekranı */
+    .boot-logo { font-size: 1.9em; letter-spacing: 3px; margin-bottom: 22px; }
+    .boot-loader-container { width: min(300px, 80vw); }
+
+    /* HUD: telefonda içerikle çakışmasın, sadece saat ve tarih kalsın */
+    .hud-top-right, .hud-bottom-left, .hud-bottom-right { display: none; }
+    .hud-top-left { top: 16px; left: 16px; font-size: .85em; }
+    .corner-bracket { width: 18px; height: 18px; }
+    .top-left { top: 8px; left: 8px; } .top-right { top: 8px; right: 8px; }
+    .bottom-left { bottom: 8px; left: 8px; } .bottom-right { bottom: 8px; right: 8px; }
+
+    /* Hologram ve reaktör */
+    .reactor-section { height: 280px; margin-bottom: 8px; }
+    .hologram-base { width: 160px; height: 160px; bottom: 14px; }
+    .hologram-beam { width: 130px; height: 160px; bottom: 60px; }
+
+    /* Başlıklar */
+    h1 { font-size: 1.45em; letter-spacing: 2px; }
+    .container > h2 { font-size: 1.15em !important; letter-spacing: 3px !important; }
+
+    /* Kartlar: taşmasın, alt alta dizilsin */
+    .cards-layout { gap: 16px; }
+    .card { flex: 1 1 100%; min-width: 0; padding: 20px; backdrop-filter: none; }
+    .specs-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+
+    /* Projeler */
+    .section-title span { letter-spacing: 2px; font-size: .8em; }
+    .project-grid { grid-template-columns: 1fr; }
+    .project-card { padding: 18px; backdrop-filter: none; }
+    .project-meta { flex-wrap: wrap; gap: 8px; }
+    .project-btn { padding: 8px 16px; }
+
+    /* Düğmeler */
+    .stark-button { padding: 12px 22px; }
+    .jarvis-btn { padding: 14px 22px; }
+
+    /* Açılır pencere (modal) */
+    .modal-content { width: 88%; box-sizing: border-box; padding: 22px; max-height: 82vh; overflow-y: auto; }
+    .modal-text { min-height: 120px; }
+}
+
+@media (max-width: 360px) {
+    h1 { font-size: 1.25em; letter-spacing: 1px; }
+    .container > h2 { letter-spacing: 2px !important; }
+    .reactor-section { height: 250px; }
+}
