@@ -2,7 +2,7 @@
 (function () {
     var KEY = 'blog-theme', root = document.documentElement;
     /* Sosyal bağlantılar: tam adresi yaz, dolu olanlar dock'ta görünür. */
-    var SOCIAL = { linkedin: '', instagram: '' };
+    var SOCIAL = { linkedin: 'https://www.linkedin.com/in/taha-efe-karabacak-4b1a4a389/', instagram: 'https://www.instagram.com/thekarabacak_6/' };
     function read() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
     function label() { var b = document.getElementById('theme-btn'); if (!b) return; var t = root.getAttribute('data-theme') === 'dark' ? 'Açık mod' : 'Koyu mod'; if (b.hasAttribute('data-icon')) b.setAttribute('data-tip', t); else b.textContent = t; }
     root.setAttribute('data-theme', read() === 'dark' ? 'dark' : 'light');
@@ -39,39 +39,61 @@
         'finance': grad('lg-fc', '#34d399', '#059669') + '<g fill="#fff"><rect x="5.5" y="12.5" width="3.2" height="6" rx=".6"/><rect x="10.4" y="8.5" width="3.2" height="10" rx=".6"/><rect x="15.3" y="5" width="3.2" height="13.5" rx=".6"/></g>',
         'tekuni': grad('lg-tu', '#fbbf24', '#ea580c') + '<path d="M5 6.5h5.5A1.5 1.5 0 0 1 12 8v10a1.5 1.5 0 0 0-1.5-1.5H5zM19 6.5h-5.5A1.5 1.5 0 0 0 12 8v10a1.5 1.5 0 0 1 1.5-1.5H19z" fill="#fff"/>',
         'portfolio': grad('lg-pf', '#22d3ee', '#0e7490') + '<circle cx="12" cy="12" r="6" fill="none" stroke="#fff" stroke-width="1.5"/><path d="M12 3.5v4M12 16.5v4M3.5 12h4M16.5 12h4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>',
+        'lise': box('#f59e0b') + '<path d="M12 4.2 5.2 7v5.2c0 4 2.9 6.9 6.8 8 3.9-1.1 6.8-4 6.8-8V7z" fill="#fff"/>' + txt('Z', '#d97706', 10),
+        'fw': box('#dc2626') + '<g fill="#fff"><rect x="5" y="6" width="6" height="3.4" rx=".6"/><rect x="12" y="6" width="7" height="3.4" rx=".6"/><rect x="5" y="10.3" width="3.4" height="3.4" rx=".6"/><rect x="9.4" y="10.3" width="6" height="3.4" rx=".6"/><rect x="16.4" y="10.3" width="2.6" height="3.4" rx=".6"/><rect x="5" y="14.6" width="6" height="3.4" rx=".6"/><rect x="12" y="14.6" width="7" height="3.4" rx=".6"/></g>',
+        'se': box('#0f172a') + txt('&lt;/&gt;', '#38bdf8', 9),
+        'gpt': box('#10A37F') + txt('GPT', '#fff', 8.5),
+        'ps': box('#7C3AED') + txt('PS', '#fff', 10),
+        'claude': box('#D97757') + '<g stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5.9 8.5l12.2 7M5.9 15.5l12.2-7"/></g>',
+        'btk': box('#1e3a8a') + txt('BTK', '#2aa7c9', 8.5),
+        'hackerrank': box('#0e141e') + '<rect x="5" y="5" width="14" height="14" rx="2" fill="none" stroke="#fff" stroke-width="1"/>' + txt('H', '#2ec866', 11),
+        'efset': box('#6A4DF5') + txt('EF', '#fff', 11),
+        'ddd': box('#0f2a4a') + '<path d="M5 6h14l-7 13z" fill="#1d8fe0"/>',
         'google': box('#4285F4') + txt('G', '#fff', 13),
         'kbu': grad('lg-kbu', '#1e3a8a', '#3b82f6') + '<path d="M12 5 2.5 9.5 12 14l7-3.3V16h1.8V9.5z" fill="#fff"/><path d="M6.2 12.8v3.2c0 1.4 2.6 2.8 5.8 2.8s5.8-1.4 5.8-2.8v-3.2L12 15.6z" fill="#fff" opacity=".85"/>'
     };
 
     /* Zaman çizelgesi (açılır liste): en yenisi en üstte. d: tarih, t: başlık, s: alt başlık, x: açıklama, l: logo adı, k: iç kartlar [{t, d}] (isteğe bağlı). */
     var TIMELINE = [
-        { d: 'Şimdi', t: 'Karabük Üniversitesi', s: 'Elektrik-Elektronik Mühendisliği', l: 'kbu',
+        { d: 'Eylül 2026’dan itibaren', t: 'Deep Dive Dynamics', s: 'Elektronik Birim Üyesi', l: 'ddd',
+          x: 'Elektronik donanım ve bileşenler üzerine kapsamlı araştırma ve piyasa analizi yapıyorum. TEKNOFEST hazırlıkları kapsamında mühendislik takımına sistem tasarımı, donanım entegrasyonu ve test aşamalarında destek veriyorum.' },
+        { d: '2025’ten itibaren', t: 'Karabük Üniversitesi', s: 'Elektrik-Elektronik Mühendisliği', l: 'kbu',
           x: '%100 İngilizce eğitim veren Elektrik-Elektronik Mühendisliği programında öğrenciyim.' },
-        { d: 'Ekim 2026', t: 'Blogun açılışı', s: 'Kişisel blog', l: 'portfolio',
-          x: 'Yazılım projeleri ve mühendislik notları üzerine yazılar yayımlamaya başladım.',
-          k: [{ t: 'J.A.R.V.I.S.: Sesli Yapay Zeka Asistanı Projesi', d: '6 Ekim 2026' }] },
-        { d: '2026', t: 'Web projeleri yayında', s: '3 proje', l: 'finance',
-          x: 'Finans takibi, ders notu paylaşımı ve kişisel tanıtım için üç web projesini canlıya aldım.',
-          k: [{ t: 'Finance Control', d: '2026' }, { t: 'TeküniArşiv', d: '2026' }, { t: 'Kişisel Portföy', d: '2026' }] },
-        { d: '2025', t: 'J.A.R.V.I.S. Yapay Zeka Asistanı', s: 'Build 6.0.1 · Aktif geliştirme', l: 'jarvis',
-          x: 'PyQt5 tabanlı, sesli komutla çalışan bir masaüstü asistanı geliştiriyorum. Groq API, Whisper ve Edge-TTS ile konuşuyor, PyAutoGUI ile ekranı kontrol ediyor.' }
+        { d: '2024', t: 'Lise mezuniyeti', s: 'Vakıfbank Zübeyde Hanım Anadolu Lisesi', l: 'lise',
+          x: 'Lise eğitimimi Vakıfbank Zübeyde Hanım Anadolu Lisesi’nde tamamladım.' }
     ];
 
     /* Sertifikalar: t: ad, o: veren kurum, d: tarih, l: logo adı, img: görsel yolu (blog/ klasörüne göre), x: ne işe yaradığı, u: doğrulama bağlantısı. d ve u boş bırakılabilir. */
     var CERTS = [
-        { t: 'Kodlama Sertifikası', o: 'Google Digital Garage', d: '', l: 'google', u: '', img: 'sertifikalar/google-kodlama.jpg', x: 'Google Digital Garage kodlama eğitimini tamamladığımı belgeler.' }
+        { t: 'Uygulamalarla SQL Öğreniyorum', o: 'BTK Akademi', d: '7 Ekim 2026', l: 'btk', u: 'https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=yjahzdxeZm', img: 'sertifikalar/sql.jpg', x: 'BTK Akademi’nin “Uygulamalarla SQL Öğreniyorum” çevrim içi eğitimini 7 Ekim 2026 tarihinde tamamladığımı belgeler. Sertifika No: yjahzdxeZm.' },
+        { t: 'Software Engineer', o: 'HackerRank', d: '6 Ekim 2026', l: 'hackerrank', u: '', img: 'sertifikalar/software-engineer.jpg', x: 'HackerRank rol sertifikasyon testini geçtiğimi belgeler. Sertifika ID: CC48C4F89E68.' },
+        { t: 'C# (Basic)', o: 'HackerRank', d: '6 Ekim 2026', l: 'hackerrank', u: '', img: 'sertifikalar/csharp-basic.jpg', x: 'HackerRank C# (Basic) beceri sertifikasyon testini geçtiğimi belgeler. Sertifika ID: 463F5E188850.' },
+        { t: 'Go (Intermediate)', o: 'HackerRank', d: '6 Ekim 2026', l: 'hackerrank', u: '', img: 'sertifikalar/go-intermediate.jpg', x: 'HackerRank Go (Intermediate) beceri sertifikasyon testini geçtiğimi belgeler. Sertifika ID: A8EDB8953CD7.' },
+        { t: 'Güvenlik Duvarına Giriş', o: 'BTK Akademi', d: '1 Ekim 2026', l: 'btk', u: 'https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=WJ1SkOA00o', img: 'sertifikalar/guvenlik-duvari.jpg', x: 'BTK Akademi’nin “Güvenlik Duvarına Giriş” çevrim içi eğitimini 1 Ekim 2026 tarihinde tamamladığımı belgeler. Sertifika No: WJ1SkOA00o.' },
+        { t: 'Anthropic Claude', o: 'BTK Akademi', d: '30 Eylül 2026', l: 'btk', u: 'https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=XV1hBPVYmd', img: 'sertifikalar/anthropic-claude.jpg', x: 'BTK Akademi’nin “Anthropic Claude” çevrim içi eğitimini 30 Eylül 2026 tarihinde tamamladığımı belgeler. Sertifika No: XV1hBPVYmd.' },
+        { t: 'Problem Çözme Teknikleri', o: 'BTK Akademi', d: '26 Ağustos 2026', l: 'btk', u: 'https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=Bozfx8ynx1', img: 'sertifikalar/problem-cozme.jpg', x: 'BTK Akademi’nin “Problem Çözme Teknikleri” çevrim içi eğitimini 26 Ağustos 2026 tarihinde tamamladığımı belgeler. Sertifika No: Bozfx8ynx1.' },
+        { t: 'EF SET İngilizce Sertifikası', o: 'EF SET', d: '26 Ağustos 2026', l: 'efset', u: 'https://cert.efset.org/tr/yF7fFN', img: 'sertifikalar/ef-set.jpg', x: 'EF SET İngilizce testinde 89/100 puanla CEFR ölçeğinde C2 (ana dil) seviyesine ulaştığımı belgeler. Okuma 99, dinleme 100, yazma 79, konuşma 77.' },
+        { t: 'ChatGPT', o: 'BTK Akademi', d: '16 Temmuz 2026', l: 'btk', u: 'https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=XV1hBYM1d0', img: 'sertifikalar/chatgpt.jpg', x: 'BTK Akademi’nin “ChatGPT” çevrim içi eğitimini 16 Temmuz 2026 tarihinde tamamladığımı belgeler. Sertifika No: XV1hBYM1d0.' },
+        { t: 'Gemini Veo', o: 'BTK Akademi', d: '16 Temmuz 2026', l: 'btk', u: 'https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=mKEhkAryZa', img: 'sertifikalar/gemini-veo.jpg', x: 'BTK Akademi’nin “Gemini Veo” çevrim içi eğitimini 16 Temmuz 2026 tarihinde tamamladığımı belgeler. Sertifika No: mKEhkAryZa.' }
     ];
+    /* Kaç sertifika doğrudan görünsün. Daha azını göstermek istersen sayıyı düşür, kalanı "Tümünü göster" ile açılır. */
+    var CERT_VISIBLE = 999;
 
     /* Eğitim: u verilirse satır okulun alan adına gider. */
     var EDU = [
-        { t: 'Karabük Üniversitesi', o: 'Elektrik-Elektronik Mühendisliği (%100 İngilizce)', l: 'kbu', u: 'https://www.karabuk.edu.tr' }
+        { t: 'Karabük Üniversitesi', o: 'Elektrik-Elektronik Mühendisliği (%100 İngilizce)', l: 'kbu', u: 'https://www.karabuk.edu.tr' },
+        { t: 'Vakıfbank Zübeyde Hanım Anadolu Lisesi', o: 'Lise Diploması', d: 'Mezuniyet 2024', l: 'lise', u: 'https://karabukzal.meb.k12.tr' }
     ];
 
     var CH = '<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>';
     function rowInner(c, sub, hint, link) { return '<div class="what"><div class="tile">' + BLOG.logo(c.l) + '</div><div><b>' + esc(c.t) + (link ? CH : '') + '</b><small>' + esc(sub) + '</small></div></div>' + (c.d ? '<span class="rdate">' + esc(c.d) + '</span>' : '<span class="go">' + hint + '</span>'); }
 
+    /* Gerçek logo görselleri (blog/logos/ klasöründe). Dosya yoksa çizilmiş logo görünür. */
+    var IMG = { lise: 'logos/lise.png', kbu: 'logos/kbu.png', btk: 'logos/btk.png', ddd: 'logos/ddd.png', hackerrank: 'logos/hackerrank.png' };
+
     window.BLOG = {
-        logo: function (name) { var b = LOGOS[String(name).toLowerCase()]; return b ? '<svg viewBox="0 0 24 24" aria-hidden="true">' + b + '</svg>' : ''; },
+        svg: function (name) { var b = LOGOS[String(name).toLowerCase()]; return b ? '<svg viewBox="0 0 24 24" aria-hidden="true">' + b + '</svg>' : ''; },
+        logo: function (name) { var k = String(name).toLowerCase(); return IMG[k] ? '<img src="' + IMG[k] + '" alt="" data-k="' + k + '" onerror="this.outerHTML=BLOG.svg(this.getAttribute(\'data-k\'))">' : BLOG.svg(name); },
         openCert: function (i) {
             var c = CERTS[i], sh = document.getElementById('sheet');
             if (!sh) {
@@ -86,12 +108,12 @@
             sh.querySelector('.sh-org').textContent = c.o + (c.d ? ' \u00b7 ' + c.d : '');
             sh.querySelector('p').textContent = c.x || '';
             var lk = sh.querySelector('.sh-link'); lk.style.display = c.u ? 'inline-block' : 'none'; if (c.u) lk.href = c.u;
-            var box = sh.querySelector('.sh-img'); box.innerHTML = '';
+            var box = sh.querySelector('.sh-img'); box.innerHTML = ''; box.style.display = '';
             if (c.img) {
                 var im = new Image(); im.alt = c.t + ' sertifikası';
                 im.onerror = function () { box.innerHTML = '<div class="ph-img">Sertifika görseli henüz eklenmedi</div>'; };
                 im.src = c.img; box.appendChild(im);
-            } else { box.innerHTML = '<div class="ph-img">Sertifika görseli henüz eklenmedi</div>'; }
+            } else { box.style.display = 'none'; }
             BLOG._from = document.activeElement;
             document.body.classList.add('sheet-open');
             sh.querySelector('.x').focus();
@@ -101,11 +123,12 @@
             if (BLOG._from && BLOG._from.focus) BLOG._from.focus();
         },
         toggle: function (b) { var li = b.parentNode, o = li.classList.toggle('open'); b.setAttribute('aria-expanded', o); },
+        moreCerts: function (b) { var c = b.parentNode; c.classList.toggle('all'); b.textContent = c.classList.contains('all') ? 'Daha az göster' : 'Tümünü göster (' + CERTS.length + ')'; },
         decorate: function () {
             var cs = document.getElementById('certs');
             var ed = document.getElementById('edu');
-            if (ed) ed.innerHTML = EDU.map(function (e) { var host = String(e.u || '').replace(/^https?:\/\/(www\.)?/, '').replace(/\/.*$/, ''); return e.u ? '<a class="row link" href="' + esc(e.u) + '" target="_blank" rel="noopener">' + rowInner(e, e.o, esc(host) + ' &#8599;', true) + '</a>' : '<div class="row">' + rowInner(e, e.o, '', false) + '</div>'; }).join('');
-            if (cs) cs.innerHTML = CERTS.map(function (c, i) { return '<button class="row link" type="button" onclick="BLOG.openCert(' + i + ')">' + rowInner(c, c.o, 'Görüntüle &#8593;', true) + '</button>'; }).join('');
+            if (ed) ed.innerHTML = EDU.map(function (e) { var host = String(e.u || '').replace(/^https?:\/\/(www\.)?/, '').replace(/\/.*$/, ''); return e.u ? '<a class="row link" href="' + esc(e.u) + '" title="' + esc(host) + '" target="_blank" rel="noopener">' + rowInner(e, e.o, esc(host) + ' &#8599;', true) + '</a>' : '<div class="row">' + rowInner(e, e.o, '', false) + '</div>'; }).join('');
+            if (cs) cs.innerHTML = CERTS.map(function (c, i) { return '<button class="row link' + (i >= CERT_VISIBLE ? ' extra' : '') + '" type="button" onclick="BLOG.openCert(' + i + ')">' + rowInner(c, c.o, 'Görüntüle &#8593;', true) + '</button>'; }).join('') + (CERTS.length > CERT_VISIBLE ? '<button class="more-btn" type="button" onclick="BLOG.moreCerts(this)">Tümünü göster (' + CERTS.length + ')</button>' : '');
             var tl = document.getElementById('timeline');
             if (tl) tl.innerHTML = TIMELINE.map(function (e, i) {
                 var kids = (e.k || []).map(function (k) { return '<div class="sub"><b>' + esc(k.t) + '</b><span>' + esc(k.d) + '</span></div>'; }).join('');
@@ -130,7 +153,7 @@
             function a(t, h, k, ext) { return '<a href="' + h + '" data-tip="' + t + '" aria-label="' + t + '"' + (ext ? ' target="_blank" rel="noopener"' : '') + '>' + svg(k) + '</a>'; }
             var d = document.createElement('nav'); d.id = 'dock';
             d.innerHTML = a('Ana Sayfa', o.home, 'home') + a('Projeler', o.proj, 'folder') + a('Yazılar', o.posts, 'file') + '<span class="sep"></span>' +
-                a('GitHub', 'https://github.com/thalesing', 'git', 1) + (S.linkedin ? a('LinkedIn', S.linkedin, 'linkedin', 1) : '') + (S.instagram ? a('Instagram', S.instagram, 'instagram', 1) : '') + a('E-posta', 'mailto:tahakarabacak7842@gmail.com', 'mail') +
+                a('GitHub', 'https://github.com/thalesing', 'git', 1) + (S.linkedin ? a('LinkedIn', S.linkedin, 'linkedin', 1) : '') + (S.instagram ? a('Instagram', S.instagram, 'instagram', 1) : '') + a('E-posta', 'https://mail.google.com/mail/?view=cm&fs=1&to=tahakarabacak7842@gmail.com', 'mail', 1) +
                 '<span class="sep"></span><button id="theme-btn" type="button" data-icon="1" aria-label="Tema">' + svg('sun') + '</button>';
             var items = [].slice.call(d.querySelectorAll('a, button'));
             d.addEventListener('mousemove', function (e) {

@@ -14,11 +14,11 @@
     <div class="wrap home">
         <a class="back" href="index.html">&larr; Tüm yazılar</a>
         <article id="art">Yükleniyor...</article>
-        <div class="authorbox"><div class="avatar">TE</div><div><strong>Taha Efe Karabacak</strong><div class="role">Elektrik-Elektronik Mühendisliği öğrencisi &middot; Karabük Üniversitesi</div><div class="links"><a href="https://github.com/thalesing">GitHub</a><a href="mailto:tahakarabacak7842@gmail.com">E-posta</a></div></div></div>
+        <div class="authorbox"><div class="avatar">TE<img src="profil.jpg" alt="Taha Efe Karabacak" onerror="this.remove()"></div><div><strong>Taha Efe Karabacak</strong><div class="role">Elektrik-Elektronik Mühendisliği öğrencisi &middot; Karabük Üniversitesi</div><div class="links"><a href="https://github.com/thalesing">GitHub</a><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=tahakarabacak7842@gmail.com" target="_blank" rel="noopener">E-posta</a></div></div></div>
         <footer class="site"><a href="index.html">&larr; Tüm yazılar</a> &middot; &copy; 2026 Taha Efe Karabacak</footer>
     </div>
     <script>
-        BLOG.dock({ home: '../index.html', proj: 'index.html#projeler', posts: 'index.html#yazilar' });
+        BLOG.dock({ home: 'https://tahaefekarabacak.com.tr/', proj: 'index.html#projeler', posts: 'index.html#yazilar' });
         BLOG.initTheme();
         var art = document.getElementById('art');
         BLOG.load().then(function (ps) {
