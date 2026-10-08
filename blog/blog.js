@@ -132,7 +132,7 @@
             var tl = document.getElementById('timeline');
             if (tl) tl.innerHTML = TIMELINE.map(function (e, i) {
                 var kids = (e.k || []).map(function (k) { return '<div class="sub"><b>' + esc(k.t) + '</b><span>' + esc(k.d) + '</span></div>'; }).join('');
-                return '<li' + (i === 0 ? ' class="open"' : '') + '><button class="tl-head" type="button" aria-expanded="' + (i === 0) + '" onclick="BLOG.toggle(this)"><span class="tile">' + BLOG.logo(e.l) + '</span><span class="tl-main"><b>' + esc(e.t) + '<svg class="caret" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></b><small>' + esc(e.s || '') + '</small></span><span class="tl-date">' + esc(e.d) + '</span></button><div class="tl-panel"><div class="tl-inner"><p>' + esc(e.x) + '</p>' + kids + '</div></div></li>';
+                return '<li><button class="tl-head" type="button" aria-expanded="false" onclick="BLOG.toggle(this)"><span class="tile">' + BLOG.logo(e.l) + '</span><span class="tl-main"><b>' + esc(e.t) + '<svg class="caret" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></b><small>' + esc(e.s || '') + '</small></span><span class="tl-date">' + esc(e.d) + '</span></button><div class="tl-panel"><div class="tl-inner"><p>' + esc(e.x) + '</p>' + kids + '</div></div></li>';
             }).join('');
             [].forEach.call(document.querySelectorAll('[data-chips]'), function (el) { el.innerHTML = el.getAttribute('data-chips').split('|').map(function (n) { return '<span>' + BLOG.logo(n) + esc(n) + '</span>'; }).join(''); });
             [].forEach.call(document.querySelectorAll('[data-logo]'), function (el) { el.innerHTML = BLOG.logo(el.getAttribute('data-logo')); });
