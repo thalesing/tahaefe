@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yazı | Taha Efe Karabacak</title>
+    <meta name="description" id="desc" content="Taha Efe Karabacak blog yazısı.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="blog.css">
+    <script src="blog.js"></script>
+</head>
+<body>
+    <div class="wrap home">
+        <a class="back" href="index.html">&larr; Tüm yazılar</a>
+        <div id="art" class="post">Yükleniyor...</div>
+        <div class="authorbox"><div class="avatar">TE<img src="profil.jpg" alt="Taha Efe Karabacak" onerror="this.remove()"></div><div><strong>Taha Efe Karabacak</strong><div class="role">Elektrik-Elektronik Mühendisliği öğrencisi &middot; Karabük Üniversitesi</div><div class="links"><a href="https://github.com/thalesing">GitHub</a><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=tahakarabacak7842@gmail.com" target="_blank" rel="noopener">E-posta</a></div></div></div>
+        <footer class="site"><a href="index.html">&larr; Tüm yazılar</a> &middot; &copy; 2026 Taha Efe Karabacak</footer>
+    </div>
+    <script>
+        BLOG.dock({ home: 'https://tahaefekarabacak.com.tr/', proj: 'index.html#projeler', posts: 'index.html#yazilar' });
+        BLOG.initTheme();
+        var art = document.getElementById('art');
+        BLOG.load().then(function (ps) {
+            var s = new URLSearchParams(location.search).get('s');
+            var p = ps.filter(function (x) { return x.slug === s; })[0];
+            if (!p) { art.innerHTML = '<h1>Yazı bulunamadı</h1><p><a href="index.html">Tüm yazılara dön</a></p>'; return; }
+            BLOG.renderPost(art, p);
+            document.title = p.title + ' | Taha Efe Karabacak';
+            document.getElementById('desc').setAttribute('content', p.summary || p.title);
+        }).catch(function () { art.innerHTML = '<p>Yazı yüklenemedi.</p>'; });
+    </script>
+</body>
+</html>
