@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /blog/cv/
 Sitemap: https://www.tahaefekarabacak.com.tr/sitemap.xml
