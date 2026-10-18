@@ -1,0 +1,55 @@
+[
+  {
+    "name": "J.A.R.V.I.S. Yapay Zeka Asistanı",
+    "date": "2025 - Günümüz",
+    "desc": "PyQt5 tabanlı, sesli komutla çalışan yapay zeka asistanı. Kalıcı hafıza, otonom ekran kontrolü ve kendini güncelleme modülü içerir.",
+    "tags": [
+      "Python",
+      "PyQt5",
+      "Groq API",
+      "Whisper",
+      "Edge-TTS"
+    ],
+    "l": "jarvis",
+    "url": ""
+  },
+  {
+    "name": "Finance Control",
+    "date": "2026",
+    "desc": "TCMB ve CoinGecko verileriyle döviz, kripto ve emtia takibi yapan, portföy yönetimi modülleri olan finans paneli.",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "TCMB API"
+    ],
+    "l": "finance",
+    "url": "https://tahaefekarabacakfinancecontrol.ai.studio/"
+  },
+  {
+    "name": "Öğrenci Paylaşım Ağı",
+    "date": "2026",
+    "desc": "Öğrenciler arasında ders notu ve çıkmış soru paylaşım platformu. Akademisyen değerlendirme ve üyelik sistemi içerir.",
+    "tags": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Vercel"
+    ],
+    "l": "tekuni",
+    "url": "https://tekuniarsiv.vercel.app/"
+  },
+  {
+    "name": "Kişisel Portföy",
+    "date": "2026",
+    "desc": "Canlı hava durumu, HUD arayüzü, parçacık sistemi ve 3D hologram efektleri olan kişisel web sitesi.",
+    "tags": [
+      "HTML5",
+      "CSS3",
+      "JavaScript",
+      "Canvas API"
+    ],
+    "l": "portfolio",
+    "url": "https://www.tahaefekarabacak.com.tr"
+  }
+]

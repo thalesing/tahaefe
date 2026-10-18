@@ -8,7 +8,14 @@
     root.setAttribute('data-theme', read() === 'dark' ? 'dark' : 'light');
 
     function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-    function inline(s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>'); }
+    function ok(u) { return /^(https?:\/\/|[^:]*$)/.test(u) && u.indexOf('"') < 0; }
+    function inline(s) {
+        return esc(s)
+            .replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, function (m, a, u) { return ok(u) ? '<img src="' + u + '" alt="' + a.replace(/"/g, '&quot;') + '" loading="lazy">' : m; })
+            .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (m, a, u) { return ok(u) ? '<a href="' + u + '"' + (/^https?:/.test(u) ? ' target="_blank" rel="noopener"' : '') + '>' + a + '</a>' : m; })
+            .replace(/`([^`]+)`/g, '<code>$1</code>')
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    }
 
     /* Renkli teknoloji / kurum logoları (satır içi SVG, dış dosya gerekmez) */
     function box(f) { return '<rect width="24" height="24" rx="5" fill="' + f + '"/>'; }
@@ -49,6 +56,8 @@
         'hackerrank': box('#0e141e') + '<rect x="5" y="5" width="14" height="14" rx="2" fill="none" stroke="#fff" stroke-width="1"/>' + txt('H', '#2ec866', 11),
         'efset': box('#6A4DF5') + txt('EF', '#fff', 11),
         'ddd': box('#0f2a4a') + '<path d="M5 6h14l-7 13z" fill="#1d8fe0"/>',
+        'cvtr': box('#1f3f8f') + txt('TR', '#fff', 10),
+        'cven': box('#0e7490') + txt('EN', '#fff', 10),
         'google': box('#4285F4') + txt('G', '#fff', 13),
         'kbu': grad('lg-kbu', '#1e3a8a', '#3b82f6') + '<path d="M12 5 2.5 9.5 12 14l7-3.3V16h1.8V9.5z" fill="#fff"/><path d="M6.2 12.8v3.2c0 1.4 2.6 2.8 5.8 2.8s5.8-1.4 5.8-2.8v-3.2L12 15.6z" fill="#fff" opacity=".85"/>'
     };
@@ -91,6 +100,63 @@
     /* Gerçek logo görselleri (blog/logos/ klasöründe). Dosya yoksa çizilmiş logo görünür. */
     var IMG = { lise: 'logos/lise.png', kbu: 'logos/kbu.png', btk: 'logos/btk.png', ddd: 'logos/ddd.png', hackerrank: 'logos/hackerrank.png' };
 
+    /* Projeler: yönetim panelinden değişir (blog/projects.json). Dosya yoksa bu liste kullanılır. */
+    var PROJECTS = [
+        {
+            "name": "J.A.R.V.I.S. Yapay Zeka Asistanı",
+            "date": "2025 - Günümüz",
+            "desc": "PyQt5 tabanlı, sesli komutla çalışan yapay zeka asistanı. Kalıcı hafıza, otonom ekran kontrolü ve kendini güncelleme modülü içerir.",
+            "tags": [
+                "Python",
+                "PyQt5",
+                "Groq API",
+                "Whisper",
+                "Edge-TTS"
+            ],
+            "l": "jarvis",
+            "url": ""
+        },
+        {
+            "name": "Finance Control",
+            "date": "2026",
+            "desc": "TCMB ve CoinGecko verileriyle döviz, kripto ve emtia takibi yapan, portföy yönetimi modülleri olan finans paneli.",
+            "tags": [
+                "React",
+                "TypeScript",
+                "Vite",
+                "TCMB API"
+            ],
+            "l": "finance",
+            "url": "https://tahaefekarabacakfinancecontrol.ai.studio/"
+        },
+        {
+            "name": "Öğrenci Paylaşım Ağı",
+            "date": "2026",
+            "desc": "Öğrenciler arasında ders notu ve çıkmış soru paylaşım platformu. Akademisyen değerlendirme ve üyelik sistemi içerir.",
+            "tags": [
+                "React",
+                "TypeScript",
+                "Vite",
+                "Vercel"
+            ],
+            "l": "tekuni",
+            "url": "https://tekuniarsiv.vercel.app/"
+        },
+        {
+            "name": "Kişisel Portföy",
+            "date": "2026",
+            "desc": "Canlı hava durumu, HUD arayüzü, parçacık sistemi ve 3D hologram efektleri olan kişisel web sitesi.",
+            "tags": [
+                "HTML5",
+                "CSS3",
+                "JavaScript",
+                "Canvas API"
+            ],
+            "l": "portfolio",
+            "url": "https://www.tahaefekarabacak.com.tr"
+        }
+    ];
+
     window.BLOG = {
         svg: function (name) { var b = LOGOS[String(name).toLowerCase()]; return b ? '<svg viewBox="0 0 24 24" aria-hidden="true">' + b + '</svg>' : ''; },
         logo: function (name) { var k = String(name).toLowerCase(); return IMG[k] ? '<img src="' + IMG[k] + '" alt="" data-k="' + k + '" onerror="this.outerHTML=BLOG.svg(this.getAttribute(\'data-k\'))">' : BLOG.svg(name); },
@@ -124,7 +190,17 @@
         },
         toggle: function (b) { var li = b.parentNode, o = li.classList.toggle('open'); b.setAttribute('aria-expanded', o); },
         moreCerts: function (b) { var c = b.parentNode; c.classList.toggle('all'); b.textContent = c.classList.contains('all') ? 'Daha az göster' : 'Tümünü göster (' + CERTS.length + ')'; },
+        loadData: function () {
+            function get(f, cb) { return fetch(f, { cache: 'no-store' }).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (j) { if (Array.isArray(j)) cb(j); }).catch(function () {}); }
+            return Promise.all([get('certs.json', function (j) { CERTS = j; }), get('timeline.json', function (j) { TIMELINE = j; }), get('projects.json', function (j) { PROJECTS = j; })]);
+        },
+        start: function () { BLOG.loadData().then(function () { BLOG.decorate(); }); },
         decorate: function () {
+            var pg = document.getElementById('pgrid');
+            if (pg) pg.innerHTML = PROJECTS.map(function (p) {
+                var inner = '<div class="tile">' + BLOG.logo(p.l) + '</div><h3>' + esc(p.name) + '</h3><div class="pd">' + esc(p.date || '') + '</div><p>' + esc(p.desc || '') + '</p><div class="chips">' + (p.tags || []).map(function (n) { return '<span>' + BLOG.logo(n) + esc(n) + '</span>'; }).join('') + '</div>';
+                return /^https?:\/\//.test(p.url || '') ? '<a class="pcard" href="' + esc(p.url) + '" target="_blank" rel="noopener">' + inner + '</a>' : '<div class="pcard">' + inner + '</div>';
+            }).join('');
             var cs = document.getElementById('certs');
             var ed = document.getElementById('edu');
             if (ed) ed.innerHTML = EDU.map(function (e) { var host = String(e.u || '').replace(/^https?:\/\/(www\.)?/, '').replace(/\/.*$/, ''); return e.u ? '<a class="row link" href="' + esc(e.u) + '" title="' + esc(host) + '" target="_blank" rel="noopener">' + rowInner(e, e.o, esc(host) + ' &#8599;', true) + '</a>' : '<div class="row">' + rowInner(e, e.o, '', false) + '</div>'; }).join('');
@@ -177,9 +253,12 @@
             };
         },
         md: function (t) {
-            var out = [];
+            var codes = [], out = [];
+            t = t.replace(/```[^\n]*\n?([\s\S]*?)```/g, function (m, c) { codes.push(c.replace(/\n$/, '')); return '\n\n@@CODE' + (codes.length - 1) + '@@\n\n'; });
             t.trim().split(/\n{2,}/).forEach(function (b) {
                 b = b.trim(); if (!b) return;
+                var cm = b.match(/^@@CODE(\d+)@@$/);
+                if (cm) { out.push('<pre><code>' + esc(codes[+cm[1]]) + '</code></pre>'); return; }
                 var lines = b.split('\n');
                 if (lines.length === 1 && /^## /.test(b)) { out.push('<h2>' + inline(b.slice(3)) + '</h2>'); return; }
                 if (lines.every(function (l) { return /^- /.test(l); })) {

@@ -1,0 +1,92 @@
+[
+  {
+    "t": "Uygulamalarla SQL Öğreniyorum",
+    "o": "BTK Akademi",
+    "d": "7 Ekim 2026",
+    "l": "btk",
+    "u": "https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=yjahzdxeZm",
+    "img": "sertifikalar/sql.jpg",
+    "x": "BTK Akademi’nin “Uygulamalarla SQL Öğreniyorum” çevrim içi eğitimini 7 Ekim 2026 tarihinde tamamladığımı belgeler. Sertifika No: yjahzdxeZm."
+  },
+  {
+    "t": "Software Engineer",
+    "o": "HackerRank",
+    "d": "6 Ekim 2026",
+    "l": "hackerrank",
+    "u": "",
+    "img": "sertifikalar/software-engineer.jpg",
+    "x": "HackerRank rol sertifikasyon testini geçtiğimi belgeler. Sertifika ID: CC48C4F89E68."
+  },
+  {
+    "t": "C# (Basic)",
+    "o": "HackerRank",
+    "d": "6 Ekim 2026",
+    "l": "hackerrank",
+    "u": "",
+    "img": "sertifikalar/csharp-basic.jpg",
+    "x": "HackerRank C# (Basic) beceri sertifikasyon testini geçtiğimi belgeler. Sertifika ID: 463F5E188850."
+  },
+  {
+    "t": "Go (Intermediate)",
+    "o": "HackerRank",
+    "d": "6 Ekim 2026",
+    "l": "hackerrank",
+    "u": "",
+    "img": "sertifikalar/go-intermediate.jpg",
+    "x": "HackerRank Go (Intermediate) beceri sertifikasyon testini geçtiğimi belgeler. Sertifika ID: A8EDB8953CD7."
+  },
+  {
+    "t": "Güvenlik Duvarına Giriş",
+    "o": "BTK Akademi",
+    "d": "1 Ekim 2026",
+    "l": "btk",
+    "u": "https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=WJ1SkOA00o",
+    "img": "sertifikalar/guvenlik-duvari.jpg",
+    "x": "BTK Akademi’nin “Güvenlik Duvarına Giriş” çevrim içi eğitimini 1 Ekim 2026 tarihinde tamamladığımı belgeler. Sertifika No: WJ1SkOA00o."
+  },
+  {
+    "t": "Anthropic Claude",
+    "o": "BTK Akademi",
+    "d": "30 Eylül 2026",
+    "l": "btk",
+    "u": "https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=XV1hBPVYmd",
+    "img": "sertifikalar/anthropic-claude.jpg",
+    "x": "BTK Akademi’nin “Anthropic Claude” çevrim içi eğitimini 30 Eylül 2026 tarihinde tamamladığımı belgeler. Sertifika No: XV1hBPVYmd."
+  },
+  {
+    "t": "Problem Çözme Teknikleri",
+    "o": "BTK Akademi",
+    "d": "26 Ağustos 2026",
+    "l": "btk",
+    "u": "https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=Bozfx8ynx1",
+    "img": "sertifikalar/problem-cozme.jpg",
+    "x": "BTK Akademi’nin “Problem Çözme Teknikleri” çevrim içi eğitimini 26 Ağustos 2026 tarihinde tamamladığımı belgeler. Sertifika No: Bozfx8ynx1."
+  },
+  {
+    "t": "EF SET İngilizce Sertifikası",
+    "o": "EF SET",
+    "d": "26 Ağustos 2026",
+    "l": "efset",
+    "u": "https://cert.efset.org/tr/yF7fFN",
+    "img": "sertifikalar/ef-set.jpg",
+    "x": "EF SET İngilizce testinde 89/100 puanla CEFR ölçeğinde C2 (ana dil) seviyesine ulaştığımı belgeler. Okuma 99, dinleme 100, yazma 79, konuşma 77."
+  },
+  {
+    "t": "ChatGPT",
+    "o": "BTK Akademi",
+    "d": "16 Temmuz 2026",
+    "l": "btk",
+    "u": "https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=XV1hBYM1d0",
+    "img": "sertifikalar/chatgpt.jpg",
+    "x": "BTK Akademi’nin “ChatGPT” çevrim içi eğitimini 16 Temmuz 2026 tarihinde tamamladığımı belgeler. Sertifika No: XV1hBYM1d0."
+  },
+  {
+    "t": "Gemini Veo",
+    "o": "BTK Akademi",
+    "d": "16 Temmuz 2026",
+    "l": "btk",
+    "u": "https://www.btkakademi.gov.tr/portal/certificate/validate?certificateId=mKEhkAryZa",
+    "img": "sertifikalar/gemini-veo.jpg",
+    "x": "BTK Akademi’nin “Gemini Veo” çevrim içi eğitimini 16 Temmuz 2026 tarihinde tamamladığımı belgeler. Sertifika No: mKEhkAryZa."
+  }
+]

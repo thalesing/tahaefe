@@ -38,12 +38,12 @@ ul.posts p { margin: 0; color: var(--text); font-size: .98em; }
 .tags { margin-top: 4px; }
 .tags span { display: inline-block; background: var(--soft); border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 1px 11px; font-size: .78em; margin: 8px 6px 0 0; }
 
-article h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 2.2em; line-height: 1.2; margin-bottom: 10px; }
-article .body { margin-top: 30px; font-family: Georgia, 'Times New Roman', serif; font-size: 1.1em; line-height: 1.85; }
-article .body h2 { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 1.2em; margin-top: 36px; }
-article ul { padding-left: 22px; margin: 0 0 18px; }
-article li { margin-bottom: 8px; }
-article strong { color: var(--heading); }
+.post h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 2.2em; line-height: 1.2; margin-bottom: 10px; }
+.post .body { margin-top: 30px; font-family: Georgia, 'Times New Roman', serif; font-size: 1.1em; line-height: 1.85; }
+.post .body h2 { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 1.2em; margin-top: 36px; }
+.post ul { padding-left: 22px; margin: 0 0 18px; }
+.post li { margin-bottom: 8px; }
+.post strong { color: var(--heading); }
 .authorbox { display: flex; gap: 16px; align-items: center; background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; margin-top: 48px; }
 .authorbox .avatar { flex: 0 0 52px; height: 52px; font-size: 1.1em; }
 .authorbox strong { color: var(--heading); }
@@ -68,7 +68,7 @@ ul.posts li.arow time { flex: 0 0 96px; color: var(--muted); font-family: 'Couri
 #status.err { color: #cf222e; } #status.ok { color: #1a7f37; }
 [data-theme="dark"] #status.ok { color: #3fb950; }
 @media (max-width: 600px) {
-    body { font-size: 16px; } h1 { font-size: 1.5em; } article h1 { font-size: 1.8em; }
+    body { font-size: 16px; } h1 { font-size: 1.5em; } .post h1 { font-size: 1.8em; }
     .author { flex-direction: column; align-items: flex-start; } .grid2 { grid-template-columns: 1fr; }
     ul.posts a.title { font-size: 1.3em; }
 }
@@ -197,9 +197,9 @@ body.sheet-open #sheet-bg { opacity: 1; pointer-events: auto; }
 
 /* --- Sade satır tasarımı: yuvarlak logo, kalın ad, gri alt metin, sağda tarih --- */
 body { font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
-h1, h2, h3, article h1, article .body, ul.posts a.title { font-family: inherit; }
-article h1 { font-weight: 800; letter-spacing: -.025em; }
-article .body { font-size: 1.04em; line-height: 1.8; }
+h1, h2, h3, .post h1, .post .body, ul.posts a.title { font-family: inherit; }
+.post h1 { font-weight: 800; letter-spacing: -.025em; }
+.post .body { font-size: 1.04em; line-height: 1.8; }
 ul.posts a.title { font-weight: 700; letter-spacing: -.015em; }
 h2.sec { font-size: 2rem; font-weight: 800; letter-spacing: -.025em; color: var(--heading); margin: 64px 0 16px; }
 .row { gap: 16px; padding: 14px 0; }
@@ -251,3 +251,37 @@ a.pcard:hover { box-shadow: none; transform: none; border-color: var(--accent); 
 @media (max-width: 600px) {
     .hero .avatar { flex: none; width: 128px; height: 188px; border-radius: 22px; }
 }
+
+/* --- Telefon iyileştirmeleri --- */
+html { -webkit-tap-highlight-color: transparent; }
+a, button { touch-action: manipulation; }
+body { overflow-wrap: break-word; }
+img, svg { max-width: 100%; }
+@media (hover: none) { #dock a, #dock button { transform: none !important; } }
+@media (max-width: 600px) {
+    .wrap { width: 92%; }
+    .wrap.home { padding-bottom: 104px; }
+    .hero { padding-top: 28px; }
+    h2.sec { font-size: 1.6rem; margin: 48px 0 12px; }
+    #dock { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 6px 8px; gap: 2px; max-width: calc(100vw - 16px); }
+    #dock a, #dock button { width: 36px; height: 36px; }
+    #dock svg { width: 18px; height: 18px; }
+    #dock .sep { margin: 0 2px; }
+    .timeline .tl-head { flex-wrap: wrap; row-gap: 2px; }
+    .timeline .tl-date { flex-basis: 100%; padding-left: 62px; white-space: normal; font-size: .85rem; }
+    .row .go { display: none; }
+    #sheet { padding: 22px 18px calc(22px + env(safe-area-inset-bottom, 0px)); max-height: 88vh; }
+    .sh-img img { max-height: 52vh; width: auto; max-width: 100%; margin: 0 auto; }
+    input, textarea { font-size: 16px; }
+    .btn { padding: 12px 18px; }
+}
+@media (max-width: 360px) {
+    #dock a, #dock button { width: 32px; height: 32px; }
+    #dock svg { width: 17px; height: 17px; }
+}
+
+/* --- Yazı içeriği: resim, kod, bağlantı --- */
+.post img { max-width: 100%; height: auto; border-radius: 10px; display: block; margin: 8px 0; }
+.post pre { overflow-x: auto; background: var(--soft); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; font-size: .88em; line-height: 1.6; margin: 0 0 18px; }
+.post code { font-family: 'Courier New', monospace; font-size: .9em; background: var(--soft); border-radius: 4px; padding: 1px 5px; }
+.post pre code { background: none; padding: 0; }
